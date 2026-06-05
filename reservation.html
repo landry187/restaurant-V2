@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation — La Camerounaise by Landry</title>
+    <link rel="stylesheet" href="reservation.css">
+    <link rel="stylesheet" href="CSS/generalstyle.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+  <header id="header-container" class="navbar">
+    <div class="nav-logo">
+     <img src="images/logoman-removebg-preview.png" alt="" class="logoman">
+      <div class="logo-text">
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="menu.html">Menu</a>
+      <a href="apropos.html">À propos</a>
+      <a href="reservation.html" class="active">Réservation</a>
+      <a href="commande.html">Commande</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="reservation.html" class="btn btn-primary">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Menu mobile -->
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Accueil</a>
+    <a href="menu.html">Menu</a>
+    <a href="apropos.html">À propos</a>
+    <a href="reservation.html" class="active">Réservation</a>
+    <a href="commande.html">Commande</a>
+    <a href="contact.html">Contact</a>
+    <a href="reservation.html" class="mobile-cta">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+  </nav>
+
+
+
+
+
+   <section class="reservation-hero">
+
+    <div class="hero-content">
+
+      <p class="hero-subtitle">
+        RÉSERVATION PREMIUM
+      </p>
+
+      <h1>
+        Réservez votre
+        <span>table</span>
+      </h1>
+
+      <p class="hero-text">
+        Consultez les tables disponibles en temps réel
+        et confirmez votre réservation après paiement.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== STATUS ===== -->
+
+  <section class="status-section">
+
+    <div class="status-card available">
+      <span class="status-dot"></span>
+
+      <div>
+        <h3 id="availableCount">0</h3>
+        <p>Tables disponibles</p>
+      </div>
+    </div>
+
+
+    <div class="status-card waiting">
+      <span class="status-dot"></span>
+
+      <div>
+        <h3 id="waitingCount">0</h3>
+        <p>En attente</p>
+      </div>
+    </div>
+
+
+    <div class="status-card occupied">
+      <span class="status-dot"></span>
+
+      <div>
+        <h3 id="occupiedCount">0</h3>
+        <p>Tables occupées</p>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ===== TABLES ===== -->
+
+  <section class="tables-section">
+
+    <div class="section-title">
+
+      <p>TABLES</p>
+
+      <h2>
+        Tables disponibles
+      </h2>
+
+    </div>
+
+
+    <div class="tables-grid" id="tablesGrid">
+
+      <div class="table-card available-card" data-table="Table VIP 1">
+
+        <div class="table-top">
+          <h3>Table VIP 1</h3>
+
+          <span class="table-badge">
+            Disponible
+          </span>
+        </div>
+
+        <p>6 places</p>
+
+        <button class="reserve-btn">
+          Réserver
+        </button>
+
+      </div>
+
+
+      <div class="table-card available-card" data-table="Table VIP 2">
+
+        <div class="table-top">
+          <h3>Table VIP 2</h3>
+
+          <span class="table-badge">
+            Disponible
+          </span>
+        </div>
+
+        <p>4 places</p>
+
+        <button class="reserve-btn">
+          Réserver
+        </button>
+
+      </div>
+
+
+      <div class="table-card available-card" data-table="Table Famille">
+
+        <div class="table-top">
+          <h3>Table Famille</h3>
+
+          <span class="table-badge">
+            Disponible
+          </span>
+        </div>
+
+        <p>8 places</p>
+
+        <button class="reserve-btn">
+          Réserver
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== RESERVATION FORM ===== -->
+
+  <section class="reservation-section">
+
+    <div class="reservation-left">
+
+      <p class="section-subtitle">
+        RÉSERVATION
+      </p>
+
+      <h2>
+        Finalisez votre réservation
+      </h2>
+
+      <form id="reservationForm">
+
+        <input type="text"
+id="clientName"
+placeholder="Nom complet"
+required>
+
+        <div class="form-group">
+          <input type="tel" placeholder="Téléphone" required>
+        </div>
+
+
+        <div class="form-group">
+          <input type="date" required>
+        </div>
+
+
+        <div class="form-group">
+          <input type="time" required>
+        </div>
+
+
+        <input type="text"
+id="selectedTable"
+placeholder="Table choisie"
+readonly
+required>
+
+
+        <!-- ===== MENU ===== -->
+
+        <div class="menu-selection">
+
+          <h3>
+            Choisissez vos plats
+          </h3>
+
+
+          <label>
+            <input type="checkbox" class="food" value="5000">
+            Ndolé Royal - 5000 FCFA
+          </label>
+
+
+          <label>
+            <input type="checkbox" class="food" value="7000">
+            Poulet DG - 7000 FCFA
+          </label>
+
+
+          <label>
+            <input type="checkbox" class="food" value="4000">
+            Eru  - 4000 FCFA
+          </label>
+
+
+          <label>
+            <input type="checkbox" class="food" value="6000">
+            Poisson braisé - 6000 FCFA
+          </label>
+
+        </div>
+
+
+        <!-- ===== TOTAL ===== -->
+
+        <div class="payment-summary">
+
+          <div class="summary-line">
+            <span>Total commande</span>
+
+            <strong id="totalPrice">
+              0 FCFA
+            </strong>
+          </div>
+
+
+          <div class="summary-line advance">
+            <span>Acompte à payer (50%)</span>
+
+            <strong id="advancePrice">
+              0 FCFA
+            </strong>
+          </div>
+
+        </div>
+
+
+        <!-- ===== PAYMENT ===== -->
+
+        <div class="payment-methods">
+
+          <h3>
+            Moyen de paiement
+          </h3>
+
+
+          <div class="payment-grid">
+
+            <div class="payment-card active">
+              <i class="fas fa-mobile-alt"></i>
+
+              <p>Orange Money</p>
+            </div>
+
+
+            <div class="payment-card">
+              <i class="fas fa-wallet"></i>
+
+              <p>MTN MoMo</p>
+            </div>
+
+
+            <div class="payment-card">
+              <i class="far fa-credit-card"></i>
+
+              <p>Carte bancaire</p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ===== QR CODE ===== -->
+
+        <div class="qr-box">
+
+          <img src="images/QR.jpg" alt="QR Code">
+
+          <p>
+            Scannez pour payer l'acompte
+          </p>
+
+        </div>
+
+
+        <button type="submit" class="confirm-btn">
+          Confirmer la réservation
+        </button>
+
+      </form>
+
+    </div>
+
+
+    <!-- ===== RIGHT ===== -->
+
+    <div class="reservation-right">
+
+      <img src="images/decor.jpg" alt="Restaurant">
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== HISTORY ===== -->
+
+  <section class="history-section">
+
+    <div class="section-title">
+
+      <p>RÉSERVATIONS</p>
+
+      <h2>
+        Réservations confirmées
+      </h2>
+
+    </div>
+
+
+    <div class="history-grid" id="historyGrid" data-history="reservations"></div>
+
+  </section>
+
+
+  <!-- ===== POLICY ===== -->
+
+  <section class="policy-section">
+
+    <div class="policy-box">
+
+      <i class="fas fa-circle-info"></i>
+
+      <div>
+
+        <h3>
+          Politique d'annulation
+        </h3>
+
+        <p>
+          Une réservation est confirmée uniquement après paiement de 50%
+          du montant total de la commande.
+        </p>
+
+        <p>
+          En cas d'annulation tardive, seulement 50% du montant déjà payé
+          sera remboursé.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  
+
+
+  
+    <!-- ===== FOOTER ===== -->
+  <footer id="footer-container" class="footer">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <span class="logo-icon"><img src="images/logoman-removebg-preview.png" alt="" class="logofooter"></span>
+        <div class="logo-text">
+          <span class="logo-main">LA CAMEROUNAISE </span>
+          <span class="logo-sub">BY LANDRY</span>
+        </div>
+      </div>
+      <p>Le restaurant La Camerounaise by Landry vous fait découvrir le meilleur de notre cuisine traditionnelle dans une ambiance chaleureuse.</p>
+      <div class="socials">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="reservation.html">Réservation</a></li>
+        <li><a href="commande.html">Commande</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Heures d'ouverture</h4>
+      <p><strong>Lundi - Vendredi</strong>10h00 - 22h00</p>
+      <p><strong>Samedi - Dimanche</strong>10h00 - 23h00</p>
+      <p><strong>Jours fériés</strong>12h00 - 22h00</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Nous contacter</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Baham,Ouest, Cameroun</p>
+      <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
+      <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.com</p>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
+    <p>Fait avec amour au Cameroun 🇨🇲</p>
+  </div>
+  <script>
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (burger && mobileMenu) {
+      burger.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.toggle('open');
+        const spans = burger.querySelectorAll('span');
+        if (isOpen) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+        } else {
+          spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        }
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          burger.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        });
+      });
+    }
+  </script>
+  <script src="api-config.js"></script>
+  <script src="Panier_global.js"></script>
+  <script src="reservation.js"></script>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>commande</title>
+    <link rel="stylesheet" href="commande.css">
+    <link rel="stylesheet" href="CSS/generalstyle.css">
+     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+  <header id="header-container" class="navbar">
+    <div class="nav-logo">
+      <img src="images/logoman.jpg" alt="" class="logoman">
+      <div class="logo-text">
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html" >Accueil</a>
+      <a href="menu.html">Menu</a>
+      <a href="apropos.html">À propos</a>
+      <a href="reservation.html">Réservation</a>
+      <a href="commande.html" class="active">Commande</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="reservation.html" class="btn btn-primary">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Accueil</a>
+    <a href="menu.html">Menu</a>
+    <a href="apropos.html">À propos</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="commande.html" class="active">Commande</a>
+    <a href="contact.html">Contact</a>
+    <a href="reservation.html" class="mobile-cta">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+  </nav>
+
+
+
+
+    <!-- ===== HERO ===== -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <p class="hero-subtitle">
+        COMMANDE PREMIUM
+      </p>
+
+      <h1>
+        Commandez votre
+        <span>repas</span>
+      </h1>
+
+      <p class="hero-text">
+        Faites-vous livrer ou dégustez sur place
+        avec paiement sécurisé avant validation.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== ORDER TYPE ===== -->
+
+  <section class="order-type-section">
+
+    <div class="section-title">
+
+      <p>MODE DE COMMANDE</p>
+
+      <h2>
+        Choisissez votre option
+      </h2>
+
+    </div>
+
+
+    <div class="order-options">
+
+      <div class="order-card active"
+      id="deliveryCard">
+
+        <i class="fas fa-motorcycle"></i>
+
+        <h3>Livraison</h3>
+
+        <p>
+          Faites-vous livrer chez vous
+        </p>
+
+      </div>
+
+
+      <div class="order-card"
+      id="placeCard">
+
+        <i class="fas fa-utensils"></i>
+
+        <h3>Sur place</h3>
+
+        <p>
+          Mangez directement au restaurant
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== LOCATION ===== -->
+
+  <section class="location-section"
+  id="locationSection">
+
+    <div class="location-box">
+
+      <h3>
+        Adresse de livraison
+      </h3>
+
+      <div class="form-group">
+        <input type="text"
+        placeholder="Quartier / Adresse">
+      </div>
+
+
+      <div class="delivery-info">
+
+        <div class="info-card">
+
+          <span>Temps estimé</span>
+
+          <strong>
+            35 min
+          </strong>
+
+        </div>
+
+
+        <div class="info-card">
+
+          <span>Frais livraison</span>
+
+          <strong id="deliveryFee">
+            1000 FCFA
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== MENU ===== -->
+
+  <section class="menu-section">
+
+    <div class="section-title">
+
+      <p>MENU</p>
+
+      <h2>
+        Nos plats populaires
+      </h2>
+
+    </div>
+
+
+    <div class="menu-grid">
+
+      <!-- CARD -->
+
+      <div class="menu-card">
+
+        <img src="images/ndole.jpg"
+        alt="Ndolé">
+
+        <div class="menu-content">
+
+          <h3>Ndolé Royal</h3>
+
+          <p>
+            Cuisine traditionnelle premium
+          </p>
+
+          <div class="menu-bottom">
+
+            <strong>
+              5000 FCFA
+            </strong>
+
+            <button class="add-btn"
+            data-name="Ndolé Royal"
+            data-price="5000">
+
+              Ajouter
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CARD -->
+
+      <div class="menu-card">
+
+        <img src="images/dg.jpg"
+        alt="Poulet DG">
+
+        <div class="menu-content">
+
+          <h3>Poulet DG</h3>
+
+          <p>
+            Saveur camerounaise unique
+          </p>
+
+          <div class="menu-bottom">
+
+            <strong>
+              7000 FCFA
+            </strong>
+
+            <button class="add-btn"
+            data-name="Poulet DG"
+            data-price="7000">
+
+              Ajouter
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CARD -->
+
+      <div class="menu-card">
+
+        <img src="images/eru.jpg"
+        alt="Eru">
+
+        <div class="menu-content">
+
+          <h3>Eru Traditionnel</h3>
+
+          <p>
+            Recette africaine authentique
+          </p>
+
+          <div class="menu-bottom">
+
+            <strong>
+              4000 FCFA
+            </strong>
+
+            <button class="add-btn"
+            data-name="Eru Traditionnel"
+            data-price="4000">
+
+              Ajouter
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== SUGGESTIONS ===== -->
+
+  <section class="suggestion-section">
+
+    <div class="section-title">
+
+      <p>SUGGESTIONS</p>
+
+      <h2>
+        Les clients ajoutent souvent
+      </h2>
+
+    </div>
+
+
+    <div class="suggestion-grid">
+
+      <div class="suggestion-card">
+
+        <h3>Jus naturel</h3>
+
+        <strong>1500 FCFA</strong>
+
+      </div>
+
+
+      <div class="suggestion-card">
+
+        <h3>Dessert maison</h3>
+
+        <strong>2000 FCFA</strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== CART ===== -->
+
+  <section class="cart-section">
+
+    <div class="section-title">
+
+      <p>PANIER</p>
+
+      <h2>
+        Votre commande
+      </h2>
+
+    </div>
+
+
+    <div class="cart-container">
+
+      <div class="cart-items" id="cartItems">
+        <!-- rempli par commande.js -->
+      </div>
+
+      <!-- Bouton vider panier -->
+      <div style="text-align:right;margin-top:12px;">
+        <button id="viderPanier"
+          style="background:none;border:none;color:#aaa;font-size:0.82rem;
+          cursor:pointer;font-family:'Nunito',sans-serif;text-decoration:underline;">
+          🗑️ Vider le panier
+        </button>
+      </div>
+
+
+      <!-- SUMMARY -->
+
+      <div class="cart-summary">
+
+        <h3>
+          Résumé
+        </h3>
+
+
+        <div class="summary-line">
+
+          <span>Sous-total</span>
+
+          <strong id="subtotal">
+            0 FCFA
+          </strong>
+
+        </div>
+
+
+        <div class="summary-line">
+
+          <span>Livraison</span>
+
+          <strong id="deliveryPrice">
+            1000 FCFA
+          </strong>
+
+        </div>
+
+
+        <div class="summary-line">
+
+          <span>Réduction</span>
+
+          <strong id="discount">
+            0 FCFA
+          </strong>
+
+        </div>
+
+
+        <div class="summary-line total">
+
+          <span>Total</span>
+
+          <strong id="total">
+            0 FCFA
+          </strong>
+
+        </div>
+
+
+        <!-- PROMO -->
+
+        <div class="promo-box">
+
+          <input type="text"
+          id="promoInput"
+          placeholder="Code promo">
+
+          <button id="promoBtn">
+            Appliquer
+          </button>
+
+        </div>
+
+
+        <!-- PLANNING -->
+
+        <div class="planning-box">
+
+          <h4>
+            Planifier la commande
+          </h4>
+
+          <input type="date">
+
+          <input type="time">
+
+        </div>
+
+
+        <!-- PAYMENT -->
+
+        <div class="payment-box">
+
+          <h4>
+            Paiement
+          </h4>
+
+
+          <div class="payment-grid">
+
+            <div class="payment-card active">
+              Orange Money
+            </div>
+
+
+            <div class="payment-card">
+              MTN MoMo
+            </div>
+
+
+            <div class="payment-card">
+              Carte bancaire
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QR -->
+
+        <div class="qr-box">
+
+          <img src="images/QR.jpg"
+          alt="QR">
+
+          <p>
+            Scannez pour payer
+          </p>
+
+        </div>
+
+
+        <button class="confirm-btn"
+        id="confirmOrder">
+
+          Confirmer la commande
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== VIP ===== -->
+
+  <section class="vip-section">
+
+    <div class="vip-box">
+
+      <i class="fas fa-crown"></i>
+
+      <div>
+
+        <h3>
+          Programme VIP
+        </h3>
+
+        <p>
+          Les clients fidèles bénéficient
+          d'offres et réductions exclusives.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== HISTORY ===== -->
+
+  <section class="history-section">
+
+    <div class="section-title">
+
+      <p>HISTORIQUE</p>
+
+      <h2>
+        Vos commandes
+      </h2>
+
+    </div>
+
+
+    <div class="history-grid"
+    id="historyGrid"></div>
+
+  </section>
+
+
+
+  
+    <!-- ===== FOOTER ===== -->
+  <footer id="footer-container" class="footer">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <span class="logo-icon"><img src="images/logoman.jpg" alt="" class="logofooter"></span>
+        <div class="logo-text">
+          <span class="logo-main">LA CAMEROUNAISE </span>
+          <span class="logo-sub">BY LANDRY</span>
+        </div>
+      </div>
+      <p>Le restaurant La Camerounaise by Landry vous fait découvrir le meilleur de notre cuisine traditionnelle dans une ambiance chaleureuse.</p>
+      <div class="socials">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="reservation.html">Réservation</a></li>
+        <li><a href="commande.html">Commande</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Heures d'ouverture</h4>
+      <p><strong>Lundi - Vendredi</strong>10h00 - 22h00</p>
+      <p><strong>Samedi - Dimanche</strong>10h00 - 23h00</p>
+      <p><strong>Jours fériés</strong>12h00 - 22h00</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Nous contacter</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Baham,Ouest, Cameroun</p>
+      <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
+      <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.com</p>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
+    <p>Fait avec amour au Cameroun 🇨🇲</p>
+  </div>
+  <script>
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (burger && mobileMenu) {
+      burger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        const spans = burger.querySelectorAll('span');
+        if (open) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+        } else {
+          spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        }
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          burger.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        });
+      });
+    }
+  </script>
+    <script src="api-config.js"></script>
+    <script src="commande.js"></script>
+
+</body>
+</html>

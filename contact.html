@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — La Camerounaise by Landry</title>
+  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="CSS/generalstyle.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="nav-logo">
+      <img src="images/logoman.jpg" alt="" class="logoman">
+      <div class="logo-text">
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="menu.html">Menu</a>
+      <a href="apropos.html">À propos</a>
+      <a href="reservation.html">Réservation</a>
+      <a href="commande.html">Commande</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <a href="reservation.html" class="btn btn-primary">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Menu mobile -->
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Accueil</a>
+    <a href="menu.html">Menu</a>
+    <a href="apropos.html">À propos</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="commande.html">Commande</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="reservation.html" class="mobile-cta">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="contact-hero">
+    <div class="hero-content">
+      <p class="hero-label">CONTACTEZ-NOUS</p>
+      <h1>Nous sommes à votre <span>écoute</span></h1>
+      <p>Une question, une réservation ou une commande spéciale ?
+        Notre équipe vous répond avec plaisir.</p>
+    </div>
+  </section>
+
+  <!-- ===== INFOS CONTACT ===== -->
+  <section class="contact-info">
+    <div class="info-card">
+      <div class="info-icon"><i class="fas fa-phone"></i></div>
+      <h3>Téléphone</h3>
+      <p>+237 6 59 57 43 97</p>
+    </div>
+    <div class="info-card">
+      <div class="info-icon"><i class="fas fa-envelope"></i></div>
+      <h3>Email</h3>
+      <p>info@lacamerounaisebylandry.com</p>
+    </div>
+    <div class="info-card">
+      <div class="info-icon"><i class="fas fa-location-dot"></i></div>
+      <h3>Adresse</h3>
+      <p>Baham, Ouest, Cameroun</p>
+    </div>
+    <div class="info-card">
+      <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+      <h3>WhatsApp</h3>
+      <p>Disponible 7j / 7</p>
+    </div>
+  </section>
+
+  <!-- ===== FORMULAIRE ===== -->
+  <section class="contact-container">
+
+    <div class="contact-left">
+      <p class="section-label">ÉCRIVEZ-NOUS</p>
+      <h2>Envoyez-nous <span>un message</span></h2>
+      <p class="contact-text">
+        Nous répondrons le plus rapidement possible à toutes vos demandes.
+      </p>
+
+      <form class="contact-form" id="contactForm" novalidate>
+
+        <div class="form-group">
+          <input type="text" id="cf-nom" name="from_name"
+            placeholder="Votre nom complet" required>
+          <span class="field-error" id="err-nom"></span>
+        </div>
+
+        <div class="form-group">
+          <input type="email" id="cf-email" name="from_email"
+            placeholder="Votre adresse email" required>
+          <span class="field-error" id="err-email"></span>
+        </div>
+
+        <div class="form-group">
+          <input type="text" id="cf-sujet" name="subject"
+            placeholder="Sujet de votre message">
+        </div>
+
+        <div class="form-group">
+          <textarea id="cf-message" name="message"
+            placeholder="Votre message…" required></textarea>
+          <span class="field-error" id="err-message"></span>
+        </div>
+
+        <div id="form-status" style="display:none;"></div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <span id="btn-text">
+            <i class="fas fa-paper-plane"></i> Envoyer le message
+          </span>
+          <span id="btn-loader" style="display:none;">
+            <i class="fas fa-spinner fa-spin"></i> Envoi en cours…
+          </span>
+        </button>
+
+      </form>
+    </div>
+
+    <div class="contact-right">
+      <img src="images/decor.jpg" alt="Restaurant La Camerounaise">
+      <div class="contact-badge">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Heures d'ouverture</strong>
+          <p>Lun - Ven : 10h00 - 22h00</p>
+          <p>Sam - Dim : 10h00 - 23h00</p>
+          <p>Jours fériés : 12h00 - 22h00</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq">
+    <div class="faq-title">
+      <p class="section-label">QUESTIONS</p>
+      <h2>Questions fréquentes</h2>
+    </div>
+    <div class="faq-container">
+      <div class="faq-item">
+        <h3>Faites-vous des livraisons ?</h3>
+        <p>Oui, nous livrons dans plusieurs villes et quartiers autour de Baham.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Peut-on réserver une table ?</h3>
+        <p>Oui, les réservations sont possibles tous les jours depuis notre page Réservation.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Acceptez-vous les événements ?</h3>
+        <p>Oui, anniversaires, réunions et repas de groupe sur demande.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CARTE ===== -->
+  <section class="map-section">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63560.460543308014!2d10.393010000000007!3d5.335924799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105f92e389318655%3A0x50066837f4be84a3!2sBaham!5e0!3m2!1sfr!2scm!4v1779106360559!5m2!1sfr!2scm"
+      width="600" height="450" style="border:0;" allowfullscreen loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade" title="Baham Cameroun">
+    </iframe>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <span class="logo-icon"><img src="images/logoman.jpg" alt="" class="logofooter"></span>
+        <div class="logo-text">
+          <span class="logo-main">LA CAMEROUNAISE</span>
+          <span class="logo-sub">BY LANDRY</span>
+        </div>
+      </div>
+      <p>Le restaurant La Camerounaise by Landry vous fait découvrir le meilleur de notre cuisine traditionnelle dans une ambiance chaleureuse.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="reservation.html">Réservation</a></li>
+        <li><a href="commande.html">Commande</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Heures d'ouverture</h4>
+      <p><strong>Lundi - Vendredi</strong>10h00 - 22h00</p>
+      <p><strong>Samedi - Dimanche</strong>10h00 - 23h00</p>
+      <p><strong>Jours fériés</strong>12h00 - 22h00</p>
+    </div>
+    <div class="footer-col">
+      <h4>Nous contacter</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Baham, Ouest, Cameroun</p>
+      <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
+      <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.com</p>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
+    <p>Fait avec amour au Cameroun 🇨🇲</p>
+  </div>
+
+  <script src="api-config.js"></script>
+  <script src="Panier_global.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>

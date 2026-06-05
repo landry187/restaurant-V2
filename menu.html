@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu-la camerounaise by landry</title>
+  <link rel="stylesheet" href="menu.css"/>
+  <link rel="stylesheet" href="CSS/generalstyle.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <a href="index.html" class="nav-logo">
+     <img src="images/logoman-removebg-preview.png" alt="" class="logoman">
+      <div class="logo-text">
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="apropos.html">À propos</a>
+      <a href="reservation.html">Réservation</a>
+      <a href="commande.html">Commande</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="cart-btn" id="cartToggle" aria-label="Panier">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <a href="reservation.html" class="btn btn-primary">
+        <i class="far fa-calendar-alt"></i> Réserver une table
+      </a>
+      <button class="burger" id="burgerMenu" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menu mobile -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">Accueil</a>
+    <a href="menu.html" class="active">Menu</a>
+    <a href="apropos.html">À propos</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="commande.html">Commande</a>
+    <a href="contact.html">Contact</a>
+    <a href="reservation.html" class="mobile-nav-cta">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+  </nav>
+
+  <!-- ===== PAGE HERO ===== -->
+  <section class="menu-hero">
+    <div class="menu-hero-content">
+      <p class="hero-label">🍽️ Découvrez</p>
+      <h1>Notre <span>Menu</span></h1>
+      <p>Des saveurs authentiques préparées avec soins, chaque jour,<br/>à partir d'ingrédients frais et locaux.</p>
+    </div>
+    <div class="hero-deco"></div>
+  </section>
+
+  <!-- ===== SEARCH BAR ===== -->
+  <div class="search-wrapper">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Rechercher un plat… (ex: Ndolé, Poulet, poisson)"/>
+      <button class="search-clear" id="searchClear"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="results-count" id="resultsCount"></div>
+  </div>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main class="menu-main">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h3 class="sidebar-title">Catégories</h3>
+      <ul class="category-list">
+        <li><button class="cat-btn active" data-cat="all"><span class="cat-icon">🍽️</span><span class="cat-label">Tous les plats</span><span class="cat-badge" id="badge-all">12</span></button></li>
+        <li><button class="cat-btn" data-cat="principaux"><span class="cat-icon">🥘</span><span class="cat-label">Plats principaux</span><span class="cat-badge" id="badge-principaux">6</span></button></li>
+        <li><button class="cat-btn" data-cat="accompagnements"><span class="cat-icon">🥗</span><span class="cat-label">Accompagnements</span><span class="cat-badge" id="badge-accompagnements">2</span></button></li>
+        <li><button class="cat-btn" data-cat="soupes"><span class="cat-icon">🍵</span><span class="cat-label">Soupes</span><span class="cat-badge" id="badge-soupes">2</span></button></li>
+        <li><button class="cat-btn" data-cat="boissons"><span class="cat-icon">🥤</span><span class="cat-label">Boissons</span><span class="cat-badge" id="badge-boissons">1</span></button></li>
+        <li><button class="cat-btn" data-cat="desserts"><span class="cat-icon">🍮</span><span class="cat-label">Desserts</span><span class="cat-badge" id="badge-desserts">1</span></button></li>
+      </ul>
+
+      <div class="sidebar-info">
+        <i class="fas fa-leaf"></i>
+        <p>Tous nos plats sont préparés avec des ingrédients <strong>frais et locaux</strong>, chaque jour.</p>
+      </div>
+
+      <div class="sidebar-cta">
+        <p>Envie de vivre l'expérience sur place ?</p>
+        <a href="reservation.html" class="btn btn-primary full-w"><i class="far fa-calendar-alt"></i> Réserver une table</a>
+      </div>
+    </aside>
+
+    <!-- DISHES PANEL -->
+    <section class="dishes-section">
+      <div class="dishes-header">
+        <h2 class="dishes-title" id="dishesTitle">Tous les plats</h2>
+        <div class="sort-bar">
+          <label for="sortSelect">Trier par :</label>
+          <select id="sortSelect">
+            <option value="default">Par défaut</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+            <option value="name">Nom A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dishes-grid" id="dishesGrid"></div>
+
+      <div class="empty-state" id="emptyState">
+        <span>🔍</span>
+        <p>Aucun plat trouvé pour : <span id="emptyQuery"></span></p>
+        <button class="btn btn-outline-dark" id="resetBtn">Voir tous les plats</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== BOTTOM BANNER ===== -->
+  <div class="bottom-banner">
+    <div class="banner-icon"><i class="fas fa-hat-chef"></i></div>
+    <div class="banner-text">
+      <strong>Tous nos plats sont faits maison avec des ingrédients frais et locaux.</strong>
+      <span>Merci de votre confiance !</span>
+    </div>
+    <a href="commande.html" class="btn btn-white">Commander en ligne 🛵</a>
+  </div>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3><i class="fas fa-shopping-bag"></i> Mon Panier</h3>
+      <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-body" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <span>🛒</span>
+        <p>Votre panier est vide</p>
+        <small>Ajoutez des plats depuis le menu</small>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartTotal">0 FCFA</strong>
+      </div>
+      <a href="commande.html" class="btn btn-primary full-w">Passer la commande →</a>
+      <button class="btn btn-ghost full-w" id="clearCartBtn">🗑️ Vider le panier</button>
+    </div>
+  </aside>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <span class="logo-icon"><img src="images/logoman-removebg-preview.png" alt="" class="logofooter"></span>
+        <div class="logo-text">
+          <span class="logo-main">LA CAMEROUNAISE</span>
+          <span class="logo-sub">BY LANDRY</span>
+        </div>
+      </div>
+      <p>Le restaurant la Camerounaise by landry vous fait découvrir le meilleur de notre cuisine traditionnelle dans une ambiance chaleureuse.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Réservation</a></li>
+        <li><a href="#">Commande</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Heures d'ouverture</h4>
+      <p><strong>Lundi – Vendredi</strong>10h00 – 22h00</p>
+      <p style="margin-top:10px"><strong>Samedi – Dimanche</strong>10h00 – 23h00</p>
+      <p style="margin-top:10px"><strong>Jours fériés</strong>12h00 – 22h00</p>
+    </div>
+    <div class="footer-col">
+      <h4>Nous contacter</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Baham,Ouest, Cameroun</p>
+      <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
+      <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.cm</p>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 La Camerounaise by landry. Tous droits réservés.</p>
+    <p>Fait avec amour au Cameroun 🇨🇲</p>
+  </div>
+
+  <script>
+    /* Burger menu mobile */
+    const burgerMenu = document.getElementById('burgerMenu');
+    const mobileNav  = document.getElementById('mobileNav');
+    if (burgerMenu && mobileNav) {
+      burgerMenu.addEventListener('click', () => {
+        const open = mobileNav.classList.toggle('open');
+        const spans = burgerMenu.querySelectorAll('span');
+        if (open) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+          spans[1].style.opacity   = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+        } else {
+          spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        }
+      });
+      mobileNav.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileNav.classList.remove('open');
+          burgerMenu.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        });
+      });
+    }
+  </script>
+  <script src="api-config.js"></script>
+  <script src="menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Camerounaise by Landry — Accueil</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="CSS/generalstyle.css">
+
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logoman-removebg-preview.png" alt="" class="logoman">
+      <div class="logo-text">
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="active">Accueil</a>
+      <a href="menu.html">Menu</a>
+      <a href="apropos.html">À propos</a>
+      <a href="reservation.html">Réservation</a>
+      <a href="commande.html">Commande</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="reservation.html" class="btn btn-primary">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Menu mobile -->
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="active">Accueil</a>
+    <a href="menu.html">Menu</a>
+    <a href="apropos.html">À propos</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="commande.html">Commande</a>
+    <a href="contact.html">Contact</a>
+    <a href="reservation.html" class="mobile-cta">
+      <i class="far fa-calendar-alt"></i> Réserver une table
+    </a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-label">BIENVENUE CHEZ</p>
+      <h1 class="hero-title">
+        LA CAMEROUNAISE<br/>
+        <span class="hero-title-colored">BY LANDRY</span>
+      </h1>
+      <p class="hero-desc">
+        Découvrez la richesse de la cuisine camerounaise,<br/>
+        préparée avec amour à partir d'ingrédients frais<br/>
+        et de recettes authentiques.
+      </p>
+      <div class="hero-buttons">
+        <a href="menu.html" class="btn btn-primary"><i class="fas fa-utensils"></i> Voir le menu</a>
+        <a href="reservation.html" class="btn btn-outline"><i class="far fa-calendar-alt"></i> Réserver une table</a>
+      </div>
+      <div class="hero-rating">
+        <div class="avatars">
+          <img src="images/profil (1).jpg" alt="client"/>
+          <img src="images/profil (2).jpg" alt="client"/>
+          <img src="images/profil (3).jpg" alt="client"/>
+        </div>
+        <div>
+          <p class="rating-text">Apprécié par plus de 5 000 clients</p>
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span>9.5/10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image-wrapper">
+      <img src="images/Mbongo-Tchobi.jpg" alt="Plat camerounais" class="hero-img"/>
+      <div class="hero-badge">
+        <img src="images/logoman.jpg" alt="" class="logoman2">
+        <div>
+          <strong>Cuisine Authentique</strong>
+          <p>Des plats camerounais  faits maison avec passion</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="features">
+    <div class="feature-item">
+      <div class="feature-icon"><img src="images/taro__2_-removebg-preview.png" alt="" class="feature-icon"></div>
+      <h3>Cuisine Authentique</h3>
+      <p>Des recettes traditionnelles camerounaises savoureuses.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon"><img src="images/piment-removebg-preview.png" alt="" class="feature-icon"></div>
+      <h3>Ingrédients Frais</h3>
+      <p>Des produits locaux sélectionnés avec soin chaque jour.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon"><img src="images/ndolesoins-removebg-preview.png" alt="" class="feature-icon"></div>
+      <h3>Fait avec Soins</h3>
+      <p>Chaque plat est préparé avec passion et savoir-faire.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon"><img src="images/les-gens-sont-assis-au-restaurant-tandis-que-la-serveuse-sert-de-la-nourriture-2bh24ny.jpg" alt="" class="feature-icon"></div>
+      <h3>Ambiance Chaleureuse</h3>
+      <p>Un cadre convivial pour des moments inoubliables.</p>
+    </div>
+  </section>
+
+  <!-- ===== PLATS POPULAIRES ===== -->
+  <section class="popular">
+    <h2 class="section-title">Nos plats populaires</h2>
+    <div class="dishes-grid">
+      <div class="dish-card">
+        <img src="images/ndolesoins.jpg" alt="Ndolé"/>
+        <div class="dish-info">
+          <h4>Ndole</h4>
+          <p>Feuilles amères, arachides, crevettes et viande.</p>
+          <span class="price">5 000 FCFA</span>
+        </div>
+      </div>
+      <div class="dish-card">
+        <img src="images/Beignets.gif" alt="BHB"/>
+        <div class="dish-info">
+          <h4>B H B</h4>
+          <p>Beignets, haricots accompagnés de bouillie chaude.</p>
+          <span class="price">2 500 FCFA</span>
+        </div>
+      </div>
+      <div class="dish-card">
+        <img src="images/eru3 (1).jpg" alt="Eru & Water Fufu"/>
+        <div class="dish-info">
+          <h4>Eru &amp; Water Fufu</h4>
+          <p>Feuilles, viande et fufu de manioc.</p>
+          <span class="price">3 500 FCFA</span>
+        </div>
+      </div>
+      <div class="dish-card">
+        <img src="images/Poulet-DG-683x1024.webp" alt="Poulet DG"/>
+        <div class="dish-info">
+          <h4>Poulet DG</h4>
+          <p>Poulet sauté avec légumes et plantains dorés.</p>
+          <span class="price">8 000 FCFA</span>
+        </div>
+      </div>
+      <div class="dish-card">
+        <img src="images/Mbongo-Tchobi.jpg" alt="Koki"/>
+        <div class="dish-info">
+          <h4>Mbongo-Tchobi</h4>
+          <p>Sauce noir avec poissons, bananes plantains et épices.</p>
+          <span class="price">5 500 FCFA</span>
+        </div>
+      </div>
+    </div>
+    <div class="center-btn">
+      <a href="menu.html" class="btn btn-outline-dark">Découvrir tout le menu →</a>
+    </div>
+  </section>
+
+  <!-- ===== BANNIÈRE COMMANDE ===== -->
+  <section class="order-banner">
+    <div class="order-img">
+      <img src="images/courier-on-a-moto-scooter-ensuring-fast-food-deliveries-ai-generated-photo.jpg" alt="Livraison"/>
+    </div>
+    <div class="order-text">
+      <h2>Commandez en ligne<br/>et régalez-vous chez vous !</h2>
+      <p>Profitez de la livraison rapide de vos plats préférés.</p>
+    </div>
+    <a href="commande.html" class="btn btn-pink">Commander maintenant 🛵</a>
+  </section>
+
+  <!-- ===== RÉSERVATION ===== -->
+  <section class="reservation" id="reservation">
+    <div class="reservation-left">
+      <span class="section-label">RÉSERVATION</span>
+      <h2>Réservez votre table<br/><span>et vivez l'expérience Camerounaise</span></h2>
+      <p>Un moment unique vous attend dans un cadre chaleureux et accueillant.</p>
+      <button class="btn btn-primary full-width" id="reserveAccueilBtn">
+        Réserver maintenant <i class="far fa-calendar-alt"></i>
+      </button>
+    </div>
+    
+    <div class="reservation-form">
+      <div class="form-field">
+        
+      </div>
+      <div class="form-field">
+        
+      </div>
+      <div class="form-field">
+        
+      </div>
+      
+    </div>
+    <div class="reservation-img">
+      <img src="images/personne restaurant.jpg" alt="Intérieur restaurant"/>
+    </div>
+    
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <span class="logo-icon"><img src="images/logoman-removebg-preview.png" alt="" class="logofooter"></span>
+        <div class="logo-text">
+          <span class="logo-main">LA CAMEROUNAISE</span>
+          <span class="logo-sub">BY LANDRY</span>
+        </div>
+      </div>
+      <p>Le restaurant La Camerounaise by Landry vous fait découvrir le meilleur de notre cuisine traditionnelle dans une ambiance chaleureuse.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="reservation.html">Réservation</a></li>
+        <li><a href="commande.html">Commande</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Heures d'ouverture</h4>
+      <p><strong>Lundi - Vendredi</strong>10h00 - 22h00</p>
+      <p><strong>Samedi - Dimanche</strong>10h00 - 23h00</p>
+      <p><strong>Jours fériés</strong>12h00 - 22h00</p>
+    </div>
+    <div class="footer-col">
+      <h4>Nous contacter</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Baham, Ouest, Cameroun</p>
+      <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
+      <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.com</p>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
+    <p>Fait avec amour au Cameroun 🇨🇲</p>
+  </div>
+
+  <script src="api-config.js"></script>
+  <script src="Panier_global.js"></script>
+  <script>
+    /* ── Burger menu ── */
+    const burger     = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      const [s1, s2, s3] = burger.querySelectorAll('span');
+      if (open) {
+        s1.style.transform = 'rotate(45deg) translate(5px,5px)';
+        s2.style.opacity   = '0';
+        s3.style.transform = 'rotate(-45deg) translate(5px,-5px)';
+      } else {
+        [s1,s2,s3].forEach(s => { s.style.transform=''; s.style.opacity=''; });
+      }
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        burger.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+      });
+    });
+
+    /* ── Bouton réservation accueil → redirect ── */
+    document.getElementById('reserveAccueilBtn').addEventListener('click', () => {
+      window.location.href = 'reservation.html';
+    });
+  </script>
+</body>
+</html>

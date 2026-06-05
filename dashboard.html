@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord — La Camerounaise by Landry</title>
+  <link rel="stylesheet" href="CSS/generalstyle.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --pink:#e8336d; --dark:#1a1a1a; --gray:#666;
+      --light:#f7f7f7; --white:#fff; --border:#e8e8e8;
+      --green:#35c66b; --orange:#f59e0b; --blue:#3b82f6;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:#f0f2f5;color:var(--dark);}
+
+    /* HEADER */
+    .header{
+      background:var(--white);padding:0 32px;height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    }
+    .header-logo{display:flex;align-items:center;gap:10px;}
+    .header-logo span{font-size:1.6rem;}
+    .header-logo h1{font-family:'Playfair Display',serif;font-size:1.1rem;}
+    .header-logo p{font-size:0.6rem;color:var(--pink);font-weight:800;letter-spacing:2px;}
+    .header-right{display:flex;align-items:center;gap:12px;}
+    .badge-notif{
+      background:var(--pink);color:white;border-radius:50px;
+      padding:4px 12px;font-size:0.78rem;font-weight:700;
+    }
+    .btn-site{
+      background:var(--pink);color:white;border:none;padding:8px 18px;
+      border-radius:25px;font-weight:700;cursor:pointer;font-size:0.85rem;
+      text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+    }
+
+    /* LAYOUT */
+    .layout{display:flex;min-height:calc(100vh - 64px);}
+
+    /* SIDEBAR */
+    .sidebar{
+      width:220px;background:var(--white);border-right:1px solid var(--border);
+      padding:24px 0;flex-shrink:0;
+    }
+    .nav-item{
+      display:flex;align-items:center;gap:12px;
+      padding:12px 24px;cursor:pointer;font-weight:600;font-size:0.9rem;
+      color:var(--gray);transition:all 0.2s;border-left:3px solid transparent;
+    }
+    .nav-item:hover{background:#fff0f5;color:var(--pink);}
+    .nav-item.active{background:#fff0f5;color:var(--pink);border-left-color:var(--pink);}
+    .nav-item i{width:18px;text-align:center;}
+    .nav-badge{
+      margin-left:auto;background:var(--pink);color:white;
+      font-size:0.68rem;font-weight:900;padding:2px 7px;border-radius:10px;
+    }
+
+    /* CONTENU */
+    .content{flex:1;padding:28px 32px;overflow-y:auto;}
+
+    /* STATS CARDS */
+    .stats-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:28px;
+    }
+    .stat-card{
+      background:var(--white);border-radius:16px;padding:22px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.06);
+      display:flex;align-items:center;gap:16px;
+    }
+    .stat-icon{
+      width:52px;height:52px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+      flex-shrink:0;
+    }
+    .stat-card h3{font-size:1.7rem;font-weight:900;line-height:1;}
+    .stat-card p{font-size:0.78rem;color:var(--gray);margin-top:4px;}
+
+    /* SECTION */
+    .section-title{
+      font-family:'Playfair Display',serif;font-size:1.3rem;
+      margin-bottom:18px;display:flex;align-items:center;
+      justify-content:space-between;
+    }
+    .section-title button{
+      background:none;border:1.5px solid var(--border);padding:6px 14px;
+      border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;
+      color:var(--gray);transition:all 0.2s;
+    }
+    .section-title button:hover{border-color:var(--pink);color:var(--pink);}
+
+    /* TABLE */
+    .table-wrap{
+      background:var(--white);border-radius:16px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.06);overflow:hidden;
+      margin-bottom:28px;
+    }
+    table{width:100%;border-collapse:collapse;}
+    th{
+      background:#f8f8f8;padding:12px 16px;text-align:left;
+      font-size:0.78rem;font-weight:800;color:var(--gray);
+      text-transform:uppercase;letter-spacing:0.5px;
+    }
+    td{padding:14px 16px;border-top:1px solid #f0f0f0;font-size:0.88rem;}
+    tr:hover td{background:#fafafa;}
+
+    /* BADGE STATUT */
+    .badge{padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:800;}
+    .badge-ok{background:#e8f5e9;color:#2e7d32;}
+    .badge-attente{background:#fff3e0;color:#e65100;}
+    .badge-new{background:#e3f2fd;color:#1565c0;}
+
+    /* VIDE */
+    .empty{text-align:center;padding:48px;color:#bbb;}
+    .empty i{font-size:2.5rem;display:block;margin-bottom:12px;}
+
+    /* PANEL */
+    .panel{display:none;}
+    .panel.active{display:block;}
+
+    /* REFRESH */
+    .last-update{font-size:0.75rem;color:#bbb;margin-bottom:16px;}
+
+    /* CHIFFRE D'AFFAIRES */
+    .ca-card{
+      background:linear-gradient(135deg,var(--pink),#c2185b);
+      color:white;border-radius:16px;padding:24px;
+      margin-bottom:28px;display:flex;align-items:center;gap:20px;
+    }
+    .ca-card i{font-size:2.5rem;opacity:0.7;}
+    .ca-card h2{font-size:1.8rem;font-weight:900;}
+    .ca-card p{font-size:0.85rem;opacity:0.85;margin-top:4px;}
+
+    /* MSG non lu */
+    tr.non-lu td{font-weight:700;}
+    tr.non-lu td:first-child::before{
+      content:'● ';color:var(--pink);font-size:0.7rem;
+    }
+
+    @media(max-width:900px){
+      .stats-grid{grid-template-columns:repeat(2,1fr);}
+      .sidebar{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">
+    <span><img src="images/logoman.jpg" alt="" class="logofooter"></span>
+    <div>
+      <h1>La Camerounaise by Landry</h1>
+      <p>TABLEAU DE BORD</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="badge-notif" id="notif-badge" style="display:none;">
+      <i class="fas fa-bell"></i> <span id="notif-count">0</span> nouveau(x)
+    </span>
+    <a href="index.html" class="btn-site">
+      <i class="fas fa-external-link-alt"></i> Voir le site
+    </a>
+    <button class="btn-site" onclick="chargerTout()" style="background:#1a1a1a;">
+      <i class="fas fa-sync-alt"></i> Actualiser
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="nav-item active" onclick="afficherPanel('apercu')">
+      <i class="fas fa-chart-line"></i> Aperçu
+    </div>
+    <div class="nav-item" onclick="afficherPanel('commandes')">
+      <i class="fas fa-shopping-bag"></i> Commandes
+      <span class="nav-badge" id="nb-cmd">0</span>
+    </div>
+    <div class="nav-item" onclick="afficherPanel('reservations')">
+      <i class="fas fa-calendar-check"></i> Réservations
+      <span class="nav-badge" id="nb-res">0</span>
+    </div>
+    <div class="nav-item" onclick="afficherPanel('messages')">
+      <i class="fas fa-envelope"></i> Messages
+      <span class="nav-badge" id="nb-msg">0</span>
+    </div>
+  </aside>
+
+  <!-- CONTENU -->
+  <main class="content">
+
+    <p class="last-update">Dernière mise à jour : <span id="last-update">—</span></p>
+
+    <!-- ── APERÇU ── -->
+    <div class="panel active" id="panel-apercu">
+
+      <div class="ca-card">
+        <i class="fas fa-coins"></i>
+        <div>
+          <h2 id="ca-total">0 FCFA</h2>
+          <p>Chiffre d'affaires total (commandes)</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fff0f5;">🛵</div>
+          <div>
+            <h3 id="stat-cmd">0</h3>
+            <p>Commandes reçues</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#e8f5e9;">📅</div>
+          <div>
+            <h3 id="stat-res">0</h3>
+            <p>Réservations</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#e3f2fd;">✉️</div>
+          <div>
+            <h3 id="stat-msg">0</h3>
+            <p>Messages reçus</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fff3e0;">🔔</div>
+          <div>
+            <h3 id="stat-nonlu">0</h3>
+            <p>Messages non lus</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Activité récente</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th><th>ID</th><th>Détail</th><th>Date</th><th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-recent">
+            <tr><td colspan="5" class="empty"><i class="fas fa-inbox"></i>Aucune activité</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── COMMANDES ── -->
+    <div class="panel" id="panel-commandes">
+      <div class="section-title">
+        Toutes les commandes
+        <button onclick="exporterCSV('commandes')">
+          <i class="fas fa-download"></i> Exporter CSV
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Date</th><th>Plats</th>
+              <th>Mode</th><th>Total</th><th>Paiement</th><th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-commandes">
+            <tr><td colspan="7" class="empty"><i class="fas fa-shopping-bag"></i>Aucune commande</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── RÉSERVATIONS ── -->
+    <div class="panel" id="panel-reservations">
+      <div class="section-title">
+        Toutes les réservations
+        <button onclick="exporterCSV('reservations')">
+          <i class="fas fa-download"></i> Exporter CSV
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Nom</th><th>Téléphone</th>
+              <th>Date/Heure</th><th>Table</th><th>Acompte</th><th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-reservations">
+            <tr><td colspan="7" class="empty"><i class="fas fa-calendar"></i>Aucune réservation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── MESSAGES ── -->
+    <div class="panel" id="panel-messages">
+      <div class="section-title">
+        Tous les messages
+        <button onclick="exporterCSV('messages')">
+          <i class="fas fa-download"></i> Exporter CSV
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Date</th><th>Nom</th>
+              <th>Email</th><th>Sujet</th><th>Message</th><th>Lu</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-messages">
+            <tr><td colspan="7" class="empty"><i class="fas fa-envelope"></i>Aucun message</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const API = 'http://localhost:3000';
+let donneesCache = { commandes:[], reservations:[], messages:[] };
+
+function afficherPanel(nom) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + nom).classList.add('active');
+  const items = document.querySelectorAll('.nav-item');
+  const idx = ['apercu','commandes','reservations','messages'].indexOf(nom);
+  if (items[idx]) items[idx].classList.add('active');
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleString('fr-FR', {
+    day:'2-digit', month:'2-digit', year:'numeric',
+    hour:'2-digit', minute:'2-digit'
+  });
+}
+
+async function chargerTout() {
+  try {
+    const [stats, cmdRes, resRes, msgRes] = await Promise.all([
+      fetch(API+'/stats').then(r=>r.json()),
+      fetch(API+'/commandes').then(r=>r.json()),
+      fetch(API+'/reservation').then(r=>r.json()),
+      fetch(API+'/messages').then(r=>r.json())
+    ]);
+
+    const commandes    = cmdRes.data    || [];
+    const reservations = resRes.data    || [];
+    const messages     = msgRes.data    || [];
+
+    donneesCache = { commandes, reservations, messages };
+
+    document.getElementById('stat-cmd').textContent   = stats.commandes;
+    document.getElementById('stat-res').textContent   = stats.reservations;
+    document.getElementById('stat-msg').textContent   = stats.messages;
+    document.getElementById('stat-nonlu').textContent = stats.messagesNonLus;
+    document.getElementById('ca-total').textContent   = stats.chiffreAffaires;
+    document.getElementById('nb-cmd').textContent     = stats.commandes;
+    document.getElementById('nb-res').textContent     = stats.reservations;
+    document.getElementById('nb-msg').textContent     = stats.messagesNonLus;
+
+    const badge = document.getElementById('notif-badge');
+    if (stats.messagesNonLus > 0) {
+      badge.style.display = 'inline';
+      document.getElementById('notif-count').textContent = stats.messagesNonLus;
+    } else { badge.style.display = 'none'; }
+
+    document.getElementById('last-update').textContent =
+      new Date().toLocaleTimeString('fr-FR');
+
+    remplirCommandes(commandes);
+    remplirReservations(reservations);
+    remplirMessages(messages);
+    remplirRecent(commandes, reservations, messages);
+
+  } catch(e) {
+    console.error(e);
+    document.getElementById('last-update').textContent = '❌ Serveur non accessible';
+  }
+}
+
+function remplirCommandes(data) {
+  const tbody = document.getElementById('tbody-commandes');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty"><i class="fas fa-shopping-bag"></i> Aucune commande</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(c => `
+    <tr>
+      <td><strong style="color:var(--pink);">#${c.id}</strong></td>
+      <td>${formatDate(c.created_at)}</td>
+      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${c.items||'—'}</td>
+      <td>${c.mode}</td>
+      <td><strong>${Number(c.total).toLocaleString('fr-FR')} FCFA</strong></td>
+      <td>${c.paiement||'—'}</td>
+      <td><span class="badge badge-ok">${c.statut}</span></td>
+    </tr>`).join('');
+}
+
+function remplirReservations(data) {
+  const tbody = document.getElementById('tbody-reservations');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty"><i class="fas fa-calendar"></i> Aucune réservation</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td><strong style="color:var(--pink);">#${r.id}</strong></td>
+      <td>${r.nom}</td>
+      <td>${r.telephone||'—'}</td>
+      <td>${r.date_res||'—'} ${r.heure||''}</td>
+      <td>${r.table_name||'—'}</td>
+      <td><strong>${Number(r.acompte||0).toLocaleString('fr-FR')} FCFA</strong></td>
+      <td><span class="badge badge-ok">${r.statut}</span></td>
+    </tr>`).join('');
+}
+
+function remplirMessages(data) {
+  const tbody = document.getElementById('tbody-messages');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty"><i class="fas fa-envelope"></i> Aucun message</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(m => `
+    <tr class="${m.lu ? '' : 'non-lu'}" onclick="marquerLu(${m.id},this)"
+        style="cursor:pointer;" title="Cliquer pour marquer comme lu">
+      <td><strong style="color:var(--pink);">#${m.id}</strong></td>
+      <td>${formatDate(m.created_at)}</td>
+      <td>${m.nom}</td>
+      <td><a href="mailto:${m.email}" style="color:var(--pink);">${m.email}</a></td>
+      <td>${m.sujet||'—'}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.message}</td>
+      <td>${m.lu ? '<span class="badge badge-ok">Lu</span>' : '<span class="badge badge-new">Nouveau</span>'}</td>
+    </tr>`).join('');
+}
+
+function remplirRecent(cmds, ress, msgs) {
+  const items = [
+    ...cmds.slice(0,3).map(c=>({
+      type:'🛵 Commande', id:c.id,
+      detail: Number(c.total).toLocaleString('fr-FR')+' FCFA',
+      date:c.created_at, statut:'Reçue', cls:'badge-ok'
+    })),
+    ...ress.slice(0,3).map(r=>({
+      type:'📅 Réservation', id:r.id,
+      detail:r.nom, date:r.created_at,
+      statut:'Confirmée', cls:'badge-ok'
+    })),
+    ...msgs.slice(0,3).map(m=>({
+      type:'✉️ Message', id:m.id,
+      detail:m.nom, date:m.created_at,
+      statut: m.lu?'Lu':'Nouveau', cls: m.lu?'badge-ok':'badge-new'
+    }))
+  ].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0,8);
+
+  const tbody = document.getElementById('tbody-recent');
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty"><i class="fas fa-inbox"></i> Aucune activité</td></tr>';
+    return;
+  }
+  tbody.innerHTML = items.map(i=>`
+    <tr>
+      <td>${i.type}</td>
+      <td><strong style="color:var(--pink);">#${i.id}</strong></td>
+      <td>${i.detail}</td>
+      <td>${formatDate(i.date)}</td>
+      <td><span class="badge ${i.cls}">${i.statut}</span></td>
+    </tr>`).join('');
+}
+
+async function marquerLu(id, row) {
+  try {
+    await fetch(`${API}/messages/${id}/lu`, { method: 'PATCH' });
+    row.classList.remove('non-lu');
+    const badge = row.querySelector('.badge-new');
+    if (badge) { badge.className='badge badge-ok'; badge.textContent='Lu'; }
+    chargerTout();
+  } catch(e) { console.error(e); }
+}
+
+function exporterCSV(type) {
+  const data = donneesCache[type];
+  if (!data.length) { alert('Aucune donnée à exporter'); return; }
+  const keys = Object.keys(data[0]);
+  const csv  = [
+    keys.join(';'),
+    ...data.map(row => keys.map(k => {
+      const v = row[k] !== null && row[k] !== undefined ? row[k] : '';
+      return `"${String(v).replace(/"/g,'""')}"`;
+    }).join(';'))
+  ].join('\n');
+  const blob = new Blob(['\uFEFF'+csv], { type:'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = `${type}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+chargerTout();
+setInterval(chargerTout, 30000);
+</script>
+
+</body>
+</html>
