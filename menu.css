@@ -98,7 +98,7 @@ button { cursor: pointer; font-family: var(--font-body); }
   align-items: center;
   justify-content: space-between;
   padding: 0 5%;
-  height: 80px;
+  height: 72px;
   background: var(--white);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
@@ -515,7 +515,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 /* Image du plat */
 .dish-img-wrap {
   position: relative;
-  width: 140px;
+  width: 320px;
   flex-shrink: 0;
   overflow: hidden;
 }

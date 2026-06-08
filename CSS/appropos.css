@@ -2,9 +2,9 @@
    VARIABLES
 ══════════════════════════════════════ */
 :root {
-  --rose:       #e8336d;
+  --rose:      green;
   --rose-light: #fce8f0;
-  --rose-mid:   #f5b8cf;
+  --rose-mid:  #2D6A2D;
   --dark:       #1a1a2e;
   --charcoal:   #2d2d44;
   --cream:      #fff8f5;
@@ -144,7 +144,7 @@ a { text-decoration: none; }
   .burger { display: flex; }
 }
 .btn-primary {
-  background: #e8336d;
+  background: green;
   color: white;
   box-shadow: 0 4px 15px rgba(232,48,106,0.35);
   border-radius: 20px;

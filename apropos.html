@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Àpropos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -13,18 +14,19 @@
 </head>
 <body>
 
-  <header id="header-container" class="navbar">
-    <div class="nav-logo">
-      <span class="logo-icon"><img src="images/logoman.jpg" alt="" class="logoman"></span>
+ <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="images/colored-logo-removebg-preview.png" alt="" class="logoman">
       <div class="logo-text">
-        <span class="logo-main">LA CAMEROUNAISE</span>
-        <span class="logo-sub">BY LANDRY</span>
+        <span class="logo-main"></span>
+        <span class="logo-sub"></span>
       </div>
-    </div>
+    </a>
     <nav class="nav-links">
       <a href="index.html">Accueil</a>
       <a href="menu.html">Menu</a>
-      <a href="apropos.html" class="active">À propos</a>
+      <a href="apropos.html"  class="active">À propos</a>
       <a href="reservation.html">Réservation</a>
       <a href="commande.html">Commande</a>
       <a href="contact.html">Contact</a>
@@ -32,21 +34,20 @@
     <a href="reservation.html" class="btn btn-primary">
       <i class="far fa-calendar-alt"></i> Réserver une table
     </a>
-    <!-- Burger mobile -->
-    <button class="burger" id="burger" aria-label="Menu">
+    <button class="burger" id="burger" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
     </button>
   </header>
 
   <!-- Menu mobile -->
   <nav class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Accueil</a>
+    <a href="index.html" class="active">Accueil</a>
     <a href="menu.html">Menu</a>
-    <a href="apropos.html" class="active">À propos</a>
+    <a href="apropos.html">À propos</a>
     <a href="reservation.html">Réservation</a>
     <a href="commande.html">Commande</a>
     <a href="contact.html">Contact</a>
-    <a href="reservation.html" style="background:#e8336d;color:white;padding:12px 20px;border-radius:25px;text-align:center;margin-top:8px;">
+    <a href="reservation.html" class="mobile-cta">
       <i class="far fa-calendar-alt"></i> Réserver une table
     </a>
   </nav>
@@ -63,7 +64,7 @@
       <a href="#histoire" class="btn-rose">Découvrir notre histoire ↓</a>
     </div>
     <div class="hero-visual reveal d2">
-      <div class="pot-wrap">🍲</div>
+      <div class="pot-wrap"><img src="images/colored-logo-removebg-preview.png" alt=""></div>
     </div>
   </section>
 
@@ -73,7 +74,7 @@
     <div class="histoire-grid">
       <div class="histoire-visual reveal">
         <div class="histoire-card">
-          <span class="icon">👨‍🍳</span>
+          <span class="icon"><img src="images/profil (1).jpg" alt="" class="tofff"></span>
           <h3>Née d'une passion authentique</h3>
           <p>LA CAMEROUNAISE BY LANDRY est née de l'amour profond de notre fondateur pour la cuisine traditionnelle camerounaise et du désir de partager cet héritage avec le monde.</p>
         </div>
@@ -96,7 +97,7 @@
   <!-- ══════════ CHIFFRES CLÉS ══════════ -->
   <div class="chiffres">
     <div class="chiffre reveal">
-      <span class="num">+21</span>
+      <span class="num">21+</span>
       <div class="lbl">Années d'expérience</div>
     </div>
     <div class="chiffre reveal d1">
@@ -122,10 +123,10 @@
       <p class="section-sub">Chaque décision, chaque plat, chaque sourire est guidé par des valeurs profondes que nous chérissons.</p>
     </div>
     <div class="valeurs-grid">
-      <div class="valeur-card reveal"><div class="valeur-icon">🏺</div><h3>Authenticité</h3><p>Nous valorisons la cuisine camerounaise dans toute son authenticité, en respectant les recettes et les techniques traditionnelles.</p></div>
-      <div class="valeur-card reveal d1"><div class="valeur-icon">⭐</div><h3>Qualité</h3><p>Des ingrédients frais et des recettes de qualité supérieure pour le plaisir de nos clients. Aucun compromis.</p></div>
-      <div class="valeur-card reveal d2"><div class="valeur-icon">❤️</div><h3>Passion</h3><p>Nous cuisinons avec amour pour le plaisir de nos clients. Chaque plat est une déclaration d'amour à notre gastronomie.</p></div>
-      <div class="valeur-card reveal d3"><div class="valeur-icon">👨‍👩‍👧‍👦</div><h3>Convivialité</h3><p>Un accueil chaleureux dans un cadre familial où chaque client est reçu comme un ami de longue date.</p></div>
+      <div class="valeur-card reveal"><div class="valeur-icon"><img src="images/ingredients-removebg-preview.png" alt=""></div><h3>Authenticité</h3><p>Nous valorisons la cuisine camerounaise dans toute son authenticité, en respectant les recettes et les techniques traditionnelles.</p></div>
+      <div class="valeur-card reveal d1"><div class="valeur-icon"><img src="images/Mbongo-Tchobi-removebg-preview.png" alt=""></div><h3>Qualité</h3><p>Des ingrédients frais et des recettes de qualité supérieure pour le plaisir de nos clients. Aucun compromis.</p></div>
+      <div class="valeur-card reveal d2"><div class="valeur-icon"><img src="images/personne restaurant.jpg" alt=""></div><h3>Passion</h3><p>Nous cuisinons avec amour pour le plaisir de nos clients. Chaque plat est une déclaration d'amour à notre gastronomie.</p></div>
+      <div class="valeur-card reveal d3"><div class="valeur-icon"><img src="images/les-gens-sont-assis-au-restaurant-tandis-que-la-serveuse-sert-de-la-nourriture-2bh24ny.jpg" alt=""></div><h3>Convivialité</h3><p>Un accueil chaleureux dans un cadre familial où chaque client est reçu comme un ami de longue date.</p></div>
     </div>
   </section>
 
@@ -139,7 +140,7 @@
     </div>
     <div class="equipe-grid">
       <div class="equipe-card reveal">
-        <div class="equipe-top"><div class="equipe-avatar">👨‍🍳</div><h3>Kamdem Landry.</h3><span class="equipe-role">Fondateur & Chef</span></div>
+        <div class="equipe-top"><div class="equipe-avatar"><img src="images/profil (1).jpg" alt=""></div><h3>Kamdem Landry.</h3><span class="equipe-role">Fondateur & Chef</span></div>
         <div class="equipe-body"><p>Cheffe passionné et âme du restaurant, Mr kamdem L. perpétu les recettes de sa grand-mère avec générosité et authenticité.</p></div>
       </div>
       <div class="equipe-card reveal d1">
