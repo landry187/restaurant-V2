@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menu-la camerounaise by landry</title>
-  <link rel="stylesheet" href="menu.css"/>
+  <title>Menu - La Camerounaise by Landry</title>
   <link rel="stylesheet" href="CSS/generalstyle.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="menu.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
@@ -14,20 +15,21 @@
   <!-- ===== NAVBAR ===== -->
   <header class="navbar">
     <a href="index.html" class="nav-logo">
-     <img src="images/logoman-removebg-preview.png" alt="" class="logoman">
+      <img src="images/colored-logo-removebg-preview.png" alt="" class="logoman">
       <div class="logo-text">
-        <span class="logo-main">LA CAMEROUNAISE</span>
-        <span class="logo-sub">BY LANDRY</span>
+        <span class="logo-main"></span>
+        <span class="logo-sub"></span>
       </div>
     </a>
     <nav class="nav-links">
-      <a href="index.html">Accueil</a>
+      <a href="index.html" >Accueil</a>
       <a href="menu.html" class="active">Menu</a>
       <a href="apropos.html">À propos</a>
       <a href="reservation.html">Réservation</a>
       <a href="commande.html">Commande</a>
       <a href="contact.html">Contact</a>
     </nav>
+    
     <div class="nav-actions">
       <button class="cart-btn" id="cartToggle" aria-label="Panier">
         <i class="fas fa-shopping-bag"></i>
@@ -43,14 +45,14 @@
   </header>
 
   <!-- Menu mobile -->
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">Accueil</a>
-    <a href="menu.html" class="active">Menu</a>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="active">Accueil</a>
+    <a href="menu.html">Menu</a>
     <a href="apropos.html">À propos</a>
     <a href="reservation.html">Réservation</a>
     <a href="commande.html">Commande</a>
     <a href="contact.html">Contact</a>
-    <a href="reservation.html" class="mobile-nav-cta">
+    <a href="reservation.html" class="mobile-cta">
       <i class="far fa-calendar-alt"></i> Réserver une table
     </a>
   </nav>
@@ -89,12 +91,10 @@
         <li><button class="cat-btn" data-cat="boissons"><span class="cat-icon">🥤</span><span class="cat-label">Boissons</span><span class="cat-badge" id="badge-boissons">1</span></button></li>
         <li><button class="cat-btn" data-cat="desserts"><span class="cat-icon">🍮</span><span class="cat-label">Desserts</span><span class="cat-badge" id="badge-desserts">1</span></button></li>
       </ul>
-
       <div class="sidebar-info">
         <i class="fas fa-leaf"></i>
         <p>Tous nos plats sont préparés avec des ingrédients <strong>frais et locaux</strong>, chaque jour.</p>
       </div>
-
       <div class="sidebar-cta">
         <p>Envie de vivre l'expérience sur place ?</p>
         <a href="reservation.html" class="btn btn-primary full-w"><i class="far fa-calendar-alt"></i> Réserver une table</a>
@@ -116,7 +116,370 @@
         </div>
       </div>
 
-      <div class="dishes-grid" id="dishesGrid"></div>
+      
+      <div class="dishes-grid" id="dishesGrid">
+
+        <!-- 1 — Ndolé -->
+        <div class="dish-card"
+             data-id="1"
+             data-cat="principaux"
+             data-price="3500"
+             data-badges="popular">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=300&q=80"
+                 alt="Ndolé" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div><!-- rempli par le JS -->
+                <div class="dish-name">Ndolé</div>
+                <div class="dish-desc">Feuilles amères, arachides, poisson fumé ou viande. Le plat national du Cameroun.</div>
+              </div>
+              <div class="dish-price">3 500 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="1"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="1">
+                <button class="qty-btn minus-btn" data-id="1">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="1">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 — Eru & Water Fufu -->
+        <div class="dish-card"
+             data-id="2"
+             data-cat="principaux"
+             data-price="3000"
+             data-badges="spicy">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&q=80"
+                 alt="Eru & Water Fufu" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Eru & Water Fufu</div>
+                <div class="dish-desc">Feuilles de forêt cuites avec viande, crevettes séchées et fufu de manioc.</div>
+              </div>
+              <div class="dish-price">3 000 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="2"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="2">
+                <button class="qty-btn minus-btn" data-id="2">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="2">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 — Jollof Camerounais -->
+        <div class="dish-card"
+             data-id="3"
+             data-cat="principaux"
+             data-price="2500"
+             data-badges="popular,spicy">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"
+                 alt="Jollof Camerounais" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Jollof Camerounais</div>
+                <div class="dish-desc">Riz parfumé cuit dans une sauce tomate épicée avec viande et légumes.</div>
+              </div>
+              <div class="dish-price">2 500 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="3"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="3">
+                <button class="qty-btn minus-btn" data-id="3">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="3">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 — Poulet DG -->
+        <div class="dish-card"
+             data-id="4"
+             data-cat="principaux"
+             data-price="3500"
+             data-badges="popular">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300&q=80"
+                 alt="Poulet DG" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Poulet DG</div>
+                <div class="dish-desc">Poulet sauté aux légumes frais et plantains dorés, façon « Directeur Général ».</div>
+              </div>
+              <div class="dish-price">3 500 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="4"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="4">
+                <button class="qty-btn minus-btn" data-id="4">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="4">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 — Koki -->
+        <div class="dish-card"
+             data-id="5"
+             data-cat="principaux"
+             data-price="2500"
+             data-badges="">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=80"
+                 alt="Koki" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Koki</div>
+                <div class="dish-desc">Haricots cuits à la vapeur avec viande, bananes plantains et épices de saison.</div>
+              </div>
+              <div class="dish-price">2 500 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="5"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="5">
+                <button class="qty-btn minus-btn" data-id="5">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="5">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 — Poisson Braisé -->
+        <div class="dish-card"
+             data-id="6"
+             data-cat="principaux"
+             data-price="4000"
+             data-badges="new,spicy">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=80"
+                 alt="Poisson Braisé" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Poisson Braisé</div>
+                <div class="dish-desc">Poisson grillé au feu de bois, accompagné d'attiéké ou de plantain.</div>
+              </div>
+              <div class="dish-price">4 000 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="6"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="6">
+                <button class="qty-btn minus-btn" data-id="6">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="6">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 — Plantain Frit -->
+        <div class="dish-card"
+             data-id="7"
+             data-cat="accompagnements"
+             data-price="800"
+             data-badges="vegetarian">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300&q=80"
+                 alt="Plantain Frit" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Plantain Frit</div>
+                <div class="dish-desc">Tranches de plantain mûr frites à l'huile, dorées et caramélisées.</div>
+              </div>
+              <div class="dish-price">800 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="7"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="7">
+                <button class="qty-btn minus-btn" data-id="7">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="7">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 — Miondo -->
+        <div class="dish-card"
+             data-id="8"
+             data-cat="accompagnements"
+             data-price="500"
+             data-badges="vegetarian">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=300&q=80"
+                 alt="Miondo (Bâtons de manioc)" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Miondo (Bâtons de manioc)</div>
+                <div class="dish-desc">Bâtons de manioc fermenté emballés dans des feuilles de bananier.</div>
+              </div>
+              <div class="dish-price">500 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="8"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="8">
+                <button class="qty-btn minus-btn" data-id="8">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="8">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9 — Soupe de Légumes -->
+        <div class="dish-card"
+             data-id="9"
+             data-cat="soupes"
+             data-price="1200"
+             data-badges="vegetarian,new">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=80"
+                 alt="Soupe de Légumes" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Soupe de Légumes</div>
+                <div class="dish-desc">Bouillon chaud aux légumes frais de saison, légèrement épicé.</div>
+              </div>
+              <div class="dish-price">1 200 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="9"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="9">
+                <button class="qty-btn minus-btn" data-id="9">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="9">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10 — Pepper Soup -->
+        <div class="dish-card"
+             data-id="10"
+             data-cat="soupes"
+             data-price="2000"
+             data-badges="spicy">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=300&q=80"
+                 alt="Pepper Soup" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Pepper Soup</div>
+                <div class="dish-desc">Soupe épicée à la viande ou au poisson, aux épices africaines traditionnelles.</div>
+              </div>
+              <div class="dish-price">2 000 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="10"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="10">
+                <button class="qty-btn minus-btn" data-id="10">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="10">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 11 — Jus de Gingembre & Citron -->
+        <div class="dish-card"
+             data-id="11"
+             data-cat="boissons"
+             data-price="700"
+             data-badges="drink">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=300&q=80"
+                 alt="Jus de Gingembre & Citron" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Jus de Gingembre & Citron</div>
+                <div class="dish-desc">Jus frais maison au gingembre, citron vert et sucre de canne.</div>
+              </div>
+              <div class="dish-price">700 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="11"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="11">
+                <button class="qty-btn minus-btn" data-id="11">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="11">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12 — Gâteau au Manioc -->
+        <div class="dish-card"
+             data-id="12"
+             data-cat="desserts"
+             data-price="1000"
+             data-badges="sweet,new">
+          <div class="dish-img-wrap">
+            <img src="images/crepesdesserts.jpg"
+                 alt="Gâteau au Manioc" loading="lazy"/>
+          </div>
+          <div class="dish-body">
+            <div class="dish-top">
+              <div class="dish-name-wrap">
+                <div class="badges"></div>
+                <div class="dish-name">Crepes </div>
+                <div class="dish-desc">Chadeleur, fait de caviar,miel,confiture,fromage blanc,fruits rouges.</div>
+              </div>
+              <div class="dish-price">3 000 FCFA</div>
+            </div>
+            <div class="dish-bottom">
+              <button class="add-btn" data-id="12"><i class="fas fa-plus"></i> Ajouter au panier</button>
+              <div class="qty-stepper" data-id="12">
+                <button class="qty-btn minus-btn" data-id="12">−</button>
+                <span class="qty-value">0</span>
+                <button class="qty-btn plus-btn" data-id="12">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /#dishesGrid -->
 
       <div class="empty-state" id="emptyState">
         <span>🔍</span>
@@ -148,7 +511,7 @@
       <div class="cart-empty" id="cartEmpty">
         <span>🛒</span>
         <p>Votre panier est vide</p>
-        <small>Ajoutez des plats depuis le menu</small>
+        <small>Ajoutez des plats depuis le <a href="menu.html"> <strong class="menu12">menu</strong></a></small>
       </div>
     </div>
     <div class="cart-footer" id="cartFooter">
@@ -168,7 +531,7 @@
   <footer class="footer">
     <div class="footer-brand">
       <div class="nav-logo">
-        <span class="logo-icon"><img src="images/logoman-removebg-preview.png" alt="" class="logofooter"></span>
+        <span class="logo-icon"><img src="images/colored-logo-removebg-preview.png" alt="" class="logofooter"></span>
         <div class="logo-text">
           <span class="logo-main">LA CAMEROUNAISE</span>
           <span class="logo-sub">BY LANDRY</span>
@@ -186,10 +549,10 @@
       <ul>
         <li><a href="index.html">Accueil</a></li>
         <li><a href="menu.html">Menu</a></li>
-        <li><a href="#">À propos</a></li>
-        <li><a href="#">Réservation</a></li>
-        <li><a href="#">Commande</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="reservation.html">Réservation</a></li>
+        <li><a href="commande.html">Commande</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -200,13 +563,13 @@
     </div>
     <div class="footer-col">
       <h4>Nous contacter</h4>
-      <p><i class="fas fa-map-marker-alt"></i> Baham,Ouest, Cameroun</p>
+      <p><i class="fas fa-map-marker-alt"></i> Baham, Ouest, Cameroun</p>
       <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
       <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.cm</p>
     </div>
   </footer>
   <div class="footer-bottom">
-    <p>© 2026 La Camerounaise by landry. Tous droits réservés.</p>
+    <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
     <p>Fait avec amour au Cameroun 🇨🇲</p>
   </div>
 

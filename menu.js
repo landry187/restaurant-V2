@@ -1,125 +1,15 @@
-
-
-
-
-
 /* =====================================================
-   menu.js — Saveurs du Cameroun | Page Menu
-   Fonctions : filtrage, recherche, tri, panier, toast
+   menu.js — La Camerounaise by Landry | Page Menu
+   Filtrage, recherche, tri, panier, toast.
+
+   Les plats sont définis dans le HTML (menu.html).
+   Ce fichier LIT le DOM — il ne contient aucune URL
+   d'image ni donnée de plat codée en dur.
 ===================================================== */
 
-/* ─────────────── DATA ─────────────── */
-const DISHES = [
-  {
-    id: 1,
-    name: "Ndolé",
-    desc: "Feuilles amères, arachides, poisson fumé ou viande. Le plat national du Cameroun.",
-    price: 3500,
-    cat: "principaux",
-    badges: ["popular"],
-    img: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=300&q=80"
-  },
-  {
-    id: 2,
-    name: "Eru & Water Fufu",
-    desc: "Feuilles de forêt cuites avec viande, crevettes séchées et fufu de manioc.",
-    price: 3000,
-    cat: "principaux",
-    badges: ["spicy"],
-    img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&q=80"
-  },
-  {
-    id: 3,
-    name: "Jollof Camerounais",
-    desc: "Riz parfumé cuit dans une sauce tomate épicée avec viande et légumes.",
-    price: 2500,
-    cat: "principaux",
-    badges: ["popular", "spicy"],
-    img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"
-  },
-  {
-    id: 4,
-    name: "Poulet DG",
-    desc: "Poulet sauté aux légumes frais et plantains dorés, façon « Directeur Général ».",
-    price: 3500,
-    cat: "principaux",
-    badges: ["popular"],
-    img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300&q=80"
-  },
-  {
-    id: 5,
-    name: "Koki",
-    desc: "Haricots cuits à la vapeur avec viande, bananes plantains et épices de saison.",
-    price: 2500,
-    cat: "principaux",
-    badges: [],
-    img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=80"
-  },
-  {
-    id: 6,
-    name: "Poisson Braisé",
-    desc: "Poisson grillé au feu de bois, accompagné d'attiéké ou de plantain.",
-    price: 4000,
-    cat: "principaux",
-    badges: ["new", "spicy"],
-    img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=80"
-  },
-  {
-    id: 7,
-    name: "Plantain Frit",
-    desc: "Tranches de plantain mûr frites à l'huile, dorées et caramélisées.",
-    price: 800,
-    cat: "accompagnements",
-    badges: ["vegetarian"],
-    img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300&q=80"
-  },
-  {
-    id: 8,
-    name: "Miondo (Bâtons de manioc)",
-    desc: "Bâtons de manioc fermenté emballés dans des feuilles de bananier.",
-    price: 500,
-    cat: "accompagnements",
-    badges: ["vegetarian"],
-    img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=300&q=80"
-  },
-  {
-    id: 9,
-    name: "Soupe de Légumes",
-    desc: "Bouillon chaud aux légumes frais de saison, légèrement épicé.",
-    price: 1200,
-    cat: "soupes",
-    badges: ["vegetarian", "new"],
-    img: "https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=80"
-  },
-  {
-    id: 10,
-    name: "Pepper Soup",
-    desc: "Soupe épicée à la viande ou au poisson, aux épices africaines traditionnelles.",
-    price: 2000,
-    cat: "soupes",
-    badges: ["spicy"],
-    img: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=300&q=80"
-  },
-  {
-    id: 11,
-    name: "Jus de Gingembre & Citron",
-    desc: "Jus frais maison au gingembre, citron vert et sucre de canne.",
-    price: 700,
-    cat: "boissons",
-    badges: ["drink"],
-    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=300&q=80"
-  },
-  {
-    id: 12,
-    name: "Gâteau au Manioc",
-    desc: "Douceur traditionnelle à base de manioc râpé, coco et sucre vanillé.",
-    price: 1000,
-    cat: "desserts",
-    badges: ["sweet", "new"],
-    img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&q=80"
-  }
-];
-
+/* ─────────────────────────────────────────
+   BADGE CONFIG — labels & classes CSS
+───────────────────────────────────────── */
 const BADGE_CONFIG = {
   popular:    { label: "⭐ Populaire",   cls: "badge-popular" },
   new:        { label: "✨ Nouveau",     cls: "badge-new" },
@@ -131,25 +21,45 @@ const BADGE_CONFIG = {
 };
 
 const CAT_NAMES = {
-  all:            "Tous les plats",
-  principaux:     "Plats principaux",
-  accompagnements:"Accompagnements",
-  soupes:         "Soupes",
-  boissons:       "Boissons",
-  desserts:       "Desserts"
+  all:             "Tous les plats",
+  principaux:      "Plats principaux",
+  accompagnements: "Accompagnements",
+  soupes:          "Soupes",
+  boissons:        "Boissons",
+  desserts:        "Desserts"
 };
 
+/* ─────────────────────────────────────────
+   LIRE LES PLATS DEPUIS LE HTML
+   Chaque .dish-card porte :
+     data-id, data-cat, data-price, data-badges
+   L'image reste dans le HTML — on ne la touche pas.
+───────────────────────────────────────── */
+const allCards = Array.from(document.querySelectorAll('#dishesGrid .dish-card'));
 
-/* ─────────────── STATE ─────────────── */
+function parseDish(card) {
+  return {
+    id:     +card.dataset.id,
+    cat:    card.dataset.cat,
+    price:  +card.dataset.price,
+    badges: card.dataset.badges ? card.dataset.badges.split(',').map(b => b.trim()).filter(Boolean) : [],
+    name:   card.querySelector('.dish-name').textContent.trim(),
+    desc:   card.querySelector('.dish-desc').textContent.trim(),
+    img:    card.querySelector('.dish-img-wrap img').src  // lu depuis le HTML, jamais stocké ici
+  };
+}
+
+/* ─────────────────────────────────────────
+   ÉTAT
+───────────────────────────────────────── */
 let currentCat   = "all";
 let currentSort  = "default";
 let currentQuery = "";
-let cart =
-JSON.parse(localStorage.getItem("panier"))
-|| [];
+let cart = JSON.parse(localStorage.getItem("panier")) || [];
 
-
-/* ─────────────── DOM REFS ─────────────── */
+/* ─────────────────────────────────────────
+   DOM REFS
+───────────────────────────────────────── */
 const grid        = document.getElementById("dishesGrid");
 const emptyState  = document.getElementById("emptyState");
 const emptyQuery  = document.getElementById("emptyQuery");
@@ -171,16 +81,34 @@ const clearCartBtn= document.getElementById("clearCartBtn");
 const resetBtn    = document.getElementById("resetBtn");
 const toast       = document.getElementById("toast");
 
-/* ─────────────── RENDER DISHES ─────────────── */
-function getFiltered() {
-  let list = [...DISHES];
+/* ─────────────────────────────────────────
+   INJECTER LES BADGES dans le HTML des cards
+   (une seule fois à l'init, pas à chaque render)
+───────────────────────────────────────── */
+function initBadges() {
+  allCards.forEach(card => {
+    const dish = parseDish(card);
+    const badgesEl = card.querySelector('.badges');
+    if (!badgesEl) return;
+    badgesEl.innerHTML = dish.badges.map(b => {
+      const cfg = BADGE_CONFIG[b];
+      return cfg ? `<span class="badge ${cfg.cls}">${cfg.label}</span>` : "";
+    }).join("");
+    // Cacher le conteneur s'il est vide
+    if (!badgesEl.innerHTML.trim()) badgesEl.style.display = 'none';
+  });
+}
 
-  // Category filter
+/* ─────────────────────────────────────────
+   FILTRAGE & TRI (sur les cards HTML)
+───────────────────────────────────────── */
+function getFiltered() {
+  let list = allCards.map(parseDish);
+
   if (currentCat !== "all") {
     list = list.filter(d => d.cat === currentCat);
   }
 
-  // Search filter
   if (currentQuery) {
     const q = currentQuery.toLowerCase();
     list = list.filter(d =>
@@ -190,7 +118,6 @@ function getFiltered() {
     );
   }
 
-  // Sort
   switch (currentSort) {
     case "price-asc":  list.sort((a, b) => a.price - b.price); break;
     case "price-desc": list.sort((a, b) => b.price - a.price); break;
@@ -200,100 +127,80 @@ function getFiltered() {
   return list;
 }
 
+/* ─────────────────────────────────────────
+   RENDER — déplace les cards existantes du DOM
+   dans le bon ordre ; cache/affiche selon filtre.
+   Les images ne sont JAMAIS recréées.
+───────────────────────────────────────── */
 function render() {
-  const list = getFiltered();
+  const filtered = getFiltered();
+  const filteredIds = new Set(filtered.map(d => d.id));
 
-  // Update title
+  // Titre
   dishesTitle.textContent = CAT_NAMES[currentCat] || "Tous les plats";
 
-  // Results count
-  if (currentQuery) {
-    resultsCount.textContent = list.length
-      ? `${list.length} plat${list.length > 1 ? "s" : ""} trouvé${list.length > 1 ? "s" : ""} pour « ${currentQuery} »`
-      : "";
-  } else {
-    resultsCount.textContent = "";
-  }
+  // Compteur de résultats
+  resultsCount.textContent = currentQuery
+    ? (filtered.length
+        ? `${filtered.length} plat${filtered.length > 1 ? "s" : ""} trouvé${filtered.length > 1 ? "s" : ""} pour « ${currentQuery} »`
+        : "")
+    : "";
 
-  // Clear grid
-  grid.innerHTML = "";
-
-  if (list.length === 0) {
+  // État vide
+  if (filtered.length === 0) {
     emptyState.classList.add("show");
     emptyQuery.textContent = currentQuery || currentCat;
-    return;
+  } else {
+    emptyState.classList.remove("show");
   }
 
-  emptyState.classList.remove("show");
+  // Réordonner & afficher/cacher les cards (sans les recréer)
+  filtered.forEach((dish, i) => {
+    const card = allCards.find(c => +c.dataset.id === dish.id);
+    if (!card) return;
 
-  list.forEach((dish, i) => {
-    const inCart    = cart.find(c => c.id === dish.id);
-    const qty       = inCart ? inCart.qty : 0;
-
-    const badgeHtml = dish.badges.map(b => {
-      const cfg = BADGE_CONFIG[b];
-      return cfg ? `<span class="badge ${cfg.cls}">${cfg.label}</span>` : "";
-    }).join("");
-
-    const card = document.createElement("div");
-    card.className = "dish-card";
-    card.dataset.id = dish.id;
+    card.style.display = "";
     card.style.animationDelay = `${i * 0.05}s`;
 
-    card.innerHTML = `
-      <div class="dish-img-wrap">
-        <img src="${dish.img}" alt="${dish.name}" loading="lazy"/>
-      </div>
-      <div class="dish-body">
-        <div class="dish-top">
-          <div class="dish-name-wrap">
-            ${badgeHtml ? `<div class="badges">${badgeHtml}</div>` : ""}
-            <div class="dish-name">${dish.name}</div>
-            <div class="dish-desc">${dish.desc}</div>
-          </div>
-          <div class="dish-price">${dish.price.toLocaleString("fr-FR")} FCFA</div>
-        </div>
-        <div class="dish-bottom">
-          <button class="add-btn ${qty > 0 ? "hidden" : ""}" data-id="${dish.id}">
-            <i class="fas fa-plus"></i> Ajouter au panier
-          </button>
-          <div class="qty-stepper ${qty > 0 ? "show" : ""}" data-id="${dish.id}">
-            <button class="qty-btn minus-btn" data-id="${dish.id}">−</button>
-            <span class="qty-value">${qty}</span>
-            <button class="qty-btn plus-btn" data-id="${dish.id}">+</button>
-          </div>
-          <span></span>
-        </div>
-      </div>
-    `;
+    // Synchroniser le stepper avec le panier
+    const inCart = cart.find(c => c.id === dish.id);
+    const qty    = inCart ? inCart.qty : 0;
+    const addBtn = card.querySelector(".add-btn");
+    const stepper= card.querySelector(".qty-stepper");
+    const qtyVal = card.querySelector(".qty-value");
 
-    grid.appendChild(card);
+    if (addBtn)  addBtn.classList.toggle("hidden", qty > 0);
+    if (stepper) stepper.classList.toggle("show", qty > 0);
+    if (qtyVal)  qtyVal.textContent = qty;
+
+    grid.appendChild(card); // déplace en fin (réordonne)
   });
 
-  // Attach events
-  grid.querySelectorAll(".add-btn").forEach(btn => {
-    btn.addEventListener("click", () => addToCart(+btn.dataset.id));
-  });
-  grid.querySelectorAll(".plus-btn").forEach(btn => {
-    btn.addEventListener("click", () => changeQty(+btn.dataset.id, 1));
-  });
-  grid.querySelectorAll(".minus-btn").forEach(btn => {
-    btn.addEventListener("click", () => changeQty(+btn.dataset.id, -1));
+  // Cacher les cards non filtrées
+  allCards.forEach(card => {
+    if (!filteredIds.has(+card.dataset.id)) {
+      card.style.display = "none";
+    }
   });
 }
 
-/* ─────────────── CART LOGIC ─────────────── */
+/* ─────────────────────────────────────────
+   PANIER
+───────────────────────────────────────── */
 function addToCart(id) {
-  const dish = DISHES.find(d => d.id === id);
-  if (!dish) return;
+  const card = allCards.find(c => +c.dataset.id === id);
+  if (!card) return;
+  const dish = parseDish(card);
 
   const existing = cart.find(c => c.id === id);
   if (existing) {
     existing.qty++;
   } else {
+    // On lit l'image depuis le HTML de la card, pas depuis DISHES[]
     cart.push({ id, name: dish.name, price: dish.price, img: dish.img, qty: 1 });
   }
 
+  saveCart();
   updateCartUI();
   render();
   showToast(`✅ ${dish.name} ajouté au panier`);
@@ -309,35 +216,32 @@ function changeQty(id, delta) {
     showToast("🗑️ Plat retiré du panier");
   }
 
+  saveCart();
   updateCartUI();
   render();
 }
 
 function clearCart() {
   cart = [];
+  saveCart();
   updateCartUI();
   render();
   showToast("🗑️ Panier vidé");
 }
 
+function saveCart() {
+  localStorage.setItem("panier", JSON.stringify(cart));
+}
+
 function updateCartUI() {
-  localStorage.setItem(
-  "panier",
-  JSON.stringify(cart)
-);
-  const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const total    = cart.reduce((s, c) => s + c.price * c.qty, 0);
   const totalQty = cart.reduce((s, c) => s + c.qty, 0);
 
-  // Count badge
   cartCount.textContent = totalQty;
-  if (totalQty > 0) {
-    cartCount.classList.add("visible");
-  } else {
-    cartCount.classList.remove("visible");
-  }
+  cartCount.classList.toggle("visible", totalQty > 0);
 
-  // Drawer body
   cartItems.innerHTML = "";
+
   if (cart.length === 0) {
     cartEmpty.style.display = "flex";
     cartFooter.classList.remove("show");
@@ -369,13 +273,13 @@ function updateCartUI() {
     cartItems.appendChild(el);
   });
 
-  // Cart item events
   cartItems.querySelectorAll(".ci-btn").forEach(btn => {
     btn.addEventListener("click", () => changeQty(+btn.dataset.id, +btn.dataset.delta));
   });
   cartItems.querySelectorAll(".ci-remove").forEach(btn => {
     btn.addEventListener("click", () => {
       cart = cart.filter(c => c.id !== +btn.dataset.id);
+      saveCart();
       updateCartUI();
       render();
       showToast("🗑️ Plat retiré du panier");
@@ -385,7 +289,9 @@ function updateCartUI() {
   cartTotal.textContent = total.toLocaleString("fr-FR") + " FCFA";
 }
 
-/* ─────────────── TOAST ─────────────── */
+/* ─────────────────────────────────────────
+   TOAST
+───────────────────────────────────────── */
 let toastTimer;
 function showToast(msg) {
   toast.textContent = msg;
@@ -394,8 +300,10 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2500);
 }
 
-/* ─────────────── CART DRAWER TOGGLE ─────────────── */
-function openCart()  { cartDrawer.classList.add("open"); cartOverlay.classList.add("show"); }
+/* ─────────────────────────────────────────
+   CART DRAWER TOGGLE
+───────────────────────────────────────── */
+function openCart()  { cartDrawer.classList.add("open");    cartOverlay.classList.add("show"); }
 function closeCart() { cartDrawer.classList.remove("open"); cartOverlay.classList.remove("show"); }
 
 cartToggle.addEventListener("click", openCart);
@@ -403,12 +311,28 @@ cartClose .addEventListener("click", closeCart);
 cartOverlay.addEventListener("click", closeCart);
 clearCartBtn.addEventListener("click", clearCart);
 
-/* ─────────────── CATEGORY FILTER ─────────────── */
+/* ─────────────────────────────────────────
+   DÉLÉGATION D'ÉVÉNEMENTS SUR LA GRILLE
+   (fonctionne même après réordonnage)
+───────────────────────────────────────── */
+grid.addEventListener("click", e => {
+  const addBtn  = e.target.closest(".add-btn");
+  const plusBtn = e.target.closest(".plus-btn");
+  const minusBtn= e.target.closest(".minus-btn");
+
+  if (addBtn)   addToCart(+addBtn.dataset.id);
+  if (plusBtn)  changeQty(+plusBtn.dataset.id, 1);
+  if (minusBtn) changeQty(+minusBtn.dataset.id, -1);
+});
+
+/* ─────────────────────────────────────────
+   CATEGORY FILTER
+───────────────────────────────────────── */
 document.querySelectorAll(".cat-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    currentCat = btn.dataset.cat;
+    currentCat   = btn.dataset.cat;
     currentQuery = "";
     searchInput.value = "";
     searchClear.classList.remove("show");
@@ -416,11 +340,12 @@ document.querySelectorAll(".cat-btn").forEach(btn => {
   });
 });
 
-/* ─────────────── SEARCH ─────────────── */
+/* ─────────────────────────────────────────
+   SEARCH
+───────────────────────────────────────── */
 searchInput.addEventListener("input", () => {
   currentQuery = searchInput.value.trim();
   searchClear.classList.toggle("show", currentQuery.length > 0);
-  // Reset to "all" when searching
   if (currentQuery) {
     currentCat = "all";
     document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
@@ -437,13 +362,17 @@ searchClear.addEventListener("click", () => {
   searchInput.focus();
 });
 
-/* ─────────────── SORT ─────────────── */
+/* ─────────────────────────────────────────
+   SORT
+───────────────────────────────────────── */
 sortSelect.addEventListener("change", () => {
   currentSort = sortSelect.value;
   render();
 });
 
-/* ─────────────── RESET SEARCH (empty state) ─────────────── */
+/* ─────────────────────────────────────────
+   RESET (empty state)
+───────────────────────────────────────── */
 resetBtn.addEventListener("click", () => {
   currentQuery = "";
   currentCat   = "all";
@@ -454,17 +383,21 @@ resetBtn.addEventListener("click", () => {
   render();
 });
 
-/* ─────────────── UPDATE CATEGORY BADGES ─────────────── */
+/* ─────────────────────────────────────────
+   BADGES DES CATÉGORIES (sidebar)
+───────────────────────────────────────── */
 function updateCatBadges() {
-  const cats = ["principaux","accompagnements","soupes","boissons","desserts"];
-  document.getElementById("badge-all").textContent = DISHES.length;
-  cats.forEach(cat => {
+  document.getElementById("badge-all").textContent = allCards.length;
+  ["principaux","accompagnements","soupes","boissons","desserts"].forEach(cat => {
     const el = document.getElementById(`badge-${cat}`);
-    if (el) el.textContent = DISHES.filter(d => d.cat === cat).length;
+    if (el) el.textContent = allCards.filter(c => c.dataset.cat === cat).length;
   });
 }
 
-/* ─────────────── INIT ─────────────── */
-updateCatBadges();
-render();
-updateCartUI();
+/* ─────────────────────────────────────────
+   INIT
+───────────────────────────────────────── */
+initBadges();       // injecte les badges dans le HTML des cards
+updateCatBadges();  // met à jour les compteurs dans la sidebar
+render();           // affiche / filtre les cards
+updateCartUI();     // synchronise le panier (depuis localStorage)
