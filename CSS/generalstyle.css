@@ -1,10 +1,10 @@
 .logoman {
-    width: 80px;
-    height: 70px;
+    width: 110px;
+    height: 100px;
 }
 .logoman2,.logofooter{
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
 }
 .menu12 {
     font-size: 25px;
@@ -12,6 +12,30 @@
 }
 .tofff {
   height: 400px;
+}
+.feature-icons{
+  width: 100%;
+  height: 200px;
+  border-radius: 50%;
+}
+.prof {
+   width: 100%;
+  height: 70px;
+  border-radius: 50%;
+}
+
+
+.btn-primarys {
+  background: green;
+  color: white;
+  margin-top: 35px;
+  margin-left: 350px;
+ 
+}
+.btn-primarys:hover {
+  background: #A87A0A;
+  transform: translateY(-2px);
+  
 }
 
 

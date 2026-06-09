@@ -58,7 +58,7 @@ function showToast(msg, type = 'success') {
   el.id = 'toast-notif';
   el.style.cssText = `
     position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
-    background:${type==='error'?'#e8336d':'#1a1a1a'};
+    background:${type==='error'?'#008000':'#1a1a1a'};
     color:white;padding:14px 28px;border-radius:50px;
     font-family:'Nunito',sans-serif;font-weight:700;font-size:0.9rem;
     z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,0.25);
@@ -89,7 +89,7 @@ function updateBadgeFlottant() {
     badge.href = '#cartItems';
     badge.style.cssText = `
       position:fixed;bottom:28px;right:28px;
-      background:#e8336d;color:white;
+      background:#008000;color:white;
       width:54px;height:54px;border-radius:50%;
       display:flex;align-items:center;justify-content:center;
       font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;
@@ -141,20 +141,20 @@ function afficherPanier() {
         onerror="this.style.display='none'">
       <div style="flex:1;min-width:0;">
         <h4 style="margin:0 0 4px;font-size:0.95rem;">${plat.name}</h4>
-        <p style="color:#e8336d;font-weight:800;margin:0;">${(plat.price*plat.qty).toLocaleString('fr-FR')} FCFA</p>
+        <p style="color:#daa520;font-weight:800;margin:0;">${(plat.price*plat.qty).toLocaleString('fr-FR')} FCFA</p>
         <p style="color:#aaa;font-size:0.78rem;margin:2px 0 0;">${plat.price.toLocaleString('fr-FR')} FCFA / unité</p>
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
         <button class="qty-minus" data-index="${index}"
-          style="width:30px;height:30px;border:1.5px solid #e8336d;border-radius:50%;
-          background:white;color:#e8336d;font-weight:900;cursor:pointer;font-size:1.1rem;">−</button>
+          style="width:30px;height:30px;border:1.5px solid #2D6A2D;border-radius:50%;
+          background:white;color:#2D6A2D;font-weight:900;cursor:pointer;font-size:1.1rem;">−</button>
         <span style="font-weight:800;min-width:22px;text-align:center;">${plat.qty}</span>
         <button class="qty-plus" data-index="${index}"
           style="width:30px;height:30px;border:none;border-radius:50%;
-          background:#e8336d;color:white;font-weight:900;cursor:pointer;font-size:1.1rem;">+</button>
+          background:#2D6A2D;color:white;font-weight:900;cursor:pointer;font-size:1.1rem;">+</button>
         <button class="remove-btn" data-index="${index}"
           style="width:30px;height:30px;border:none;border-radius:50%;
-          background:#fff0f5;color:#e8336d;cursor:pointer;font-size:0.9rem;margin-left:4px;">✕</button>
+          background:#E0D5C0;color:#2D6A2D;cursor:pointer;font-size:0.9rem;margin-left:4px;">✕</button>
       </div>
     `;
     cartItems.appendChild(item);
@@ -220,7 +220,7 @@ function initSuggestions() {
     btn.className = 'sugg-btn';
     btn.textContent = '+ Ajouter';
     btn.style.cssText = `margin-top:14px;width:100%;height:40px;border:none;
-      border-radius:10px;background:#e8336d;color:white;
+      border-radius:10px;background:#2D6A2D;color:white;
       font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;`;
     card.appendChild(btn);
     btn.addEventListener('click', () => {
@@ -263,18 +263,18 @@ function updateTotal() {
 }
 
 /* ===== PROMO ===== */
-const PROMOS = { 'LANDRY10':2000, 'BIENVENUE':1000, 'CAMEROUN':1500 };
+const PROMOS = { 'LANDRY10':2000, 'JB':1000, 'OFFICIEL':1500 };
 promoBtn.addEventListener('click', () => {
   const input = document.getElementById('promoInput');
   const code  = input.value.trim().toUpperCase();
   if (PROMOS[code]) {
     reduction = PROMOS[code];
     discountEl.textContent = '-' + reduction.toLocaleString('fr-FR') + ' FCFA';
-    input.style.border = '2px solid #35c66b';
+    input.style.border = '2px solid #2D6A2D';
     updateTotal();
     showToast(`🎉 Réduction de ${reduction.toLocaleString('fr-FR')} FCFA appliquée !`);
   } else {
-    input.style.border = '2px solid #e8336d';
+    input.style.border = '2px solid #2D6A2D';
     showToast('❌ Code promo invalide', 'error');
   }
 });
@@ -301,7 +301,7 @@ confirmOrder.addEventListener('click', async () => {
   if (locationSection.style.display !== 'none') {
     const adresseInput = locationSection.querySelector('input[type="text"]');
     if (adresseInput && adresseInput.value.trim() === '') {
-      adresseInput.style.border = '2px solid #e8336d';
+      adresseInput.style.border = '2px solid rgb(6, 95, 66)';
       adresseInput.focus();
       showToast('⚠️ Veuillez entrer votre adresse', 'error');
       return;

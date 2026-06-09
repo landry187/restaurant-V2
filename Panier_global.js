@@ -23,7 +23,7 @@
     badge.title = 'Voir mon panier';
     badge.style.cssText = `
       position:fixed;bottom:28px;right:28px;
-      background:#e8336d;color:white;
+      background:#008000;color:white;
       width:58px;height:58px;border-radius:50%;
       display:flex;align-items:center;justify-content:center;
       flex-direction:column;gap:1px;

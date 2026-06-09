@@ -6,6 +6,7 @@
     <title>Réservation — La Camerounaise by Landry</title>
     <link rel="stylesheet" href="reservation.css">
     <link rel="stylesheet" href="CSS/generalstyle.css">
+    
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -16,10 +17,10 @@
     <!-- ===== NAVBAR ===== -->
   <header id="header-container" class="navbar">
     <div class="nav-logo">
-     <img src="images/logoman-removebg-preview.png" alt="" class="logoman">
+     <img src="images/colored-logo-removebg-preview.png" alt="" class="logoman">
       <div class="logo-text">
-        <span class="logo-main">LA CAMEROUNAISE</span>
-        <span class="logo-sub">BY LANDRY</span>
+        <span class="logo-main"></span>
+        <span class="logo-sub"></span>
       </div>
     </div>
     <nav class="nav-links">
@@ -203,15 +204,17 @@
       </p>
 
       <h2>
-        Finalisez votre réservation
+        Veuillez remplir vos informations
       </h2>
 
       <form id="reservationForm">
 
-        <input type="text"
+
+        <div class="form-group">
+          <input type="text"
 id="clientName"
 placeholder="Nom complet"
-required>
+required></div>
 
         <div class="form-group">
           <input type="tel" placeholder="Téléphone" required>
@@ -228,11 +231,13 @@ required>
         </div>
 
 
-        <input type="text"
+         <div class="form-group">
+          <input type="text"
 id="selectedTable"
 placeholder="Table choisie"
 readonly
-required>
+required></div>
+ </form>
 
 
         <!-- ===== MENU ===== -->
@@ -240,31 +245,16 @@ required>
         <div class="menu-selection">
 
           <h3>
-            Choisissez vos plats
+            Vous pouvez aller au menu pour ajouter les plats a votre panier
           </h3>
 
 
           <label>
-            <input type="checkbox" class="food" value="5000">
-            Ndolé Royal - 5000 FCFA
-          </label>
-
-
-          <label>
-            <input type="checkbox" class="food" value="7000">
-            Poulet DG - 7000 FCFA
-          </label>
-
-
-          <label>
-            <input type="checkbox" class="food" value="4000">
-            Eru  - 4000 FCFA
-          </label>
-
-
-          <label>
-            <input type="checkbox" class="food" value="6000">
-            Poisson braisé - 6000 FCFA
+           
+          <a href="menu.html" class="btn btn-primary">
+      <i class=""></i> Allez au Menu → 
+    </a>
+            
           </label>
 
         </div>
@@ -324,30 +314,21 @@ required>
 
               <p>Carte bancaire</p>
             </div>
+            
 
           </div>
 
         </div>
 
 
-        <!-- ===== QR CODE ===== -->
-
-        <div class="qr-box">
-
-          <img src="images/QR.jpg" alt="QR Code">
-
-          <p>
-            Scannez pour payer l'acompte
-          </p>
-
-        </div>
+        
 
 
         <button type="submit" class="confirm-btn">
           Confirmer la réservation
         </button>
 
-      </form>
+      
 
     </div>
 
@@ -356,7 +337,7 @@ required>
 
     <div class="reservation-right">
 
-      <img src="images/decor.jpg" alt="Restaurant">
+      <img src="images/personne restaurant.jpg" alt="Restaurant">
 
     </div>
 
@@ -422,7 +403,7 @@ required>
   <footer id="footer-container" class="footer">
     <div class="footer-brand">
       <div class="nav-logo">
-        <span class="logo-icon"><img src="images/logoman-removebg-preview.png" alt="" class="logofooter"></span>
+        <span class="logo-icon"><img src="images/colored-logo-removebg-preview.png" alt="" class="logofooter"></span>
         <div class="logo-text">
           <span class="logo-main">LA CAMEROUNAISE </span>
           <span class="logo-sub">BY LANDRY</span>
