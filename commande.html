@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>commande</title>
-    <link rel="stylesheet" href="commande.css">
-    <link rel="stylesheet" href="CSS/generalstyle.css">
-     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commande — La Camerounaise by Landry</title>
+  <link rel="stylesheet" href="commande.css">
+  <link rel="stylesheet" href="CSS/generalstyle.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <!-- ===== NAVBAR ===== -->
+
+  <!-- ===== NAVBAR ===== -->
   <header id="header-container" class="navbar">
     <div class="nav-logo">
-      <img src="images/colored-logo-removebg-preview.png" alt="" class="logoman">
+      <img src="images/colored-logo-removebg-preview.png" alt="Logo" class="logoman">
       <div class="logo-text">
         <span class="logo-main"></span>
         <span class="logo-sub"></span>
       </div>
     </div>
     <nav class="nav-links">
-      <a href="index.html" >Accueil</a>
+      <a href="index.html">Accueil</a>
       <a href="menu.html">Menu</a>
       <a href="apropos.html">À propos</a>
       <a href="reservation.html">Réservation</a>
@@ -51,523 +49,373 @@
   </nav>
 
 
-
-
-    <!-- ===== HERO ===== -->
-
+  <!-- ===== HERO ===== -->
   <section class="hero">
-
     <div class="hero-content">
-
-      <p class="hero-subtitle">
-        COMMANDE PREMIUM
-      </p>
-
-      <h1>
-        Commandez votre
-        <span>repas</span>
-      </h1>
-
+      <p class="hero-subtitle">COMMANDE PREMIUM</p>
+      <h1>Commandez votre <span>repas</span></h1>
       <p class="hero-text">
         Faites-vous livrer ou dégustez sur place
         avec paiement sécurisé avant validation.
       </p>
-
     </div>
-
   </section>
 
 
   <!-- ===== ORDER TYPE ===== -->
-
   <section class="order-type-section">
-
     <div class="section-title">
-
       <p>MODE DE COMMANDE</p>
-
-      <h2>
-        Choisissez votre option
-      </h2>
-
+      <h2>Choisissez votre option</h2>
     </div>
-
-
     <div class="order-options">
-
-      <div class="order-card active"
-      id="deliveryCard">
-
+      <div class="order-card active" id="deliveryCard">
         <i class="fas fa-motorcycle"></i>
-
         <h3>Livraison</h3>
-
-        <p>
-          Faites-vous livrer chez vous
-        </p>
-
+        <p>Faites-vous livrer chez vous</p>
       </div>
-
-
-      <div class="order-card"
-      id="placeCard">
-
+      <div class="order-card" id="placeCard">
         <i class="fas fa-utensils"></i>
-
         <h3>Sur place</h3>
-
-        <p>
-          Mangez directement au restaurant
-        </p>
-
+        <p>Mangez directement au restaurant</p>
       </div>
-
     </div>
-
   </section>
 
 
   <!-- ===== LOCATION ===== -->
-
-  <section class="location-section"
-  id="locationSection">
-
+  <section class="location-section" id="locationSection">
     <div class="location-box">
-
-      <h3>
-        Adresse de livraison
-      </h3>
-
+      <h3>Adresse de livraison</h3>
       <div class="form-group">
-        <input type="text"
-        placeholder="Quartier / Adresse">
+        <input type="text" placeholder="Quartier / Adresse">
       </div>
-
-
       <div class="delivery-info">
-
         <div class="info-card">
-
-          <span>Temps estimé:</span>
-
-          <strong>
-            35 min
-          </strong>
-
+          <span>Temps estimé :</span>
+          <strong>35 min</strong>
         </div>
-
-
         <div class="info-card">
-
-          <span>Frais livraison:</span>
-
-          <strong id="deliveryFee">
-            1000 FCFA
-          </strong>
-
+          <span>Frais de livraison :</span>
+          <strong>1 000 FCFA</strong>
         </div>
-
       </div>
-
     </div>
-
   </section>
 
 
   <!-- ===== MENU ===== -->
-
   <section class="menu-section">
-
     <div class="section-title">
-
-      <p></p>
-
-      <h2>
-        Nos plats populaires
-      </h2>
-
+      <p>NOS PLATS</p>
+      <h2>Nos plats populaires</h2>
     </div>
-
-
     <div class="menu-grid">
 
-      <!-- CARD -->
-
       <div class="menu-card">
-
-        <img src="images/ndolesoins.jpg"
-        alt="Ndolé">
-
+        <img src="images/ndolesoins.jpg" alt="Ndolé">
         <div class="menu-content">
-
-          <h3>Ndole</h3>
-
-          <p>
-            Cuisine traditionnelle premium
-          </p>
-
+          <h3>Ndolé</h3>
+          <p>Cuisine traditionnelle premium</p>
           <div class="menu-bottom">
-
-            <strong>
-              5000 FCFA
-            </strong>
-
-            <button class="add-btn"
-            data-name="Ndole"
-            data-price="5000">
-
-              Ajouter
-
-            </button>
-
+            <strong>5 000 FCFA</strong>
+            <a href="#cart" class="add-btn">Ajouter</a>
           </div>
-
         </div>
-
       </div>
 
-
-      <!-- CARD -->
-
       <div class="menu-card">
-
-        <img src="images/Mbongo-Tchobi.jpg"
-        alt="Poulet DG">
-
+        <img src="images/Mbongo-Tchobi.jpg" alt="Mbongo-Tchobi">
         <div class="menu-content">
-
           <h3>Mbongo-Tchobi</h3>
-
-          <p>
-            Saveur camerounaise unique
-          </p>
-
+          <p>Saveur camerounaise unique</p>
           <div class="menu-bottom">
-
-            <strong>
-              7000 FCFA
-            </strong>
-
-            <button class="add-btn"
-            data-name="Mbongo-Tchobi"
-            data-price="7000">
-
-              Ajouter
-
-            </button>
-
+            <strong>7 000 FCFA</strong>
+            <a href="#cart" class="add-btn">Ajouter</a>
           </div>
-
         </div>
-
       </div>
 
-
-      <!-- CARD -->
-
       <div class="menu-card">
-
-        <img src="images/Taro-Sauce-Rouge-1024x683.webp"
-        alt="Eru">
-
+        <img src="images/Taro-Sauce-Rouge-1024x683.webp" alt="Taro">
         <div class="menu-content">
-
           <h3>Taro</h3>
-
-          <p>
-            Recette africaine authentique
-          </p>
-
+          <p>Recette africaine authentique</p>
           <div class="menu-bottom">
-
-            <strong>
-              4000 FCFA
-            </strong>
-
-            <button class="add-btn"
-            data-name="Taro"
-            data-price="4000">
-
-              Ajouter
-
-            </button>
-
+            <strong>4 000 FCFA</strong>
+            <a href="#cart" class="add-btn">Ajouter</a>
           </div>
-
         </div>
-
       </div>
 
     </div>
-    <a href="menu.html" class="btn btn-primarys">
-      <i class=""></i> Allez au Menu pour ajouter dautres plats → 
-    </a>
-
+    <div class="menu-more">
+      <a href="menu.html" class="btn btn-outline">
+        Voir tout le menu <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
   </section>
 
 
   <!-- ===== SUGGESTIONS ===== -->
-
   <section class="suggestion-section">
-
     <div class="section-title">
-
       <p>SUGGESTIONS</p>
-
-      <h2>
-        Les clients ajoutent souvent
-      </h2>
-
+      <h2>Les clients ajoutent souvent</h2>
     </div>
-
-
     <div class="suggestion-grid">
 
       <div class="suggestion-card">
-
-        <h3>Jus naturel</h3>
-
-        <strong>1500 FCFA</strong>
-
+        <div class="suggestion-icon"><i class="fas fa-glass-water"></i></div>
+        <div class="suggestion-info">
+          <h3>Jus naturel</h3>
+          <p>Gingembre, bissap, ananas — fait maison</p>
+        </div>
+        <div class="suggestion-action">
+          <strong>1 500 FCFA</strong>
+          <a href="#cart" class="add-btn-sm">+ Ajouter</a>
+        </div>
       </div>
 
+      <div class="suggestion-card">
+        <div class="suggestion-icon"><i class="fas fa-cake-candles"></i></div>
+        <div class="suggestion-info">
+          <h3>Dessert maison</h3>
+          <p>Beignets, gâteau de manioc, plantain sucré</p>
+        </div>
+        <div class="suggestion-action">
+          <strong>2 000 FCFA</strong>
+          <a href="#cart" class="add-btn-sm">+ Ajouter</a>
+        </div>
+      </div>
 
       <div class="suggestion-card">
+        <div class="suggestion-icon"><i class="fas fa-pepper-hot"></i></div>
+        <div class="suggestion-info">
+          <h3>Sauce pimentée</h3>
+          <p>Sauce maison extra piquante</p>
+        </div>
+        <div class="suggestion-action">
+          <strong>500 FCFA</strong>
+          <a href="#cart" class="add-btn-sm">+ Ajouter</a>
+        </div>
+      </div>
 
-        <h3>Dessert maison</h3>
-
-        <strong>2000 FCFA</strong>
-
+      <div class="suggestion-card">
+        <div class="suggestion-icon"><i class="fas fa-mug-hot"></i></div>
+        <div class="suggestion-info">
+          <h3>Café / Thé</h3>
+          <p>Café camerounais ou thé aux herbes</p>
+        </div>
+        <div class="suggestion-action">
+          <strong>800 FCFA</strong>
+          <a href="#cart" class="add-btn-sm">+ Ajouter</a>
+        </div>
       </div>
 
     </div>
-
   </section>
 
 
-  <!-- ===== CART ===== -->
-
-  <section class="cart-section">
-
+  <!-- ===== PANIER + RÉSUMÉ ===== -->
+  <section class="cart-section" id="cart">
     <div class="section-title">
-
       <p>PANIER</p>
-
-      <h2>
-        Votre commande
-      </h2>
-
+      <h2>Votre commande</h2>
     </div>
-
 
     <div class="cart-container">
 
-      <div class="cart-items" id="cartItems">
-        <!-- rempli par commande.js -->
-      </div>
+      <!-- ARTICLES DU PANIER -->
+      <div class="cart-items">
 
-      <!-- Bouton vider panier -->
-      <div style="text-align:right;margin-top:12px;">
-        <button id="viderPanier"
-          style="background:none;border:none;color:#aaa;font-size:0.82rem;
-          cursor:pointer;font-family:'Nunito',sans-serif;text-decoration:underline;">
-          🗑️ Vider le panier
-        </button>
-      </div>
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <img src="images/ndolesoins.jpg" alt="Ndolé" class="cart-thumb">
+            <div>
+              <h4>Ndolé</h4>
+              <p class="cart-item-sub">Cuisine traditionnelle premium</p>
+            </div>
+          </div>
+          <div class="cart-item-qty">
+            <button class="qty-btn">−</button>
+            <span class="qty-val">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <strong class="cart-item-price">5 000 FCFA</strong>
+          <button class="cart-remove"><i class="fas fa-trash-alt"></i></button>
+        </div>
+
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <img src="images/Mbongo-Tchobi.jpg" alt="Mbongo-Tchobi" class="cart-thumb">
+            <div>
+              <h4>Mbongo-Tchobi</h4>
+              <p class="cart-item-sub">Saveur camerounaise unique</p>
+            </div>
+          </div>
+          <div class="cart-item-qty">
+            <button class="qty-btn">−</button>
+            <span class="qty-val">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <strong class="cart-item-price">7 000 FCFA</strong>
+          <button class="cart-remove"><i class="fas fa-trash-alt"></i></button>
+        </div>
+
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-thumb-icon"><i class="fas fa-glass-water"></i></div>
+            <div>
+              <h4>Jus naturel</h4>
+              <p class="cart-item-sub">Suggestion</p>
+            </div>
+          </div>
+          <div class="cart-item-qty">
+            <button class="qty-btn">−</button>
+            <span class="qty-val">2</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <strong class="cart-item-price">3 000 FCFA</strong>
+          <button class="cart-remove"><i class="fas fa-trash-alt"></i></button>
+        </div>
+
+        <p class="cart-empty-note">
+          <i class="fas fa-info-circle"></i>
+          Pour ajouter d'autres plats, rendez-vous sur la page
+          <a href="menu.html">Menu complet</a>.
+        </p>
+
+      </div><!-- /cart-items -->
 
 
-      <!-- SUMMARY -->
-
+      <!-- RÉSUMÉ -->
       <div class="cart-summary">
 
-        <h3>
-          Résumé
-        </h3>
-
+        <h3>Résumé</h3>
 
         <div class="summary-line">
-
           <span>Sous-total</span>
-
-          <strong id="subtotal">
-            0 FCFA
-          </strong>
-
+          <strong>15 000 FCFA</strong>
         </div>
-
-
         <div class="summary-line">
-
           <span>Livraison</span>
-
-          <strong id="deliveryPrice">
-            1000 FCFA
-          </strong>
-
+          <strong>1 000 FCFA</strong>
         </div>
-
-
         <div class="summary-line">
-
           <span>Réduction</span>
-
-          <strong id="discount">
-            0 FCFA
-          </strong>
-
+          <strong class="summary-discount">− 0 FCFA</strong>
         </div>
-
-
         <div class="summary-line total">
-
           <span>Total</span>
-
-          <strong id="total">
-            0 FCFA
-          </strong>
-
+          <strong>16 000 FCFA</strong>
         </div>
-
 
         <!-- PROMO -->
-
         <div class="promo-box">
-
-          <input type="text"
-          id="promoInput"
-          placeholder="Code promo">
-
-          <button id="promoBtn">
-            Appliquer
-          </button>
-
+          <input type="text" placeholder="Code promo">
+          <button type="button">Appliquer</button>
         </div>
 
-
-        <!-- PLANNING -->
-
+        <!-- PLANIFICATION -->
         <div class="planning-box">
-
-          <h4>
-            Planifier la date de la commande
-          </h4>
-
+          <h4><i class="far fa-calendar-alt"></i> Date de la commande</h4>
           <input type="date">
-
-        
-
-        </div>
-
-
-        <!-- PAYMENT -->
-
-        <div class="payment-box">
-
-          <h4>
-            Paiement
-          </h4>
-
-
-          <div class="payment-grid">
-
-            <div class="payment-card active">
-              Orange Money
-            </div>
-
-
-            <div class="payment-card">
-              MTN MoMo
-            </div>
-
-
-            <div class="payment-card">
-              Carte bancaire
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- QR -->
-
-        <div class="qr-box">
-
           
-
         </div>
 
+        <!-- PAIEMENT -->
+        <div class="payment-box">
+          <h4><i class="fas fa-credit-card"></i> Mode de paiement</h4>
+          <div class="payment-grid">
+            <label class="payment-card active">
+              <input type="radio" name="payment" checked>
+              <i class="fas fa-mobile-alt"></i> Orange Money
+            </label>
+            <label class="payment-card">
+              <input type="radio" name="payment">
+              <i class="fas fa-mobile-alt"></i> MTN MoMo
+            </label>
+            <label class="payment-card">
+              <input type="radio" name="payment">
+              <i class="far fa-credit-card"></i> Carte bancaire
+            </label>
+          </div>
+        </div>
 
-        <button class="confirm-btn"
-        id="confirmOrder">
-
-          Confirmer la commande
-
+        <button class="confirm-btn" type="button">
+          <i class="fas fa-check-circle"></i> Confirmer la commande
         </button>
 
-      </div>
+      </div><!-- /cart-summary -->
 
-    </div>
-
+    </div><!-- /cart-container -->
   </section>
 
 
   <!-- ===== VIP ===== -->
-
   <section class="vip-section">
-
     <div class="vip-box">
-
       <i class="fas fa-crown"></i>
-
       <div>
+        <h3>Programme VIP</h3>
+        <p>Les clients fidèles bénéficient d'offres et réductions exclusives.</p>
+      </div>
+    </div>
+  </section>
 
-        <h3>
-          Programme VIP
-        </h3>
 
-        <p>
-          Les clients fidèles bénéficient
-          d'offres et réductions exclusives.
-        </p>
+  <!-- ===== HISTORIQUE ===== -->
+  <section class="history-section">
+    <div class="section-title">
+      <p>HISTORIQUE</p>
+      <h2>Vos commandes récentes</h2>
+    </div>
+    <div class="history-grid">
 
+      <div class="history-card">
+        <div class="history-badge history-badge--delivered">Livré</div>
+        <h3>Ndolé + Jus</h3>
+        <p>12 mai 2026 — Livraison</p>
+        <div class="history-footer">
+          <span>Total : <strong>6 500 FCFA</strong></span>
+          <a href="#cart" class="btn-reorder">Recommander</a>
+        </div>
+      </div>
+
+      <div class="history-card">
+        <div class="history-badge history-badge--delivered">Livré</div>
+        <h3>Mbongo-Tchobi × 2</h3>
+        <p>3 mai 2026 — Sur place</p>
+        <div class="history-footer">
+          <span>Total : <strong>14 000 FCFA</strong></span>
+          <a href="#cart" class="btn-reorder">Recommander</a>
+        </div>
+      </div>
+
+      <div class="history-card">
+        <div class="history-badge history-badge--pending">En cours</div>
+        <h3>Taro + Dessert</h3>
+        <p>Aujourd'hui — Livraison</p>
+        <div class="history-footer">
+          <span>Total : <strong>6 000 FCFA</strong></span>
+          <a href="#" class="btn-reorder btn-reorder--track">Suivre</a>
+        </div>
       </div>
 
     </div>
-
   </section>
 
 
-  <!-- ===== HISTORY ===== -->
-
-  <section class="history-section">
-
-    <div class="section-title">
-
-      <p>HISTORIQUE</p>
-
-      <h2>
-        Vos commandes
-      </h2>
-
-    </div>
-
-
-    <div class="history-grid"
-    id="historyGrid"></div>
-
-  </section>
-
-
-
-  
-    <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer id="footer-container" class="footer">
     <div class="footer-brand">
       <div class="nav-logo">
-        <span class="logo-icon"><img src="images/colored-logo-removebg-preview.png" alt="" class="logofooter"></span>
+        <span class="logo-icon">
+          <img src="images/colored-logo-removebg-preview.png" alt="" class="logofooter">
+        </span>
         <div class="logo-text">
-          <span class="logo-main">LA CAMEROUNAISE </span>
+          <span class="logo-main">LA CAMEROUNAISE</span>
           <span class="logo-sub">BY LANDRY</span>
         </div>
       </div>
@@ -578,7 +426,6 @@
         <a href="#"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h4>Liens rapides</h4>
       <ul>
@@ -590,17 +437,15 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h4>Heures d'ouverture</h4>
       <p><strong>Lundi - Vendredi</strong>10h00 - 22h00</p>
       <p><strong>Samedi - Dimanche</strong>10h00 - 23h00</p>
       <p><strong>Jours fériés</strong>12h00 - 22h00</p>
     </div>
-
     <div class="footer-col">
       <h4>Nous contacter</h4>
-      <p><i class="fas fa-map-marker-alt"></i> Baham,Ouest, Cameroun</p>
+      <p><i class="fas fa-map-marker-alt"></i> Baham, Ouest, Cameroun</p>
       <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
       <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.com</p>
     </div>
@@ -610,6 +455,13 @@
     <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
     <p>Fait avec amour au Cameroun 🇨🇲</p>
   </div>
+  <script src="api-config.js"></script>
+  <script src="catalogue.js"></script>
+  <script src="Panier_global.js"></script>
+  <script src="commande_synchro.js"></script>
+  <script src="commande.js"></script>
+
+  <!-- Burger script uniquement (navigation mobile) -->
   <script>
     const burger = document.getElementById('burger');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -622,19 +474,38 @@
           spans[1].style.opacity = '0';
           spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
         } else {
-          spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
+          spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
         }
       });
       mobileMenu.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => {
           mobileMenu.classList.remove('open');
-          burger.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+          burger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
         });
       });
     }
+
+    /* Sélection mode de commande */
+    const deliveryCard = document.getElementById('deliveryCard');
+    const placeCard = document.getElementById('placeCard');
+    if (deliveryCard && placeCard) {
+      [deliveryCard, placeCard].forEach(card => {
+        card.addEventListener('click', () => {
+          deliveryCard.classList.remove('active');
+          placeCard.classList.remove('active');
+          card.classList.add('active');
+        });
+      });
+    }
+
+    /* Sélection paiement */
+    document.querySelectorAll('.payment-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+      });
+    });
   </script>
-    <script src="api-config.js"></script>
-    <script src="commande.js"></script>
 
 </body>
 </html>

@@ -146,9 +146,9 @@ img { max-width: 100%; display: block; }
   gap: 28px;
 }
 .nav-links a {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--gray);
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #666;
   transition: color 0.2s;
   position: relative;
   padding-bottom: 4px;

@@ -126,11 +126,11 @@ button { cursor: pointer; font-family: var(--font-body); }
 .nav-links { display: flex; gap: 26px; }
 .nav-links a {
   font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--gray);
-  padding-bottom: 3px;
+  font-weight: 800;
+  color: #666;
+  transition: color 0.2s;
   position: relative;
-  transition: color var(--transition);
+  padding-bottom: 4px;
 }
 .nav-links a:hover  { color: var(--pink); }
 .nav-links a.active {

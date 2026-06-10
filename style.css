@@ -286,7 +286,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 10px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-  max-width: 230px;
+  max-width: 250px;
   
 }
 .badge-icon { font-size: 2rem; }
@@ -379,6 +379,7 @@ img { max-width: 100%; display: block; }
 .dish-info p { font-size: 0.78rem; color: var(--gray); margin-bottom: 12px; line-height: 1.45; }
 .price { color: var(--pink); font-weight: 800; font-size: 0.9rem; }
 .center-btn { text-align: center; margin-top: 4px; }
+
 
 /* ===========================
    BANNIÈRE COMMANDE
