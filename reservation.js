@@ -28,28 +28,216 @@ if (burgerBtn && mobileMenu) {
   });
 }
 
-/* ── Sélection de table ── */
-document.querySelectorAll('.reserve-btn').forEach(btn => {
+/* ─────────────────────────────────────────────
+   RÉFÉRENCES & ÉTAT
+───────────────────────────────────────────── */
+const form          = document.getElementById('reservationForm');
+const dateInput     = document.getElementById('reservationDate');
+const heureInput    = document.getElementById('reservationTime');
+const tableInput    = document.getElementById('selectedTable');
+const confirmBtn    = document.getElementById('confirmBtn');
+const btnText       = document.getElementById('confirm-btn-text');
+const btnLoader     = document.getElementById('confirm-btn-loader');
+const tableCards    = Array.from(document.querySelectorAll('.table-card'));
+const TOTAL_TABLES  = tableCards.length;
+
+const RESA_KEY = 'lcbl_reservations';
+
+/* ─────────────────────────────────────────────
+   UTILITAIRES
+───────────────────────────────────────────── */
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function getReservationsLocal() {
+  try {
+    return JSON.parse(localStorage.getItem(RESA_KEY) || '[]');
+  } catch (e) { return []; }
+}
+
+/* Heure de fermeture selon le jour de la semaine choisi */
+function heureFermeture(dateStr) {
+  if (!dateStr) return '22:00';
+  const day = new Date(dateStr + 'T00:00:00').getDay(); // 0 = dimanche, 6 = samedi
+  return (day === 0 || day === 6) ? '23:00' : '22:00';
+}
+
+/* ─────────────────────────────────────────────
+   VALIDATION DU FORMULAIRE (style contact.js)
+───────────────────────────────────────────── */
+function setError(inputId, errId, msg) {
+  const el  = document.getElementById(inputId);
+  const err = document.getElementById(errId);
+  const group = el.closest('.form-group');
+  err.textContent = msg;
+  group.classList.toggle('has-error', !!msg);
+  return !msg;
+}
+
+function validerNom() {
+  const val = document.getElementById('clientName').value.trim();
+  return setError('clientName', 'err-nom', val ? '' : 'Veuillez indiquer votre nom complet.');
+}
+
+function validerTelephone() {
+  const raw = document.getElementById('clientPhone').value.trim();
+  const clean = raw.replace(/[\s.-]/g, '');
+  const ok = /^(?:\+?237)?6\d{8}$/.test(clean);
+  return setError('clientPhone', 'err-tel', ok ? '' : 'Numéro invalide (ex : 6XX XXX XXX).');
+}
+
+function validerDate() {
+  const val = dateInput.value;
+  if (!val) return setError('reservationDate', 'err-date', 'Veuillez choisir une date.');
+  if (val < todayStr()) return setError('reservationDate', 'err-date', 'La date ne peut pas être dans le passé.');
+  return setError('reservationDate', 'err-date', '');
+}
+
+function validerHeure() {
+  const val = heureInput.value;
+  if (!val) return setError('reservationTime', 'err-heure', 'Veuillez choisir une heure.');
+  const fermeture = heureFermeture(dateInput.value);
+  if (val < '10:00' || val > fermeture) {
+    return setError('reservationTime', 'err-heure', `Le restaurant est ouvert de 10h00 à ${fermeture.replace(':', 'h')}.`);
+  }
+  return setError('reservationTime', 'err-heure', '');
+}
+
+function validerTable() {
+  const val = tableInput.value;
+  return setError('selectedTable', 'err-table', val ? '' : 'Veuillez choisir une table disponible ci-dessus.');
+}
+
+/* Validation en direct */
+document.getElementById('clientName').addEventListener('blur', validerNom);
+document.getElementById('clientPhone').addEventListener('blur', validerTelephone);
+
+/* ─────────────────────────────────────────────
+   BANNIÈRE DE STATUT (#form-status)
+───────────────────────────────────────────── */
+function showStatus(msg, type) {
+  const el = document.getElementById('form-status');
+  el.textContent = msg;
+  el.className = type; // 'success' | 'error'
+  el.style.display = 'block';
+  if (type === 'success') {
+    setTimeout(() => { el.style.display = 'none'; }, 7000);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   DISPONIBILITÉ DES TABLES
+   Une table est "occupée" si une réservation existe
+   pour la même table + même date + même heure.
+───────────────────────────────────────────── */
+function getOccupations(dateStr) {
+  if (!dateStr) return [];
+  return getReservationsLocal().filter(r => r.date_res === dateStr);
+}
+
+function updateTablesAvailability() {
+  const dateStr = dateInput.value;
+  const heure   = heureInput.value;
+  const occupations = getOccupations(dateStr);
+
+  tableCards.forEach(card => {
+    const name  = card.dataset.table;
+    const badge = card.querySelector('.table-badge');
+    const btn   = card.querySelector('.reserve-btn');
+
+    const indispo = !!(dateStr && heure) &&
+      occupations.some(r => r.table_name === name && r.heure === heure);
+
+    card.classList.toggle('is-unavailable', indispo);
+    if (badge) badge.textContent = indispo ? 'Réservée' : 'Disponible';
+    if (btn) btn.disabled = indispo;
+
+    /* Si la table sélectionnée devient indisponible, on désélectionne */
+    if (indispo && card.classList.contains('is-selected')) {
+      card.classList.remove('is-selected');
+      tableInput.value = '';
+    }
+  });
+
+  updateStatusCounts(dateStr, heure, occupations);
+}
+
+function updateStatusCounts(dateStr, heure, occupations) {
+  const avEl = document.getElementById('availableCount');
+  const waEl = document.getElementById('waitingCount');
+  const ocEl = document.getElementById('occupiedCount');
+  if (!avEl || !waEl || !ocEl) return;
+
+  const list = dateStr ? occupations : getOccupations(todayStr());
+
+  let occupiedTables, waitingTables;
+  if (heure) {
+    occupiedTables = new Set(list.filter(r => r.heure === heure).map(r => r.table_name));
+    waitingTables  = new Set(list.filter(r => r.heure !== heure).map(r => r.table_name));
+  } else {
+    occupiedTables = new Set(list.map(r => r.table_name));
+    waitingTables  = new Set();
+  }
+
+  const occupied  = Math.min(occupiedTables.size, TOTAL_TABLES);
+  const waiting   = Math.min(waitingTables.size, TOTAL_TABLES - occupied);
+  const available = Math.max(0, TOTAL_TABLES - occupied);
+
+  avEl.textContent = available;
+  waEl.textContent = waiting;
+  ocEl.textContent = occupied;
+}
+
+dateInput.addEventListener('change', () => { updateTablesAvailability(); validerDate(); validerHeure(); });
+heureInput.addEventListener('change', () => { updateTablesAvailability(); validerHeure(); });
+
+/* Date minimum = aujourd'hui */
+dateInput.min = todayStr();
+
+/* ─────────────────────────────────────────────
+   SÉLECTION DE TABLE
+───────────────────────────────────────────── */
+tableCards.forEach(card => {
+  const btn = card.querySelector('.reserve-btn');
   btn.addEventListener('click', () => {
-    const tableName = btn.closest('.table-card').dataset.table;
-    document.getElementById('selectedTable').value = tableName;
-    document.querySelectorAll('.table-card').forEach(c => c.style.outline = '');
-    btn.closest('.table-card').style.outline = '3px solid green';
+    if (card.classList.contains('is-unavailable')) return;
+
+    if (!dateInput.value || !heureInput.value) {
+      showStatus('⚠️ Veuillez d\'abord choisir une date et une heure pour réserver une table.', 'error');
+      dateInput.focus();
+      return;
+    }
+
+    tableInput.value = card.dataset.table;
+    tableCards.forEach(c => c.classList.remove('is-selected'));
+    card.classList.add('is-selected');
+    validerTable();
   });
 });
 
-/* ── Paiement actif ── */
+/* ─────────────────────────────────────────────
+   PAIEMENT — sélection au clic et au clavier
+───────────────────────────────────────────── */
 document.querySelectorAll('.payment-card').forEach(card => {
-  card.addEventListener('click', () => {
+  function selectPayment() {
     document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
     card.classList.add('active');
+  }
+  card.addEventListener('click', selectPayment);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectPayment();
+    }
   });
 });
 
-/* ───────────────────────────────────────────────
+/* ─────────────────────────────────────────────
    RÉSUMÉ DU PANIER dans la page réservation
    Affiche les plats ajoutés depuis menu.html
-─────────────────────────────────────────────── */
+───────────────────────────────────────────── */
 function afficherPanierReservation() {
   const totalEl   = document.getElementById('totalPrice');
   const acompteEl = document.getElementById('advancePrice');
@@ -82,7 +270,7 @@ function afficherPanierReservation() {
   if (articles.length === 0) {
     listeEl.innerHTML = `
       <p style="text-align:center;color:#888;padding:10px 0;font-size:0.9rem;">
-        🛒 Aucun plat dans votre panier. 
+        🛒 Aucun plat dans votre panier.
         <a href="menu.html" style="color:green;font-weight:700;text-decoration:underline;">
           Ajouter des plats →
         </a>
@@ -137,9 +325,33 @@ if (window.Panier) {
   window.Panier.onUpdate(afficherPanierReservation);
 }
 
-/* ── Soumission du formulaire ── */
-document.getElementById('reservationForm').addEventListener('submit', async (e) => {
+/* ─────────────────────────────────────────────
+   SOUMISSION DU FORMULAIRE
+───────────────────────────────────────────── */
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  const v1 = validerNom();
+  const v2 = validerTelephone();
+  const v3 = validerDate();
+  const v4 = validerHeure();
+  const v5 = validerTable();
+
+  if (!v1 || !v2 || !v3 || !v4 || !v5) {
+    showStatus('⚠️ Veuillez corriger les champs en rouge avant de continuer.', 'error');
+    const firstError = form.querySelector('.has-error input');
+    if (firstError) firstError.focus();
+    return;
+  }
+
+  /* Vérification finale anti double-réservation */
+  const occupations = getOccupations(dateInput.value);
+  const conflit = occupations.some(r => r.table_name === tableInput.value && r.heure === heureInput.value);
+  if (conflit) {
+    showStatus('❌ Cette table vient d\'être réservée pour ce créneau. Merci d\'en choisir une autre.', 'error');
+    updateTablesAvailability();
+    return;
+  }
 
   const articles = window.Panier ? window.Panier.items() : [];
   const platsStr = articles.map(({ plat, qty }) => `${plat.nom} ×${qty}`).join(', ');
@@ -149,22 +361,43 @@ document.getElementById('reservationForm').addEventListener('submit', async (e) 
 
   const data = {
     nom:        document.getElementById('clientName').value.trim(),
-    telephone:  document.querySelector('input[type="tel"]').value.trim(),
-    date_res:   document.querySelector('input[type="date"]').value,
-    heure:      document.querySelector('input[type="time"]').value,
-    table_name: document.getElementById('selectedTable').value,
+    telephone:  document.getElementById('clientPhone').value.trim(),
+    date_res:   dateInput.value,
+    heure:      heureInput.value,
+    table_name: tableInput.value,
     plats:      platsStr || 'Aucun plat sélectionné',
     total:      montant,
-    paiement:   paiementActif ? paiementActif.textContent : 'Orange Money'
+    paiement:   paiementActif ? paiementActif.textContent.trim() : 'Orange Money'
   };
 
-  if (!data.nom || !data.telephone || !data.date_res || !data.heure) {
-    alert('⚠️ Veuillez remplir tous les champs obligatoires (nom, téléphone, date, heure).');
-    return;
+  /* État de chargement du bouton */
+  confirmBtn.disabled = true;
+  btnText.style.display   = 'none';
+  btnLoader.style.display = 'inline';
+
+  /* Enregistrement local (historique + disponibilité des tables) */
+  function enregistrerLocal() {
+    const reservations = getReservationsLocal();
+    reservations.unshift({
+      id: Date.now(),
+      ...data,
+      date_creation: new Date().toISOString()
+    });
+    localStorage.setItem(RESA_KEY, JSON.stringify(reservations.slice(0, 50)));
   }
-  if (!data.table_name) {
-    alert('⚠️ Veuillez sélectionner une table.');
-    return;
+
+  function reinitialiserApresSucces(message) {
+    enregistrerLocal();
+    showStatus(message, 'success');
+    form.reset();
+    document.getElementById('clientName').value = '';
+    tableCards.forEach(c => c.classList.remove('is-selected', 'has-error'));
+    form.querySelectorAll('.form-group').forEach(g => g.classList.remove('has-error'));
+    form.querySelectorAll('.field-error').forEach(s => s.textContent = '');
+    if (window.Panier) window.Panier.vider();
+    afficherPanierReservation();
+    afficherHistorique();
+    updateTablesAvailability();
   }
 
   try {
@@ -175,48 +408,31 @@ document.getElementById('reservationForm').addEventListener('submit', async (e) 
     });
 
     const result = await res.json();
-    alert(result.message);
 
     if (result.ok) {
-      e.target.reset();
-      if (window.Panier) window.Panier.vider();
-      afficherPanierReservation();
+      reinitialiserApresSucces('🎉 Réservation envoyée ! Notre équipe vous contactera pour confirmer le paiement de l\'acompte.');
+    } else {
+      showStatus('❌ ' + (result.message || 'Une erreur est survenue. Merci de réessayer.'), 'error');
     }
 
   } catch (err) {
-    /* Fallback sans serveur — confirmation locale */
-    const confirmLocal = confirm(
-      `✅ Réservation prête !\n\n` +
-      `Nom : ${data.nom}\nTéléphone : ${data.telephone}\n` +
-      `Date : ${data.date_res} à ${data.heure}\nTable : ${data.table_name}\n` +
-      `Plats : ${data.plats}\nTotal : ${montant.toLocaleString('fr-FR')} FCFA\n\n` +
-      `Confirmer la réservation ?`
-    );
-    if (confirmLocal) {
-      /* Sauvegarder en localStorage pour la section "historique" */
-      const reservations = JSON.parse(localStorage.getItem('lcbl_reservations') || '[]');
-      reservations.unshift({
-        id: Date.now(),
-        ...data,
-        date_creation: new Date().toISOString()
-      });
-      localStorage.setItem('lcbl_reservations', JSON.stringify(reservations.slice(0, 20)));
-
-      alert('🎉 Réservation confirmée ! Nous vous contacterons pour le paiement.');
-      e.target.reset();
-      if (window.Panier) window.Panier.vider();
-      afficherPanierReservation();
-      afficherHistorique();
-    }
+    /* Pas de serveur disponible — confirmation locale */
+    reinitialiserApresSucces('🎉 Réservation enregistrée ! (Mode hors-ligne) Notre équipe vous contactera pour confirmer le paiement de l\'acompte.');
+  } finally {
+    confirmBtn.disabled = false;
+    btnText.style.display   = 'inline';
+    btnLoader.style.display = 'none';
   }
 });
 
-/* ── Historique des réservations ── */
+/* ─────────────────────────────────────────────
+   HISTORIQUE DES RÉSERVATIONS
+───────────────────────────────────────────── */
 function afficherHistorique() {
   const grid = document.getElementById('historyGrid');
   if (!grid) return;
 
-  const reservations = JSON.parse(localStorage.getItem('lcbl_reservations') || '[]');
+  const reservations = getReservationsLocal();
 
   if (reservations.length === 0) {
     grid.innerHTML = `
@@ -235,6 +451,7 @@ function afficherHistorique() {
         <p>📅 ${r.date_res} à ${r.heure}</p>
         <p>🍽️ <span>${r.table_name}</span></p>
         <p>🥘 ${r.plats || '—'}</p>
+        <p>💳 ${r.paiement || '—'}</p>
         <p>💰 Total : <span>${(r.total || 0).toLocaleString('fr-FR')} FCFA</span></p>
         <small style="color:#aaa;font-size:0.75rem;">Confirmée le ${date}</small>
       </div>
@@ -248,17 +465,7 @@ if (document.readyState === 'loading') {
   afficherHistorique();
 }
 
-/* ── Compteurs de tables (statiques pour l'instant) ── */
-document.addEventListener('DOMContentLoaded', () => {
-  const avEl = document.getElementById('availableCount');
-  const waEl = document.getElementById('waitingCount');
-  const ocEl = document.getElementById('occupiedCount');
-
-  const reservations = JSON.parse(localStorage.getItem('lcbl_reservations') || '[]');
-  const today = new Date().toISOString().slice(0, 10);
-  const reservesAujourdHui = reservations.filter(r => r.date_res === today).length;
-
-  if (avEl) avEl.textContent = Math.max(0, 3 - reservesAujourdHui);
-  if (waEl) waEl.textContent = Math.min(reservesAujourdHui, 1);
-  if (ocEl) ocEl.textContent = Math.max(0, reservesAujourdHui - 1);
-});
+/* ─────────────────────────────────────────────
+   INITIALISATION
+───────────────────────────────────────────── */
+updateTablesAvailability();

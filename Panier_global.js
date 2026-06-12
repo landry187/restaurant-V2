@@ -127,16 +127,18 @@
   function creerBadgeFlottant() {
     if (document.getElementById('panier-fab')) return;
     if (window.location.pathname.includes('commande')) return;
+    if (window.location.pathname.includes('menu')) return;
 
     const fab = document.createElement('a');
     fab.id = 'panier-fab';
     fab.href = 'commande.html';
+    fab.href = 'menu.html';
     fab.title = 'Voir mon panier';
     fab.innerHTML = `
       <span style="font-size:1.4rem;line-height:1;">🛒</span>
       <span id="panier-fab-count" style="
         position:absolute;top:-6px;right:-6px;
-        background:#e8336d;color:white;
+        background:#A87A0A;color:white;
         border-radius:50%;width:20px;height:20px;
         font-size:0.72rem;font-weight:900;
         display:flex;align-items:center;justify-content:center;

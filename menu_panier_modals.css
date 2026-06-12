@@ -1,0 +1,665 @@
+/* =====================================================
+   menu-modals.css — La Camerounaise by Landry
+   Styles pour les modales inline (Commande & Réservation)
+   déclenchées depuis le panier de menu.html
+
+   Inclure dans menu.html APRÈS menu.css
+===================================================== */
+
+/* ─────────────────────────────────────────
+   BOUTONS DU CART FOOTER
+───────────────────────────────────────── */
+.lcbl-cart-action-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.93rem;
+  font-family: 'Nunito', sans-serif;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.22s ease;
+  text-align: center;
+}
+
+.lcbl-cart-action-primary {
+  background: green;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 128, 0, 0.30);
+}
+.lcbl-cart-action-primary:hover {
+  background: #0d6b0d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(0, 128, 0, 0.40);
+}
+
+.lcbl-cart-action-secondary {
+  background: white;
+  color: green;
+  border: 2px solid green;
+}
+.lcbl-cart-action-secondary:hover {
+  background: green;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ─────────────────────────────────────────
+   OVERLAY DE LA MODALE
+───────────────────────────────────────── */
+.lcbl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.65);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  backdrop-filter: blur(4px);
+}
+
+.lcbl-modal-overlay.lcbl-modal-visible {
+  opacity: 1;
+}
+
+.lcbl-modal-overlay.lcbl-modal-visible .lcbl-modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────
+   BOÎTE DE LA MODALE
+───────────────────────────────────────── */
+.lcbl-modal {
+  background: #fff;
+  border-radius: 22px;
+  width: 100%;
+  max-width: 660px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+  transform: translateY(30px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s ease;
+  scrollbar-width: thin;
+  scrollbar-color: #d4a017 #f5f5f5;
+}
+
+.lcbl-modal::-webkit-scrollbar { width: 6px; }
+.lcbl-modal::-webkit-scrollbar-track { background: #f5f5f5; border-radius: 6px; }
+.lcbl-modal::-webkit-scrollbar-thumb { background: #d4a017; border-radius: 6px; }
+
+/* ─────────────────────────────────────────
+   EN-TÊTE DE LA MODALE
+───────────────────────────────────────── */
+.lcbl-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 18px;
+  border-bottom: 1.5px solid #f0ebe0;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  border-radius: 22px 22px 0 0;
+}
+
+.lcbl-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lcbl-modal-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.lcbl-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.lcbl-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #e0d5c0;
+  background: #fafafa;
+  color: #666;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.lcbl-modal-close:hover {
+  background: #e8336d;
+  color: white;
+  border-color: #e8336d;
+}
+
+/* ─────────────────────────────────────────
+   CORPS DE LA MODALE
+───────────────────────────────────────── */
+.lcbl-modal-body {
+  padding: 24px;
+}
+
+/* ─────────────────────────────────────────
+   RÉCAPITULATIF PANIER
+───────────────────────────────────────── */
+.lcbl-modal-recap {
+  background: linear-gradient(135deg, #f8f4e8, #fff8ec);
+  border: 1.5px solid #e0d5c0;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.lcbl-modal-recap-title {
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: #8b6914;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lcbl-modal-recap-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.lcbl-modal-recap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lcbl-modal-recap-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid #e0d5c0;
+}
+
+.lcbl-modal-recap-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lcbl-modal-recap-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lcbl-modal-recap-qty {
+  display: block;
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.lcbl-modal-recap-price {
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: green;
+  white-space: nowrap;
+}
+
+.lcbl-modal-recap-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1.5px dashed #e0d5c0;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.lcbl-modal-recap-total strong {
+  color: green;
+  font-size: 1.05rem;
+}
+
+/* ─────────────────────────────────────────
+   SECTIONS LABELS
+───────────────────────────────────────── */
+.lcbl-modal-section-label {
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8b6914;
+  margin: 20px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lcbl-modal-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e0d5c0;
+}
+
+/* ─────────────────────────────────────────
+   FORMULAIRE
+───────────────────────────────────────── */
+.lcbl-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.lcbl-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.lcbl-form-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lcbl-form-group label i {
+  color: green;
+  width: 14px;
+}
+
+.lcbl-form-group input,
+.lcbl-form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.8px solid #e0d5c0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-family: 'Nunito', sans-serif;
+  color: #1a1a1a;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lcbl-form-group input:focus,
+.lcbl-form-group textarea:focus {
+  border-color: green;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 128, 0, 0.10);
+}
+
+.lcbl-form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.lcbl-field-err {
+  font-size: 0.76rem;
+  color: #e8336d;
+  font-weight: 700;
+  min-height: 14px;
+}
+
+/* ─────────────────────────────────────────
+   OPTIONS LIVRAISON
+───────────────────────────────────────── */
+.lcbl-delivery-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.lcbl-delivery-option {
+  cursor: pointer;
+}
+
+.lcbl-delivery-option input[type="radio"] {
+  display: none;
+}
+
+.lcbl-delivery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  border: 2px solid #e0d5c0;
+  border-radius: 16px;
+  background: #fafaf8;
+  text-align: center;
+  transition: all 0.22s;
+  cursor: pointer;
+}
+
+.lcbl-delivery-card:hover {
+  border-color: green;
+  background: #f0faf0;
+}
+
+.lcbl-delivery-option input:checked + .lcbl-delivery-card {
+  border-color: green;
+  background: #e8f5e9;
+  box-shadow: 0 0 0 3px rgba(0, 128, 0, 0.12);
+}
+
+.lcbl-delivery-icon {
+  font-size: 1.5rem;
+}
+
+.lcbl-delivery-card strong {
+  font-size: 0.87rem;
+  color: #1a1a1a;
+}
+
+.lcbl-delivery-card small {
+  font-size: 0.76rem;
+  color: #888;
+}
+
+/* ─────────────────────────────────────────
+   GRILLE TABLES (réservation)
+───────────────────────────────────────── */
+.lcbl-tables-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.lcbl-table-option {
+  cursor: pointer;
+}
+
+.lcbl-table-option input[type="radio"] {
+  display: none;
+}
+
+.lcbl-table-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 10px;
+  border: 2px solid #e0d5c0;
+  border-radius: 16px;
+  background: #fafaf8;
+  text-align: center;
+  transition: all 0.22s;
+  cursor: pointer;
+}
+
+.lcbl-table-card:hover {
+  border-color: green;
+  background: #f0faf0;
+}
+
+.lcbl-table-option input:checked + .lcbl-table-card,
+.lcbl-table-card.selected {
+  border-color: green;
+  background: #e8f5e9;
+  box-shadow: 0 0 0 3px rgba(0, 128, 0, 0.12);
+}
+
+.lcbl-table-icon {
+  font-size: 1.6rem;
+}
+
+.lcbl-table-card strong {
+  font-size: 0.83rem;
+  color: #1a1a1a;
+}
+
+.lcbl-table-card small {
+  font-size: 0.74rem;
+  color: #888;
+}
+
+/* ─────────────────────────────────────────
+   GRILLE PAIEMENT
+───────────────────────────────────────── */
+.lcbl-payment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.lcbl-pay-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 10px;
+  border: 2px solid #e0d5c0;
+  border-radius: 16px;
+  background: #fafaf8;
+  cursor: pointer;
+  transition: all 0.22s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.lcbl-pay-card:hover {
+  border-color: green;
+  background: #f0faf0;
+}
+
+.lcbl-pay-card.active {
+  border-color: green;
+  background: #e8f5e9;
+  box-shadow: 0 0 0 3px rgba(0, 128, 0, 0.12);
+}
+
+.lcbl-pay-icon {
+  font-size: 1.6rem;
+}
+
+.lcbl-pay-card strong {
+  font-size: 0.82rem;
+  color: #1a1a1a;
+  font-weight: 800;
+}
+
+.lcbl-pay-card small {
+  font-size: 0.72rem;
+  color: #888;
+}
+
+/* ─────────────────────────────────────────
+   BARRE TOTAL
+───────────────────────────────────────── */
+.lcbl-modal-total-bar {
+  background: linear-gradient(135deg, #f8f4e8, #fff8ec);
+  border: 1.5px solid #e0d5c0;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lcbl-total-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.lcbl-total-line strong {
+  color: #1a1a1a;
+  font-weight: 800;
+}
+
+.lcbl-grand-total {
+  padding-top: 10px;
+  border-top: 1.5px dashed #e0d5c0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.lcbl-grand-total strong {
+  color: green;
+  font-size: 1.1rem;
+}
+
+/* ─────────────────────────────────────────
+   NOTICE INFO
+───────────────────────────────────────── */
+.lcbl-info-notice {
+  background: #fff3cd;
+  border: 1.5px solid #d4a017;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.83rem;
+  color: #7a5a00;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.lcbl-info-notice i {
+  color: #d4a017;
+  font-size: 1rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   BOUTON SOUMETTRE
+───────────────────────────────────────── */
+.lcbl-modal-submit-btn {
+  width: 100%;
+  padding: 15px 24px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.22s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  box-shadow: 0 4px 18px rgba(0, 128, 0, 0.28);
+}
+
+.lcbl-modal-submit-btn:hover {
+  background: #0d6b0d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 128, 0, 0.38);
+}
+
+.lcbl-modal-submit-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ─────────────────────────────────────────
+   STATUT (succès / erreur)
+───────────────────────────────────────── */
+.lcbl-status {
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.lcbl-status-success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1.5px solid #a5d6a7;
+}
+
+.lcbl-status-error {
+  background: #fff0f5;
+  color: #e8336d;
+  border: 1.5px solid #f5a8c0;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 600px) {
+  .lcbl-modal {
+    border-radius: 18px 18px 0 0;
+    max-height: 95vh;
+    align-self: flex-end;
+    margin-top: auto;
+  }
+
+  .lcbl-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .lcbl-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .lcbl-delivery-options,
+  .lcbl-payment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lcbl-tables-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .lcbl-modal-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .lcbl-tables-grid {
+    grid-template-columns: 1fr;
+  }
+}

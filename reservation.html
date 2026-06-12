@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -129,10 +129,14 @@
 
     </div>
 
+    <p class="tables-hint">
+      <i class="fas fa-circle-info"></i>
+      Choisissez d'abord une date et une heure dans le formulaire ci-dessous pour voir la disponibilité réelle des tables à ce créneau.
+    </p>
 
     <div class="tables-grid" id="tablesGrid">
 
-      <div class="table-card available-card" data-table="Table VIP 1">
+      <div class="table-card available-card" data-table="Table VIP 1" data-capacity="6">
 
         <div class="table-top">
           <h3>Table VIP 1</h3>
@@ -144,14 +148,14 @@
 
         <p>6 places</p>
 
-        <button class="reserve-btn">
+        <button type="button" class="reserve-btn">
           Réserver
         </button>
 
       </div>
 
 
-      <div class="table-card available-card" data-table="Table VIP 2">
+      <div class="table-card available-card" data-table="Table VIP 2" data-capacity="4">
 
         <div class="table-top">
           <h3>Table VIP 2</h3>
@@ -163,14 +167,14 @@
 
         <p>4 places</p>
 
-        <button class="reserve-btn">
+        <button type="button" class="reserve-btn">
           Réserver
         </button>
 
       </div>
 
 
-      <div class="table-card available-card" data-table="Table Famille">
+      <div class="table-card available-card" data-table="Table Famille" data-capacity="8">
 
         <div class="table-top">
           <h3>Table Famille</h3>
@@ -182,7 +186,7 @@
 
         <p>8 places</p>
 
-        <button class="reserve-btn">
+        <button type="button" class="reserve-btn">
           Réserver
         </button>
 
@@ -207,41 +211,66 @@
         Veuillez remplir vos informations
       </h2>
 
-      <form id="reservationForm">
+      <form id="reservationForm" novalidate>
 
 
         <div class="form-group">
+          <label for="clientName" class="visually-hidden">Nom complet</label>
           <input type="text"
-id="clientName"
-placeholder="Nom complet"
-required></div>
+            id="clientName"
+            name="clientName"
+            placeholder="Nom complet"
+            autocomplete="name"
+            required>
+          <span class="field-error" id="err-nom"></span>
+        </div>
 
         <div class="form-group">
-          <input type="tel" placeholder="Téléphone" required>
+          <label for="clientPhone" class="visually-hidden">Téléphone</label>
+          <input type="tel"
+            id="clientPhone"
+            name="clientPhone"
+            placeholder="Téléphone (ex : 6XX XXX XXX)"
+            autocomplete="tel"
+            required>
+          <span class="field-error" id="err-tel"></span>
         </div>
 
 
         <div class="form-group">
-          <input type="date" required>
+          <label for="reservationDate" class="visually-hidden">Date</label>
+          <input type="date" id="reservationDate" name="reservationDate" required>
+          <span class="field-error" id="err-date"></span>
         </div>
 
 
         <div class="form-group">
-          <input type="time" required>
+          <label for="reservationTime" class="visually-hidden">Heure</label>
+          <input type="time" id="reservationTime" name="reservationTime" required>
+          <span class="field-error" id="err-heure"></span>
         </div>
 
 
          <div class="form-group">
+          <label for="selectedTable" class="visually-hidden">Table choisie</label>
           <input type="text"
-id="selectedTable"
-placeholder="Table choisie"
-readonly
-required></div>
- </form>
+            id="selectedTable"
+            name="selectedTable"
+            placeholder="Table choisie (cliquez sur « Réserver » ci-dessus)"
+            readonly
+            required>
+          <span class="field-error" id="err-table"></span>
+        </div>
 
+        <div id="form-status" style="display:none;"></div>
+      </form>
 
         <!-- ===== MENU ===== -->
+          <form id="reservationForm" novalidate>
 
+
+        <div class="form-group">
+         
         <div class="menu-selection">
 
           <h3>
@@ -295,21 +324,21 @@ required></div>
 
           <div class="payment-grid">
 
-            <div class="payment-card active">
+            <div class="payment-card active" data-method="Orange Money" tabindex="0" role="button">
               <i class="fas fa-mobile-alt"></i>
 
               <p>Orange Money</p>
             </div>
 
 
-            <div class="payment-card">
+            <div class="payment-card" data-method="MTN MoMo" tabindex="0" role="button">
               <i class="fas fa-wallet"></i>
 
               <p>MTN MoMo</p>
             </div>
 
 
-            <div class="payment-card">
+            <div class="payment-card" data-method="Carte bancaire" tabindex="0" role="button">
               <i class="far fa-credit-card"></i>
 
               <p>Carte bancaire</p>
@@ -321,14 +350,14 @@ required></div>
         </div>
 
 
-        
-
-
-        <button type="submit" class="confirm-btn">
-          Confirmer la réservation
+        <button type="submit" class="confirm-btn" id="confirmBtn">
+          <span id="confirm-btn-text">Confirmer la réservation</span>
+          <span id="confirm-btn-loader" style="display:none;">
+            <i class="fas fa-spinner fa-spin"></i> Envoi en cours…
+          </span>
         </button>
-
-      
+        </div>
+      </form>
 
     </div>
 
@@ -448,29 +477,6 @@ required></div>
     <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
     <p>Fait avec amour au Cameroun 🇨🇲</p>
   </div>
-  <script>
-    const burger = document.getElementById('burger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (burger && mobileMenu) {
-      burger.addEventListener('click', () => {
-        const isOpen = mobileMenu.classList.toggle('open');
-        const spans = burger.querySelectorAll('span');
-        if (isOpen) {
-          spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-          spans[1].style.opacity = '0';
-          spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
-        } else {
-          spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
-        }
-      });
-      mobileMenu.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          mobileMenu.classList.remove('open');
-          burger.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
-        });
-      });
-    }
-  </script>
   <script src="api-config.js"></script>
 <script src="catalogue.js"></script>
 <script src="Panier_global.js"></script>
