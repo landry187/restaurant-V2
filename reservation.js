@@ -1,471 +1,399 @@
-/* =====================================================
-   reservation.js — LA CAMEROUNAISE BY LANDRY
-   Connecté au panier partagé via panier.js + catalogue.js
-===================================================== */
+/* ============================================================
+   reservation.js — La Camerounaise by Landry
+   Wizard 3 étapes : Infos & Table → Récap → Paiement
+   Synchronisé avec Panier_global.js + catalogue.js
+   ============================================================ */
 
 'use strict';
 
-/* ── Burger menu ── */
-const burgerBtn  = document.getElementById('burger');
+const RESA_KEY = 'lcbl_reservations';
+
+/* ─── État ─── */
+let currentStep  = 1;
+let selectedTable = '';
+let selectedPay  = 'Orange Money';
+
+/* ─── Burger menu ─── */
+const burger     = document.getElementById('burger');
 const mobileMenu = document.getElementById('mobileMenu');
-if (burgerBtn && mobileMenu) {
-  burgerBtn.addEventListener('click', () => {
+if (burger && mobileMenu) {
+  burger.addEventListener('click', () => {
     const open = mobileMenu.classList.toggle('open');
-    const spans = burgerBtn.querySelectorAll('span');
+    const spans = burger.querySelectorAll('span');
     if (open) {
       spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
       spans[1].style.opacity   = '0';
       spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
     } else {
-      spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
+      spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
     }
   });
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      burgerBtn.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
-    });
-  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+  }));
 }
 
-/* ─────────────────────────────────────────────
-   RÉFÉRENCES & ÉTAT
-───────────────────────────────────────────── */
-const form          = document.getElementById('reservationForm');
-const dateInput     = document.getElementById('reservationDate');
-const heureInput    = document.getElementById('reservationTime');
-const tableInput    = document.getElementById('selectedTable');
-const confirmBtn    = document.getElementById('confirmBtn');
-const btnText       = document.getElementById('confirm-btn-text');
-const btnLoader     = document.getElementById('confirm-btn-loader');
-const tableCards    = Array.from(document.querySelectorAll('.table-card'));
-const TOTAL_TABLES  = tableCards.length;
-
-const RESA_KEY = 'lcbl_reservations';
-
-/* ─────────────────────────────────────────────
-   UTILITAIRES
-───────────────────────────────────────────── */
-function todayStr() {
+/* ─── Date minimum = aujourd'hui ─── */
+(function() {
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const dateInp = document.getElementById('r-date');
+  if (!dateInp) return;
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const j = String(d.getDate()).padStart(2, '0');
+  dateInp.min = `${y}-${m}-${j}`;
+})();
+
+/* ═══════════════════════════════════════════
+   GARDE PANIER VIDE
+═══════════════════════════════════════════ */
+function checkPanier() {
+  const items  = window.Panier ? window.Panier.items() : [];
+  const guard  = document.getElementById('emptyGuard');
+  const wizard = document.getElementById('wizardWrap');
+  if (items.length === 0) {
+    guard.classList.add('visible');
+    wizard.classList.remove('visible');
+  } else {
+    guard.classList.remove('visible');
+    wizard.classList.add('visible');
+  }
 }
 
-function getReservationsLocal() {
-  try {
-    return JSON.parse(localStorage.getItem(RESA_KEY) || '[]');
-  } catch (e) { return []; }
+if (window.Panier) window.Panier.onUpdate(checkPanier);
+
+/* ═══════════════════════════════════════════
+   STEPPER
+═══════════════════════════════════════════ */
+function goTo(step) {
+  [1, 2, 3].forEach(n => {
+    const panel = document.getElementById(`panel-${n}`);
+    const ind   = document.getElementById(`step-ind-${n}`);
+    if (!panel || !ind) return;
+    panel.classList.toggle('active', n === step);
+    ind.classList.remove('active', 'done');
+    if (n < step)  ind.classList.add('done');
+    if (n === step) ind.classList.add('active');
+  });
+  currentStep = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* Heure de fermeture selon le jour de la semaine choisi */
+/* ═══════════════════════════════════════════
+   UTILITAIRES
+═══════════════════════════════════════════ */
+function fmt(n) {
+  return n.toLocaleString('fr-FR') + ' FCFA';
+}
+
+function formatDateFr(str) {
+  if (!str) return '—';
+  const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const mois  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const dt = new Date(str + 'T00:00:00');
+  const [y, m, d] = str.split('-');
+  return `${jours[dt.getDay()]} ${parseInt(d)} ${mois[parseInt(m)-1]} ${y}`;
+}
+
+function formatHeureFr(str) {
+  if (!str) return '—';
+  const [h, min] = str.split(':');
+  return `${h}h${min}`;
+}
+
 function heureFermeture(dateStr) {
   if (!dateStr) return '22:00';
-  const day = new Date(dateStr + 'T00:00:00').getDay(); // 0 = dimanche, 6 = samedi
+  const day = new Date(dateStr + 'T00:00:00').getDay();
   return (day === 0 || day === 6) ? '23:00' : '22:00';
 }
 
-/* ─────────────────────────────────────────────
-   VALIDATION DU FORMULAIRE (style contact.js)
-───────────────────────────────────────────── */
-function setError(inputId, errId, msg) {
-  const el  = document.getElementById(inputId);
+function getReservationsLocales() {
+  try { return JSON.parse(localStorage.getItem(RESA_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+/* ═══════════════════════════════════════════
+   DISPONIBILITÉ DES TABLES
+═══════════════════════════════════════════ */
+function updateTablesAvailability() {
+  const dateStr = (document.getElementById('r-date') || {}).value || '';
+  const heure   = (document.getElementById('r-heure') || {}).value || '';
+  const occupations = getReservationsLocales().filter(r => r.date_res === dateStr);
+
+  const cards = document.querySelectorAll('.table-wiz');
+  cards.forEach(card => {
+    const name = card.dataset.table;
+    const badge = card.querySelector('.tw-badge');
+
+    const indispo = !!(dateStr && heure) &&
+      occupations.some(r => r.table_name === name && r.heure_res === heure);
+
+    card.classList.toggle('unavailable', indispo);
+
+    if (indispo) {
+      badge.textContent = 'Occupée';
+      badge.style.background = '#fce4e4';
+      badge.style.color = '#e53935';
+      if (selectedTable === name) {
+        selectedTable = '';
+        document.getElementById('r-table').value = '';
+        card.classList.remove('selected');
+      }
+    } else {
+      const isSelected = selectedTable === name;
+      badge.textContent = isSelected ? '✓ Sélectionnée' : 'Disponible';
+      badge.style.background = '';
+      badge.style.color = '';
+    }
+  });
+
+  // Mettre à jour max heure selon le jour
+  const heureInp = document.getElementById('r-heure');
+  if (heureInp && dateStr) heureInp.max = heureFermeture(dateStr);
+}
+
+/* Clic sur une table */
+document.querySelectorAll('.table-wiz').forEach(card => {
+  card.addEventListener('click', () => {
+    if (card.classList.contains('unavailable')) return;
+    const name = card.dataset.table;
+    selectedTable = name;
+    document.getElementById('r-table').value = name;
+    setErr('r-table', 'err-r-table', '');
+
+    document.querySelectorAll('.table-wiz').forEach(c => {
+      const b = c.querySelector('.tw-badge');
+      c.classList.remove('selected');
+      if (!c.classList.contains('unavailable')) {
+        b.textContent = 'Disponible';
+        b.style.background = '';
+        b.style.color = '';
+      }
+    });
+    card.classList.add('selected');
+    const badge = card.querySelector('.tw-badge');
+    badge.textContent = '✓ Sélectionnée';
+  });
+});
+
+/* Réagir aux changements de date/heure */
+['r-date', 'r-heure'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', updateTablesAvailability);
+});
+
+/* ═══════════════════════════════════════════
+   VALIDATION ÉTAPE 1
+═══════════════════════════════════════════ */
+function setErr(id, errId, msg) {
+  const el  = document.getElementById(id);
   const err = document.getElementById(errId);
-  const group = el.closest('.form-group');
+  if (!err) return !msg;
   err.textContent = msg;
-  group.classList.toggle('has-error', !!msg);
+  if (el) el.classList.toggle('err', !!msg);
   return !msg;
 }
 
-function validerNom() {
-  const val = document.getElementById('clientName').value.trim();
-  return setError('clientName', 'err-nom', val ? '' : 'Veuillez indiquer votre nom complet.');
-}
+function validateStep1() {
+  const nom    = document.getElementById('r-nom').value.trim();
+  const tel    = document.getElementById('r-tel').value.trim().replace(/[\s.-]/g, '');
+  const guests = document.getElementById('r-guests').value;
+  const date   = document.getElementById('r-date').value;
+  const heure  = document.getElementById('r-heure').value;
+  const table  = document.getElementById('r-table').value;
 
-function validerTelephone() {
-  const raw = document.getElementById('clientPhone').value.trim();
-  const clean = raw.replace(/[\s.-]/g, '');
-  const ok = /^(?:\+?237)?6\d{8}$/.test(clean);
-  return setError('clientPhone', 'err-tel', ok ? '' : 'Numéro invalide (ex : 6XX XXX XXX).');
-}
+  let ok = true;
 
-function validerDate() {
-  const val = dateInput.value;
-  if (!val) return setError('reservationDate', 'err-date', 'Veuillez choisir une date.');
-  if (val < todayStr()) return setError('reservationDate', 'err-date', 'La date ne peut pas être dans le passé.');
-  return setError('reservationDate', 'err-date', '');
-}
+  ok &= setErr('r-nom',    'err-r-nom',    nom    ? '' : 'Votre nom est requis.');
+  ok &= setErr('r-tel',    'err-r-tel',    /^(?:\+?237)?6\d{8}$/.test(tel) ? '' : 'Numéro invalide (ex : 6XX XXX XXX).');
+  ok &= setErr('r-guests', 'err-r-guests', guests ? '' : 'Veuillez indiquer le nombre de personnes.');
 
-function validerHeure() {
-  const val = heureInput.value;
-  if (!val) return setError('reservationTime', 'err-heure', 'Veuillez choisir une heure.');
-  const fermeture = heureFermeture(dateInput.value);
-  if (val < '10:00' || val > fermeture) {
-    return setError('reservationTime', 'err-heure', `Le restaurant est ouvert de 10h00 à ${fermeture.replace(':', 'h')}.`);
-  }
-  return setError('reservationTime', 'err-heure', '');
-}
-
-function validerTable() {
-  const val = tableInput.value;
-  return setError('selectedTable', 'err-table', val ? '' : 'Veuillez choisir une table disponible ci-dessus.');
-}
-
-/* Validation en direct */
-document.getElementById('clientName').addEventListener('blur', validerNom);
-document.getElementById('clientPhone').addEventListener('blur', validerTelephone);
-
-/* ─────────────────────────────────────────────
-   BANNIÈRE DE STATUT (#form-status)
-───────────────────────────────────────────── */
-function showStatus(msg, type) {
-  const el = document.getElementById('form-status');
-  el.textContent = msg;
-  el.className = type; // 'success' | 'error'
-  el.style.display = 'block';
-  if (type === 'success') {
-    setTimeout(() => { el.style.display = 'none'; }, 7000);
-  }
-}
-
-/* ─────────────────────────────────────────────
-   DISPONIBILITÉ DES TABLES
-   Une table est "occupée" si une réservation existe
-   pour la même table + même date + même heure.
-───────────────────────────────────────────── */
-function getOccupations(dateStr) {
-  if (!dateStr) return [];
-  return getReservationsLocal().filter(r => r.date_res === dateStr);
-}
-
-function updateTablesAvailability() {
-  const dateStr = dateInput.value;
-  const heure   = heureInput.value;
-  const occupations = getOccupations(dateStr);
-
-  tableCards.forEach(card => {
-    const name  = card.dataset.table;
-    const badge = card.querySelector('.table-badge');
-    const btn   = card.querySelector('.reserve-btn');
-
-    const indispo = !!(dateStr && heure) &&
-      occupations.some(r => r.table_name === name && r.heure === heure);
-
-    card.classList.toggle('is-unavailable', indispo);
-    if (badge) badge.textContent = indispo ? 'Réservée' : 'Disponible';
-    if (btn) btn.disabled = indispo;
-
-    /* Si la table sélectionnée devient indisponible, on désélectionne */
-    if (indispo && card.classList.contains('is-selected')) {
-      card.classList.remove('is-selected');
-      tableInput.value = '';
-    }
-  });
-
-  updateStatusCounts(dateStr, heure, occupations);
-}
-
-function updateStatusCounts(dateStr, heure, occupations) {
-  const avEl = document.getElementById('availableCount');
-  const waEl = document.getElementById('waitingCount');
-  const ocEl = document.getElementById('occupiedCount');
-  if (!avEl || !waEl || !ocEl) return;
-
-  const list = dateStr ? occupations : getOccupations(todayStr());
-
-  let occupiedTables, waitingTables;
-  if (heure) {
-    occupiedTables = new Set(list.filter(r => r.heure === heure).map(r => r.table_name));
-    waitingTables  = new Set(list.filter(r => r.heure !== heure).map(r => r.table_name));
+  if (!date) {
+    ok &= setErr('r-date', 'err-r-date', 'Veuillez choisir une date.');
   } else {
-    occupiedTables = new Set(list.map(r => r.table_name));
-    waitingTables  = new Set();
+    const today = new Date(); today.setHours(0,0,0,0);
+    const chosen = new Date(date + 'T00:00:00');
+    ok &= setErr('r-date', 'err-r-date', chosen >= today ? '' : 'La date ne peut pas être dans le passé.');
   }
 
-  const occupied  = Math.min(occupiedTables.size, TOTAL_TABLES);
-  const waiting   = Math.min(waitingTables.size, TOTAL_TABLES - occupied);
-  const available = Math.max(0, TOTAL_TABLES - occupied);
+  if (!heure) {
+    ok &= setErr('r-heure', 'err-r-heure', 'Veuillez choisir une heure.');
+  } else {
+    const fermeture = heureFermeture(date);
+    const heureOk = heure >= '10:00' && heure <= fermeture;
+    ok &= setErr('r-heure', 'err-r-heure',
+      heureOk ? '' : `Horaires : 10h00 – ${fermeture.replace(':', 'h')}.`);
+  }
 
-  avEl.textContent = available;
-  waEl.textContent = waiting;
-  ocEl.textContent = occupied;
+  ok &= setErr('r-table', 'err-r-table', table ? '' : 'Veuillez sélectionner une table ci-dessus.');
+
+  return !!ok;
 }
 
-dateInput.addEventListener('change', () => { updateTablesAvailability(); validerDate(); validerHeure(); });
-heureInput.addEventListener('change', () => { updateTablesAvailability(); validerHeure(); });
+/* ═══════════════════════════════════════════
+   REMPLISSAGE ÉTAPE 2
+═══════════════════════════════════════════ */
+function fillRecap() {
+  const nom    = document.getElementById('r-nom').value.trim();
+  const tel    = document.getElementById('r-tel').value.trim();
+  const guests = document.getElementById('r-guests').value;
+  const date   = document.getElementById('r-date').value;
+  const heure  = document.getElementById('r-heure').value;
+  const table  = document.getElementById('r-table').value;
 
-/* Date minimum = aujourd'hui */
-dateInput.min = todayStr();
+  document.getElementById('recap-nom').textContent    = nom    || '—';
+  document.getElementById('recap-tel').textContent    = tel    || '—';
+  document.getElementById('recap-guests').textContent = guests ? `${guests} personne(s)` : '—';
+  document.getElementById('recap-table').textContent  = table  || '—';
+  document.getElementById('recap-date').textContent   = formatDateFr(date);
+  document.getElementById('recap-heure').textContent  = formatHeureFr(heure);
 
-/* ─────────────────────────────────────────────
-   SÉLECTION DE TABLE
-───────────────────────────────────────────── */
-tableCards.forEach(card => {
-  const btn = card.querySelector('.reserve-btn');
-  btn.addEventListener('click', () => {
-    if (card.classList.contains('is-unavailable')) return;
+  // Plats du panier
+  const items = window.Panier ? window.Panier.items() : [];
+  const list  = document.getElementById('cartRecapList');
+  if (items.length === 0) {
+    list.innerHTML = '<div class="cart-empty-msg">Aucun plat — <a href="menu.html">Ajouter des plats</a></div>';
+  } else {
+    list.innerHTML = items.map(({ plat, qty }) => `
+      <div class="cart-recap-item">
+        ${plat.img
+          ? `<img src="${plat.img}" alt="${plat.nom}" class="cart-recap-thumb">`
+          : `<div class="cart-recap-thumb-icon"><i class="fas fa-utensils"></i></div>`
+        }
+        <div>
+          <div class="cart-recap-name">${plat.nom}</div>
+          <div class="cart-recap-qty">× ${qty}</div>
+        </div>
+        <div class="cart-recap-price">${fmt(plat.prix * qty)}</div>
+      </div>
+    `).join('');
+  }
 
-    if (!dateInput.value || !heureInput.value) {
-      showStatus('⚠️ Veuillez d\'abord choisir une date et une heure pour réserver une table.', 'error');
-      dateInput.focus();
-      return;
-    }
+  updateTotauxDisplay();
+}
 
-    tableInput.value = card.dataset.table;
-    tableCards.forEach(c => c.classList.remove('is-selected'));
-    card.classList.add('is-selected');
-    validerTable();
+function calcTotal() {
+  const items = window.Panier ? window.Panier.items() : [];
+  return items.reduce((s, i) => s + i.plat.prix * i.qty, 0);
+}
+
+function updateTotauxDisplay() {
+  const total   = calcTotal();
+  const acompte = Math.round(total * 0.5);
+
+  ['rc-total-plats','rc-total','pay-total-plats','pay-total'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = fmt(total);
   });
-});
+  ['rc-acompte','pay-acompte'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = fmt(acompte);
+  });
+}
 
-/* ─────────────────────────────────────────────
-   PAIEMENT — sélection au clic et au clavier
-───────────────────────────────────────────── */
-document.querySelectorAll('.payment-card').forEach(card => {
-  function selectPayment() {
-    document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
+/* ═══════════════════════════════════════════
+   SÉLECTION PAIEMENT
+═══════════════════════════════════════════ */
+document.querySelectorAll('.pay-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('active'));
     card.classList.add('active');
-  }
-  card.addEventListener('click', selectPayment);
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      selectPayment();
-    }
+    selectedPay = card.dataset.pay;
   });
 });
 
-/* ─────────────────────────────────────────────
-   RÉSUMÉ DU PANIER dans la page réservation
-   Affiche les plats ajoutés depuis menu.html
-───────────────────────────────────────────── */
-function afficherPanierReservation() {
-  const totalEl   = document.getElementById('totalPrice');
-  const acompteEl = document.getElementById('advancePrice');
+/* ═══════════════════════════════════════════
+   NAVIGATION ÉTAPES
+═══════════════════════════════════════════ */
+document.getElementById('btnNext1').addEventListener('click', () => {
+  if (!validateStep1()) return;
+  fillRecap();
+  goTo(2);
+});
 
-  const montant = window.Panier ? window.Panier.total() : 0;
-  const articles = window.Panier ? window.Panier.items() : [];
+document.getElementById('btnPrev2').addEventListener('click', () => goTo(1));
+document.getElementById('btnNext2').addEventListener('click', () => {
+  updateTotauxDisplay();
+  goTo(3);
+});
+document.getElementById('btnPrev3').addEventListener('click', () => goTo(2));
 
-  /* Mettre à jour les totaux */
-  if (totalEl)   totalEl.textContent   = montant.toLocaleString('fr-FR') + ' FCFA';
-  if (acompteEl) acompteEl.textContent = Math.ceil(montant / 2).toLocaleString('fr-FR') + ' FCFA';
+/* ═══════════════════════════════════════════
+   CONFIRMATION RÉSERVATION
+═══════════════════════════════════════════ */
+document.getElementById('btnConfirm').addEventListener('click', async () => {
+  const btn = document.getElementById('btnConfirm');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours…';
 
-  /* Afficher la liste des plats dans le résumé */
-  let listeEl = document.getElementById('panier-liste-reservation');
-  if (!listeEl) {
-    /* Créer la liste juste avant le bloc payment-summary */
-    const summary = document.querySelector('.payment-summary');
-    if (summary) {
-      listeEl = document.createElement('div');
-      listeEl.id = 'panier-liste-reservation';
-      listeEl.style.cssText = `
-        background:#fff;border-radius:18px;padding:22px 26px;
-        margin-bottom:16px;border:1.5px solid #d4edda;
-      `;
-      summary.insertAdjacentElement('beforebegin', listeEl);
-    }
-  }
+  const items  = window.Panier ? window.Panier.items() : [];
+  const total  = calcTotal();
+  const acompte = Math.round(total * 0.5);
+  const nom    = document.getElementById('r-nom').value.trim();
+  const tel    = document.getElementById('r-tel').value.trim();
+  const guests = document.getElementById('r-guests').value;
+  const date   = document.getElementById('r-date').value;
+  const heure  = document.getElementById('r-heure').value;
+  const table  = document.getElementById('r-table').value;
 
-  if (!listeEl) return;
+  const ref = 'RES-' + Date.now().toString().slice(-6);
 
-  if (articles.length === 0) {
-    listeEl.innerHTML = `
-      <p style="text-align:center;color:#888;padding:10px 0;font-size:0.9rem;">
-        🛒 Aucun plat dans votre panier.
-        <a href="menu.html" style="color:green;font-weight:700;text-decoration:underline;">
-          Ajouter des plats →
-        </a>
-      </p>
-    `;
-    return;
-  }
-
-  let html = `
-    <h4 style="margin-bottom:14px;font-size:1rem;color:#1a1a1a;">
-      🍽️ Votre commande (${articles.length} plat${articles.length > 1 ? 's' : ''})
-    </h4>
-    <ul style="list-style:none;padding:0;margin:0 0 10px;">
-  `;
-
-  articles.forEach(({ plat, qty }) => {
-    const sous_total = (plat.prix * qty).toLocaleString('fr-FR');
-    html += `
-      <li style="
-        display:flex;justify-content:space-between;align-items:center;
-        padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:0.88rem;
-      ">
-        <span>
-          <strong>${plat.nom}</strong>
-          <span style="color:#888;margin-left:6px;">× ${qty}</span>
-        </span>
-        <span style="font-weight:700;color:green;">${sous_total} FCFA</span>
-      </li>
-    `;
-  });
-
-  html += `</ul>
-    <div style="display:flex;justify-content:flex-end;padding-top:8px;">
-      <a href="menu.html" style="
-        font-size:0.82rem;color:green;font-weight:700;
-        text-decoration:underline;
-      ">Modifier le panier →</a>
-    </div>
-  `;
-
-  listeEl.innerHTML = html;
-}
-
-/* Appel initial + re-render si panier change */
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', afficherPanierReservation);
-} else {
-  afficherPanierReservation();
-}
-
-if (window.Panier) {
-  window.Panier.onUpdate(afficherPanierReservation);
-}
-
-/* ─────────────────────────────────────────────
-   SOUMISSION DU FORMULAIRE
-───────────────────────────────────────────── */
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const v1 = validerNom();
-  const v2 = validerTelephone();
-  const v3 = validerDate();
-  const v4 = validerHeure();
-  const v5 = validerTable();
-
-  if (!v1 || !v2 || !v3 || !v4 || !v5) {
-    showStatus('⚠️ Veuillez corriger les champs en rouge avant de continuer.', 'error');
-    const firstError = form.querySelector('.has-error input');
-    if (firstError) firstError.focus();
-    return;
-  }
-
-  /* Vérification finale anti double-réservation */
-  const occupations = getOccupations(dateInput.value);
-  const conflit = occupations.some(r => r.table_name === tableInput.value && r.heure === heureInput.value);
-  if (conflit) {
-    showStatus('❌ Cette table vient d\'être réservée pour ce créneau. Merci d\'en choisir une autre.', 'error');
-    updateTablesAvailability();
-    return;
-  }
-
-  const articles = window.Panier ? window.Panier.items() : [];
-  const platsStr = articles.map(({ plat, qty }) => `${plat.nom} ×${qty}`).join(', ');
-  const montant  = window.Panier ? window.Panier.total() : 0;
-
-  const paiementActif = document.querySelector('.payment-card.active p');
-
-  const data = {
-    nom:        document.getElementById('clientName').value.trim(),
-    telephone:  document.getElementById('clientPhone').value.trim(),
-    date_res:   dateInput.value,
-    heure:      heureInput.value,
-    table_name: tableInput.value,
-    plats:      platsStr || 'Aucun plat sélectionné',
-    total:      montant,
-    paiement:   paiementActif ? paiementActif.textContent.trim() : 'Orange Money'
+  const payload = {
+    ref,
+    client_name:  nom,
+    client_phone: tel,
+    guests:       parseInt(guests),
+    table_name:   table,
+    date_res:     date,
+    heure_res:    heure,
+    payment:      selectedPay,
+    total,
+    acompte,
+    items: items.map(i => ({ id: i.plat.id, nom: i.plat.nom, prix: i.plat.prix, qty: i.qty })),
+    created_at:   new Date().toISOString()
   };
 
-  /* État de chargement du bouton */
-  confirmBtn.disabled = true;
-  btnText.style.display   = 'none';
-  btnLoader.style.display = 'inline';
-
-  /* Enregistrement local (historique + disponibilité des tables) */
-  function enregistrerLocal() {
-    const reservations = getReservationsLocal();
-    reservations.unshift({
-      id: Date.now(),
-      ...data,
-      date_creation: new Date().toISOString()
-    });
-    localStorage.setItem(RESA_KEY, JSON.stringify(reservations.slice(0, 50)));
-  }
-
-  function reinitialiserApresSucces(message) {
-    enregistrerLocal();
-    showStatus(message, 'success');
-    form.reset();
-    document.getElementById('clientName').value = '';
-    tableCards.forEach(c => c.classList.remove('is-selected', 'has-error'));
-    form.querySelectorAll('.form-group').forEach(g => g.classList.remove('has-error'));
-    form.querySelectorAll('.field-error').forEach(s => s.textContent = '');
-    if (window.Panier) window.Panier.vider();
-    afficherPanierReservation();
-    afficherHistorique();
-    updateTablesAvailability();
-  }
-
+  /* Sauvegarde locale */
   try {
-    const res = await fetch(`${window.API_URL}/reservation`, {
+    const hist = getReservationsLocales();
+    hist.unshift(payload);
+    localStorage.setItem(RESA_KEY, JSON.stringify(hist.slice(0, 50)));
+  } catch(e) {}
+
+  /* Envoi serveur (optionnel) */
+  try {
+    await fetch(`${window.API_URL || 'http://localhost:3000'}/reservations`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(data)
+      body: JSON.stringify(payload)
     });
+  } catch(e) { /* serveur non dispo, on continue */ }
 
-    const result = await res.json();
+  /* Vider le panier */
+  if (window.Panier) window.Panier.vider();
 
-    if (result.ok) {
-      reinitialiserApresSucces('🎉 Réservation envoyée ! Notre équipe vous contactera pour confirmer le paiement de l\'acompte.');
-    } else {
-      showStatus('❌ ' + (result.message || 'Une erreur est survenue. Merci de réessayer.'), 'error');
-    }
+  /* Afficher la modale */
+  document.getElementById('confirmRef').textContent = ref;
+  document.getElementById('confirmDetails').innerHTML =
+    `Nom : <strong>${nom}</strong> — Table : <strong>${table}</strong><br>` +
+    `<strong>${formatDateFr(date)} à ${formatHeureFr(heure)}</strong> · ${guests} pers.<br>` +
+    `Acompte via <strong>${selectedPay}</strong> : <strong>${fmt(acompte)}</strong>`;
+  document.getElementById('confirmOverlay').classList.add('open');
 
-  } catch (err) {
-    /* Pas de serveur disponible — confirmation locale */
-    reinitialiserApresSucces('🎉 Réservation enregistrée ! (Mode hors-ligne) Notre équipe vous contactera pour confirmer le paiement de l\'acompte.');
-  } finally {
-    confirmBtn.disabled = false;
-    btnText.style.display   = 'inline';
-    btnLoader.style.display = 'none';
-  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirmer la réservation';
 });
 
-/* ─────────────────────────────────────────────
-   HISTORIQUE DES RÉSERVATIONS
-───────────────────────────────────────────── */
-function afficherHistorique() {
-  const grid = document.getElementById('historyGrid');
-  if (!grid) return;
+document.getElementById('confirmClose').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
 
-  const reservations = getReservationsLocal();
-
-  if (reservations.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;color:#888;padding:40px 20px;font-size:0.9rem;">
-        Aucune réservation confirmée pour le moment.
-      </div>
-    `;
-    return;
-  }
-
-  grid.innerHTML = reservations.map(r => {
-    const date = new Date(r.date_creation).toLocaleDateString('fr-FR');
-    return `
-      <div class="history-card">
-        <h3>${r.nom}</h3>
-        <p>📅 ${r.date_res} à ${r.heure}</p>
-        <p>🍽️ <span>${r.table_name}</span></p>
-        <p>🥘 ${r.plats || '—'}</p>
-        <p>💳 ${r.paiement || '—'}</p>
-        <p>💰 Total : <span>${(r.total || 0).toLocaleString('fr-FR')} FCFA</span></p>
-        <small style="color:#aaa;font-size:0.75rem;">Confirmée le ${date}</small>
-      </div>
-    `;
-  }).join('');
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', afficherHistorique);
-} else {
-  afficherHistorique();
-}
-
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════════════════
    INITIALISATION
-───────────────────────────────────────────── */
-updateTablesAvailability();
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  checkPanier();
+  goTo(1);
+  updateTablesAvailability();
+});

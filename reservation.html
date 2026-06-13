@@ -1,26 +1,368 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réservation — La Camerounaise by Landry</title>
-    <link rel="stylesheet" href="reservation.css">
-    <link rel="stylesheet" href="CSS/generalstyle.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réservation — La Camerounaise by Landry</title>
+  <link rel="stylesheet" href="reservation.css">
+  <link rel="stylesheet" href="CSS/generalstyle.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ═══════════════════════════════════════════
+       GARDE PANIER VIDE
+    ═══════════════════════════════════════════ */
+    .empty-guard {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 60px 5%;
+      gap: 24px;
+    }
+    .empty-guard.visible { display: flex; }
+    .empty-guard-icon {
+      width: 110px; height: 110px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; color: #2E7D32;
+    }
+    .empty-guard h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: #1a1a1a;
+    }
+    .empty-guard p { color: #666; max-width: 440px; line-height: 1.7; }
+    .btn-go-menu {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #2E7D32; color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-weight: 800; font-size: 1rem;
+      text-decoration: none; transition: all .25s;
+      box-shadow: 0 6px 20px rgba(46,125,50,.35);
+    }
+    .btn-go-menu:hover { background: #1B5E20; transform: translateY(-2px); }
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    /* ═══════════════════════════════════════════
+       STEPPER BAR
+    ═══════════════════════════════════════════ */
+    .stepper-wrap {
+      padding: 36px 5% 0;
+      display: none;
+    }
+    .stepper-wrap.visible { display: block; }
 
+    .stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 22px;
+      left: calc(50% + 22px);
+      right: calc(-50% + 22px);
+      height: 3px;
+      background: #E0D5C0;
+      transition: background .4s;
+      z-index: 0;
+    }
+    .step.done:not(:last-child)::after { background: #2E7D32; }
+    .step-circle {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: #E0D5C0;
+      color: #888;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem;
+      position: relative; z-index: 1;
+      transition: all .3s;
+      border: 3px solid #E0D5C0;
+    }
+    .step.active .step-circle {
+      background: #2E7D32; color: #fff; border-color: #2E7D32;
+      box-shadow: 0 0 0 6px rgba(46,125,50,.15);
+    }
+    .step.done .step-circle { background: #2E7D32; color: #fff; border-color: #2E7D32; }
+    .step-label { font-size: .75rem; font-weight: 700; color: #aaa; text-align: center; white-space: nowrap; }
+    .step.active .step-label, .step.done .step-label { color: #2E7D32; }
 
+    /* ═══════════════════════════════════════════
+       PANELS
+    ═══════════════════════════════════════════ */
+    .wizard-panel {
+      display: none;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 5% 60px;
+      animation: fadeIn .35s ease;
+    }
+    .wizard-panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: #1a1a1a; margin-bottom: 8px;
+    }
+    .panel-subtitle { color: #666; font-size: .9rem; margin-bottom: 28px; }
+
+    /* ═══════════════════════════════════════════
+       CARDS
+    ═══════════════════════════════════════════ */
+    .form-card {
+      background: #fff;
+      border: 1.5px solid #E0D5C0;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+      margin-bottom: 24px;
+    }
+    .form-card-title {
+      font-weight: 800; font-size: 1rem; color: #1a1a1a;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .form-card-title i { color: #2E7D32; }
+
+    /* Champs */
+    .f-group { margin-bottom: 16px; }
+    .f-group label { display: block; font-size: .82rem; font-weight: 700; color: #555; margin-bottom: 6px; }
+    .f-group input, .f-group select {
+      width: 100%; padding: 13px 16px;
+      border: 2px solid #E0D5C0;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif; font-size: .95rem; color: #1a1a1a;
+      background: #FAFAF8; transition: border-color .2s; outline: none;
+    }
+    .f-group input:focus, .f-group select:focus { border-color: #2E7D32; background: #fff; }
+    .f-group input.err { border-color: #e53935; }
+    .f-err { font-size: .78rem; color: #e53935; font-weight: 700; margin-top: 4px; display: block; min-height: 14px; }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Tables */
+    .tables-grid-wiz {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .table-wiz {
+      border: 2.5px solid #E0D5C0;
+      border-radius: 16px;
+      padding: 18px 14px;
+      cursor: pointer;
+      transition: all .25s;
+      background: #FAFAF8;
+      text-align: center;
+    }
+    .table-wiz h4 { font-size: .9rem; color: #1a1a1a; margin-bottom: 4px; }
+    .table-wiz p  { font-size: .78rem; color: #888; }
+    .table-wiz .tw-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 800;
+      background: #E8F5E9;
+      color: #2E7D32;
+      margin-top: 8px;
+    }
+    .table-wiz.selected {
+      border-color: #2E7D32;
+      background: #E8F5E9;
+    }
+    .table-wiz.selected .tw-badge { background: #2E7D32; color: #fff; }
+    .table-wiz.unavailable { opacity: .5; cursor: not-allowed; }
+    .table-wiz.unavailable .tw-badge { background: #fce4e4; color: #e53935; }
+
+    /* ═══════════════════════════════════════════
+       ÉTAPE 2 — RÉCAP
+    ═══════════════════════════════════════════ */
+    .recap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .recap-info-line {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid #F0EBE0; font-size: .88rem; gap: 12px;
+    }
+    .recap-info-line:last-child { border-bottom: none; }
+    .recap-info-line .lbl { color: #888; font-weight: 600; white-space: nowrap; }
+    .recap-info-line .val { color: #1a1a1a; font-weight: 800; text-align: right; }
+
+    .cart-recap-list { display: flex; flex-direction: column; gap: 12px; }
+    .cart-recap-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; background: #FAFAF8; border-radius: 14px; border: 1px solid #EEE8DA;
+    }
+    .cart-recap-thumb { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .cart-recap-thumb-icon {
+      width: 56px; height: 56px; border-radius: 10px; background: #E8F5E9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #2E7D32; flex-shrink: 0;
+    }
+    .cart-recap-name { font-weight: 800; font-size: .9rem; color: #1a1a1a; }
+    .cart-recap-qty  { font-size: .8rem; color: #888; }
+    .cart-recap-price{ margin-left: auto; font-weight: 800; font-size: .95rem; color: #2E7D32; white-space: nowrap; }
+
+    .subtotal-lines { margin-top: 16px; }
+    .subtotal-line {
+      display: flex; justify-content: space-between;
+      font-size: .87rem; color: #666; padding: 6px 0; border-bottom: 1px dashed #EEE8DA;
+    }
+    .subtotal-line:last-child { border-bottom: none; }
+    .subtotal-line .v { font-weight: 700; color: #1a1a1a; }
+
+    .total-bloc {
+      background: linear-gradient(135deg, #2E7D32, #1B5E20);
+      border-radius: 16px; padding: 22px 24px; color: #fff;
+      display: flex; justify-content: space-between; align-items: center; margin-top: 16px;
+    }
+    .total-bloc .lbl { font-size: .9rem; opacity: .85; }
+    .total-bloc .val { font-size: 1.3rem; font-weight: 800; }
+
+    .acompte-bloc {
+      background: #FDF8EC; border: 1.5px solid #DAA520;
+      border-radius: 14px; padding: 16px 20px; margin-top: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .acompte-bloc .lbl { font-size: .85rem; color: #666; }
+    .acompte-bloc .val { font-weight: 800; color: #DAA520; font-size: 1rem; }
+
+    .cart-empty-msg { text-align: center; padding: 32px; color: #aaa; font-size: .9rem; }
+    .cart-empty-msg a { color: #2E7D32; font-weight: 700; }
+
+    /* ═══════════════════════════════════════════
+       ÉTAPE 3 — PAIEMENT
+    ═══════════════════════════════════════════ */
+    .payment-grid-3 {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 20px;
+    }
+    .pay-card {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 20px 12px; border: 2.5px solid #E0D5C0; border-radius: 16px;
+      cursor: pointer; transition: all .25s; background: #FAFAF8;
+      font-family: 'Nunito', sans-serif;
+    }
+    .pay-card i { font-size: 1.8rem; color: #aaa; }
+    .pay-card span { font-size: .82rem; font-weight: 700; color: #888; }
+    .pay-card.active { border-color: #2E7D32; background: #E8F5E9; }
+    .pay-card.active i { color: #2E7D32; }
+    .pay-card.active span { color: #2E7D32; }
+
+    .pay-amount-box {
+      background: #FDF8EC; border: 1.5px solid #E0D5C0; border-radius: 14px;
+      padding: 20px; margin-bottom: 20px;
+    }
+    .pay-amount-line {
+      display: flex; justify-content: space-between; font-size: .9rem; padding: 6px 0;
+      border-bottom: 1px dashed #EEE8DA; color: #555;
+    }
+    .pay-amount-line:last-child { border-bottom: none; }
+    .pay-amount-line .v { font-weight: 800; color: #1a1a1a; }
+    .pay-amount-line.grand .v { color: #DAA520; font-size: 1.1rem; }
+    .pay-amount-line.acompte .v { color: #2E7D32; font-size: 1.05rem; }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    .step-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 28px; gap: 12px;
+    }
+    .btn-prev {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border: 2px solid #E0D5C0; border-radius: 50px;
+      background: #fff; color: #666; font-weight: 700; font-size: .95rem;
+      cursor: pointer; font-family: 'Nunito', sans-serif; transition: all .2s;
+    }
+    .btn-prev:hover { border-color: #2E7D32; color: #2E7D32; }
+    .btn-next {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 32px; background: #2E7D32; color: #fff;
+      border: none; border-radius: 50px; font-weight: 800; font-size: .95rem;
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+      box-shadow: 0 6px 20px rgba(46,125,50,.35); transition: all .25s;
+    }
+    .btn-next:hover { background: #1B5E20; transform: translateY(-2px); }
+    .btn-next:disabled { background: #bbb; box-shadow: none; cursor: not-allowed; transform: none; }
+    .btn-next-full { flex: 1; justify-content: center; }
+
+    /* ═══════════════════════════════════════════
+       MODALE CONFIRMATION
+    ═══════════════════════════════════════════ */
+    .confirm-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.55); z-index: 1000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .confirm-overlay.open { display: flex; }
+    .confirm-box {
+      background: #fff; border-radius: 24px; padding: 48px 40px;
+      max-width: 480px; width: 100%; text-align: center;
+      animation: popIn .35s ease;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .confirm-icon {
+      width: 88px; height: 88px; background: #E8F5E9; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; color: #2E7D32; margin: 0 auto 24px;
+    }
+    .confirm-box h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 10px; }
+    .confirm-box p { color: #666; font-size: .95rem; line-height: 1.7; }
+    .confirm-ref {
+      display: inline-block; margin: 16px 0; padding: 10px 20px;
+      background: #E8F5E9; border-radius: 10px; font-weight: 800;
+      color: #2E7D32; font-size: .95rem; letter-spacing: 1px;
+    }
+    .confirm-close {
+      margin-top: 24px; padding: 13px 32px; background: #2E7D32; color: #fff;
+      border: none; border-radius: 50px; font-weight: 800; font-size: .95rem;
+      cursor: pointer; font-family: 'Nunito', sans-serif; transition: background .2s;
+    }
+    .confirm-close:hover { background: #1B5E20; }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 700px) {
+      .recap-grid { grid-template-columns: 1fr; }
+      .tables-grid-wiz { grid-template-columns: 1fr 1fr; }
+      .payment-grid-3 { grid-template-columns: 1fr 1fr; }
+      .f-row { grid-template-columns: 1fr; }
+      .step-label { font-size: .65rem; }
+      .form-card { padding: 20px 14px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- ===== NAVBAR ===== -->
-  <header id="header-container" class="navbar">
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
     <div class="nav-logo">
-     <img src="images/colored-logo-removebg-preview.png" alt="" class="logoman">
+      <img src="images/colored-logo-removebg-preview.png" alt="Logo" class="logoman">
       <div class="logo-text">
-        <span class="logo-main"></span>
-        <span class="logo-sub"></span>
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
       </div>
     </div>
     <nav class="nav-links">
@@ -39,7 +381,6 @@
     </button>
   </header>
 
-  <!-- Menu mobile -->
   <nav class="mobile-menu" id="mobileMenu">
     <a href="index.html">Accueil</a>
     <a href="menu.html">Menu</a>
@@ -52,389 +393,284 @@
     </a>
   </nav>
 
-
-
-
-
-   <section class="reservation-hero">
-
+  <!-- ===== HERO ===== -->
+  <section class="reservation-hero">
     <div class="hero-content">
-
-      <p class="hero-subtitle">
-        RÉSERVATION PREMIUM
-      </p>
-
-      <h1>
-        Réservez votre
-        <span>table</span>
-      </h1>
-
-      <p class="hero-text">
-        Consultez les tables disponibles en temps réel
-        et confirmez votre réservation après paiement.
-      </p>
-
+      <p class="hero-subtitle">RÉSERVATION PREMIUM</p>
+      <h1>Réservez votre <span>table</span></h1>
+      <p class="hero-text">Choisissez votre table, ajoutez vos plats depuis le menu, puis confirmez après paiement.</p>
     </div>
-
   </section>
 
-
-  <!-- ===== STATUS ===== -->
-
-  <section class="status-section">
-
-    <div class="status-card available">
-      <span class="status-dot"></span>
-
-      <div>
-        <h3 id="availableCount">0</h3>
-        <p>Tables disponibles</p>
-      </div>
-    </div>
-
-
-    <div class="status-card waiting">
-      <span class="status-dot"></span>
-
-      <div>
-        <h3 id="waitingCount">0</h3>
-        <p>En attente</p>
-      </div>
-    </div>
-
-
-    <div class="status-card occupied">
-      <span class="status-dot"></span>
-
-      <div>
-        <h3 id="occupiedCount">0</h3>
-        <p>Tables occupées</p>
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- ===== TABLES ===== -->
-
-  <section class="tables-section">
-
-    <div class="section-title">
-
-      <p>TABLES</p>
-
-      <h2>
-        Tables disponibles
-      </h2>
-
-    </div>
-
-    <p class="tables-hint">
-      <i class="fas fa-circle-info"></i>
-      Choisissez d'abord une date et une heure dans le formulaire ci-dessous pour voir la disponibilité réelle des tables à ce créneau.
-    </p>
-
-    <div class="tables-grid" id="tablesGrid">
-
-      <div class="table-card available-card" data-table="Table VIP 1" data-capacity="6">
-
-        <div class="table-top">
-          <h3>Table VIP 1</h3>
-
-          <span class="table-badge">
-            Disponible
-          </span>
-        </div>
-
-        <p>6 places</p>
-
-        <button type="button" class="reserve-btn">
-          Réserver
-        </button>
-
-      </div>
-
-
-      <div class="table-card available-card" data-table="Table VIP 2" data-capacity="4">
-
-        <div class="table-top">
-          <h3>Table VIP 2</h3>
-
-          <span class="table-badge">
-            Disponible
-          </span>
-        </div>
-
-        <p>4 places</p>
-
-        <button type="button" class="reserve-btn">
-          Réserver
-        </button>
-
-      </div>
-
-
-      <div class="table-card available-card" data-table="Table Famille" data-capacity="8">
-
-        <div class="table-top">
-          <h3>Table Famille</h3>
-
-          <span class="table-badge">
-            Disponible
-          </span>
-        </div>
-
-        <p>8 places</p>
-
-        <button type="button" class="reserve-btn">
-          Réserver
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ===== RESERVATION FORM ===== -->
-
-  <section class="reservation-section">
-
-    <div class="reservation-left">
-
-      <p class="section-subtitle">
-        RÉSERVATION
-      </p>
-
-      <h2>
-        Veuillez remplir vos informations
-      </h2>
-
-      <form id="reservationForm" novalidate>
-
-
-        <div class="form-group">
-          <label for="clientName" class="visually-hidden">Nom complet</label>
-          <input type="text"
-            id="clientName"
-            name="clientName"
-            placeholder="Nom complet"
-            autocomplete="name"
-            required>
-          <span class="field-error" id="err-nom"></span>
-        </div>
-
-        <div class="form-group">
-          <label for="clientPhone" class="visually-hidden">Téléphone</label>
-          <input type="tel"
-            id="clientPhone"
-            name="clientPhone"
-            placeholder="Téléphone (ex : 6XX XXX XXX)"
-            autocomplete="tel"
-            required>
-          <span class="field-error" id="err-tel"></span>
-        </div>
-
-
-        <div class="form-group">
-          <label for="reservationDate" class="visually-hidden">Date</label>
-          <input type="date" id="reservationDate" name="reservationDate" required>
-          <span class="field-error" id="err-date"></span>
-        </div>
-
-
-        <div class="form-group">
-          <label for="reservationTime" class="visually-hidden">Heure</label>
-          <input type="time" id="reservationTime" name="reservationTime" required>
-          <span class="field-error" id="err-heure"></span>
-        </div>
-
-
-         <div class="form-group">
-          <label for="selectedTable" class="visually-hidden">Table choisie</label>
-          <input type="text"
-            id="selectedTable"
-            name="selectedTable"
-            placeholder="Table choisie (cliquez sur « Réserver » ci-dessus)"
-            readonly
-            required>
-          <span class="field-error" id="err-table"></span>
-        </div>
-
-        <div id="form-status" style="display:none;"></div>
-      </form>
-
-        <!-- ===== MENU ===== -->
-          <form id="reservationForm" novalidate>
-
-
-        <div class="form-group">
-         
-        <div class="menu-selection">
-
-          <h3>
-            Vous pouvez aller au menu pour ajouter les plats a votre panier
-          </h3>
-
-
-          <label>
-           
-          <a href="menu.html" class="btn btn-primary">
-      <i class=""></i> Allez au Menu → 
+  <!-- ═══════════════════════════════════════════
+       GARDE : panier vide → aller au menu
+  ═══════════════════════════════════════════ -->
+  <div class="empty-guard" id="emptyGuard">
+    <div class="empty-guard-icon"><i class="far fa-calendar-alt"></i></div>
+    <h2>Votre panier est vide</h2>
+    <p>Pour réserver avec des plats, commencez par choisir vos plats dans le menu. Vous pourrez ensuite revenir finaliser votre réservation ici.</p>
+    <a href="menu.html" class="btn-go-menu">
+      <i class="fas fa-utensils"></i> Choisir mes plats au menu
     </a>
-            
-          </label>
+  </div>
 
-        </div>
+  <!-- ═══════════════════════════════════════════
+       WIZARD (3 étapes)
+  ═══════════════════════════════════════════ -->
+  <div class="stepper-wrap" id="wizardWrap">
 
-
-        <!-- ===== TOTAL ===== -->
-
-        <div class="payment-summary">
-
-          <div class="summary-line">
-            <span>Total commande</span>
-
-            <strong id="totalPrice">
-              0 FCFA
-            </strong>
-          </div>
-
-
-          <div class="summary-line advance">
-            <span>Acompte à payer (50%)</span>
-
-            <strong id="advancePrice">
-              0 FCFA
-            </strong>
-          </div>
-
-        </div>
-
-
-        <!-- ===== PAYMENT ===== -->
-
-        <div class="payment-methods">
-
-          <h3>
-            Moyen de paiement
-          </h3>
-
-
-          <div class="payment-grid">
-
-            <div class="payment-card active" data-method="Orange Money" tabindex="0" role="button">
-              <i class="fas fa-mobile-alt"></i>
-
-              <p>Orange Money</p>
-            </div>
-
-
-            <div class="payment-card" data-method="MTN MoMo" tabindex="0" role="button">
-              <i class="fas fa-wallet"></i>
-
-              <p>MTN MoMo</p>
-            </div>
-
-
-            <div class="payment-card" data-method="Carte bancaire" tabindex="0" role="button">
-              <i class="far fa-credit-card"></i>
-
-              <p>Carte bancaire</p>
-            </div>
-            
-
-          </div>
-
-        </div>
-
-
-        <button type="submit" class="confirm-btn" id="confirmBtn">
-          <span id="confirm-btn-text">Confirmer la réservation</span>
-          <span id="confirm-btn-loader" style="display:none;">
-            <i class="fas fa-spinner fa-spin"></i> Envoi en cours…
-          </span>
-        </button>
-        </div>
-      </form>
-
+    <!-- BARRE DE PROGRESSION -->
+    <div class="stepper">
+      <div class="step active" id="step-ind-1">
+        <div class="step-circle"><span>1</span></div>
+        <div class="step-label">Mes infos & Table</div>
+      </div>
+      <div class="step" id="step-ind-2">
+        <div class="step-circle"><span>2</span></div>
+        <div class="step-label">Récapitulatif</div>
+      </div>
+      <div class="step" id="step-ind-3">
+        <div class="step-circle"><span>3</span></div>
+        <div class="step-label">Paiement</div>
+      </div>
     </div>
 
+    <!-- ─────────── ÉTAPE 1 : Infos + Table ─────────── -->
+    <div class="wizard-panel active" id="panel-1">
+      <h2 class="panel-title">Mes informations & table</h2>
+      <p class="panel-subtitle">Renseignez vos coordonnées, choisissez une date/heure puis sélectionnez votre table.</p>
 
-    <!-- ===== RIGHT ===== -->
-
-    <div class="reservation-right">
-
-      <img src="images/personne restaurant.jpg" alt="Restaurant">
-
-    </div>
-
-  </section>
-
-
-  <!-- ===== HISTORY ===== -->
-
-  <section class="history-section">
-
-    <div class="section-title">
-
-      <p>RÉSERVATIONS</p>
-
-      <h2>
-        Réservations confirmées
-      </h2>
-
-    </div>
-
-
-    <div class="history-grid" id="historyGrid" data-history="reservations"></div>
-
-  </section>
-
-
-  <!-- ===== POLICY ===== -->
-
-  <section class="policy-section">
-
-    <div class="policy-box">
-
-      <i class="fas fa-circle-info"></i>
-
-      <div>
-
-        <h3>
-          Politique d'annulation
-        </h3>
-
-        <p>
-          Une réservation est confirmée uniquement après paiement de 50%
-          du montant total de la commande.
-        </p>
-
-        <p>
-          En cas d'annulation tardive, seulement 50% du montant déjà payé
-          sera remboursé.
-        </p>
-
+      <!-- Coordonnées -->
+      <div class="form-card">
+        <div class="form-card-title"><i class="fas fa-user"></i> Coordonnées</div>
+        <div class="f-row">
+          <div class="f-group">
+            <label for="r-nom">Nom complet *</label>
+            <input type="text" id="r-nom" placeholder="Ex : Kamdem Landry">
+            <span class="f-err" id="err-r-nom"></span>
+          </div>
+          <div class="f-group">
+            <label for="r-tel">Téléphone *</label>
+            <input type="tel" id="r-tel" placeholder="6XX XXX XXX">
+            <span class="f-err" id="err-r-tel"></span>
+          </div>
+        </div>
+        <div class="f-group">
+          <label for="r-email">Email (optionnel)</label>
+          <input type="email" id="r-email" placeholder="votre@email.com">
+        </div>
+        <div class="f-group">
+          <label for="r-guests">Nombre de personnes *</label>
+          <select id="r-guests">
+            <option value="">— Choisir —</option>
+            <option value="1">1 personne</option>
+            <option value="2">2 personnes</option>
+            <option value="3">3 personnes</option>
+            <option value="4">4 personnes</option>
+            <option value="5">5 personnes</option>
+            <option value="6">6 personnes</option>
+            <option value="7">7 personnes</option>
+            <option value="8">8 personnes</option>
+          </select>
+          <span class="f-err" id="err-r-guests"></span>
+        </div>
       </div>
 
+      <!-- Date & Heure -->
+      <div class="form-card">
+        <div class="form-card-title"><i class="far fa-calendar-alt"></i> Date & Heure</div>
+        <div class="f-row">
+          <div class="f-group">
+            <label for="r-date">Date de réservation *</label>
+            <input type="date" id="r-date">
+            <span class="f-err" id="err-r-date"></span>
+          </div>
+          <div class="f-group">
+            <label for="r-heure">Heure d'arrivée *</label>
+            <input type="time" id="r-heure" min="10:00" max="23:00">
+            <span class="f-err" id="err-r-heure"></span>
+          </div>
+        </div>
+        <p style="font-size:.8rem;color:#888;margin-top:4px;">
+          <i class="fas fa-clock" style="color:#2E7D32;"></i>
+          Ouvert Lun–Ven 10h–22h · Sam–Dim 10h–23h
+        </p>
+      </div>
+
+      <!-- Choix de table -->
+      <div class="form-card">
+        <div class="form-card-title"><i class="fas fa-chair"></i> Choisissez votre table</div>
+        <p style="font-size:.82rem;color:#888;margin-bottom:14px;">
+          Sélectionnez une date et une heure, puis cliquez sur la table de votre choix.
+        </p>
+        <span class="f-err" id="err-r-table" style="margin-bottom:8px;display:block;"></span>
+        <div class="tables-grid-wiz" id="tablesGrid">
+
+          <div class="table-wiz" data-table="Table VIP 1" data-capacity="6">
+            <h4>Table VIP 1</h4>
+            <p>6 places</p>
+            <span class="tw-badge">Disponible</span>
+          </div>
+
+          <div class="table-wiz" data-table="Table VIP 2" data-capacity="4">
+            <h4>Table VIP 2</h4>
+            <p>4 places</p>
+            <span class="tw-badge">Disponible</span>
+          </div>
+
+          <div class="table-wiz" data-table="Table Famille" data-capacity="8">
+            <h4>Table Famille</h4>
+            <p>8 places</p>
+            <span class="tw-badge">Disponible</span>
+          </div>
+
+          <div class="table-wiz" data-table="Table Terrasse" data-capacity="4">
+            <h4>Table Terrasse</h4>
+            <p>4 places</p>
+            <span class="tw-badge">Disponible</span>
+          </div>
+
+          <div class="table-wiz" data-table="Table Duo" data-capacity="2">
+            <h4>Table Duo</h4>
+            <p>2 places</p>
+            <span class="tw-badge">Disponible</span>
+          </div>
+
+          <div class="table-wiz" data-table="Table Groupe" data-capacity="10">
+            <h4>Table Groupe</h4>
+            <p>10 places</p>
+            <span class="tw-badge">Disponible</span>
+          </div>
+
+        </div>
+        <!-- Champ caché pour validation -->
+        <input type="hidden" id="r-table" value="">
+      </div>
+
+      <div class="step-nav">
+        <span></span>
+        <button class="btn-next" id="btnNext1">
+          Continuer <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div><!-- /panel-1 -->
+
+    <!-- ─────────── ÉTAPE 2 : Récapitulatif ─────────── -->
+    <div class="wizard-panel" id="panel-2">
+      <h2 class="panel-title">Récapitulatif</h2>
+      <p class="panel-subtitle">Vérifiez vos informations et les plats de votre panier.</p>
+
+      <div class="recap-grid">
+        <!-- Infos -->
+        <div class="form-card">
+          <div class="form-card-title"><i class="fas fa-user-check"></i> Vos informations</div>
+          <div class="recap-info-line"><span class="lbl">Nom</span><span class="val" id="recap-nom">—</span></div>
+          <div class="recap-info-line"><span class="lbl">Téléphone</span><span class="val" id="recap-tel">—</span></div>
+          <div class="recap-info-line"><span class="lbl">Personnes</span><span class="val" id="recap-guests">—</span></div>
+          <div class="recap-info-line"><span class="lbl">Table</span><span class="val" id="recap-table">—</span></div>
+          <div class="recap-info-line"><span class="lbl">Date</span><span class="val" id="recap-date">—</span></div>
+          <div class="recap-info-line"><span class="lbl">Heure</span><span class="val" id="recap-heure">—</span></div>
+        </div>
+
+        <!-- Totaux -->
+        <div class="form-card">
+          <div class="form-card-title"><i class="fas fa-receipt"></i> Montant</div>
+          <div class="subtotal-lines">
+            <div class="subtotal-line"><span>Total plats</span><span class="v" id="rc-total-plats">0 FCFA</span></div>
+          </div>
+          <div class="total-bloc">
+            <span class="lbl">Total commande</span>
+            <span class="val" id="rc-total">0 FCFA</span>
+          </div>
+          <div class="acompte-bloc">
+            <span class="lbl">Acompte à payer (50 %)</span>
+            <span class="val" id="rc-acompte">0 FCFA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plats du panier -->
+      <div class="form-card">
+        <div class="form-card-title"><i class="fas fa-basket-shopping"></i> Vos plats</div>
+        <div class="cart-recap-list" id="cartRecapList">
+          <div class="cart-empty-msg">Aucun plat — <a href="menu.html">Ajouter des plats</a></div>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" id="btnPrev2"><i class="fas fa-arrow-left"></i> Retour</button>
+        <button class="btn-next" id="btnNext2">Choisir le paiement <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div><!-- /panel-2 -->
+
+    <!-- ─────────── ÉTAPE 3 : Paiement ─────────── -->
+    <div class="wizard-panel" id="panel-3">
+      <h2 class="panel-title">Mode de paiement</h2>
+      <p class="panel-subtitle">Sélectionnez votre mode de paiement et confirmez votre réservation.</p>
+
+      <div class="form-card">
+        <div class="form-card-title"><i class="fas fa-credit-card"></i> Sélectionnez un moyen de paiement</div>
+        <div class="payment-grid-3">
+          <div class="pay-card active" data-pay="Orange Money">
+            <i class="fas fa-mobile-alt" style="color:#FF6200;"></i>
+            <span>Orange Money</span>
+          </div>
+          <div class="pay-card" data-pay="MTN MoMo">
+            <i class="fas fa-wallet" style="color:#FFCC00;"></i>
+            <span>MTN MoMo</span>
+          </div>
+          <div class="pay-card" data-pay="Carte bancaire">
+            <i class="far fa-credit-card"></i>
+            <span>Carte bancaire</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Montant final -->
+      <div class="form-card">
+        <div class="form-card-title"><i class="fas fa-calculator"></i> Montant à régler</div>
+        <div class="pay-amount-box">
+          <div class="pay-amount-line"><span>Total plats</span><span class="v" id="pay-total-plats">0 FCFA</span></div>
+          <div class="pay-amount-line grand"><span><strong>Total commande</strong></span><span class="v" id="pay-total">0 FCFA</span></div>
+          <div class="pay-amount-line acompte"><span><strong>Acompte dû (50 %)</strong></span><span class="v" id="pay-acompte">0 FCFA</span></div>
+        </div>
+        <p style="font-size:.82rem;color:#888;margin-top:8px;">
+          <i class="fas fa-shield-alt" style="color:#2E7D32;"></i>
+          La réservation est confirmée après paiement de l'acompte. En cas d'annulation tardive, 50 % de l'acompte est retenu.
+        </p>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" id="btnPrev3"><i class="fas fa-arrow-left"></i> Retour</button>
+        <button class="btn-next btn-next-full" id="btnConfirm">
+          <i class="fas fa-check-circle"></i> Confirmer la réservation
+        </button>
+      </div>
+    </div><!-- /panel-3 -->
+
+  </div><!-- /wizardWrap -->
+
+  <!-- ═══════ MODALE CONFIRMATION ═══════ -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <div class="confirm-icon"><i class="fas fa-check"></i></div>
+      <h2>Réservation confirmée !</h2>
+      <p>Merci ! Votre table est réservée. Notre équipe vous attend avec plaisir.</p>
+      <div class="confirm-ref" id="confirmRef">RES-000000</div>
+      <p id="confirmDetails" style="font-size:.85rem;color:#666;margin-top:8px;"></p>
+      <button class="confirm-close" id="confirmClose">
+        <i class="fas fa-home"></i> Retour à l'accueil
+      </button>
     </div>
+  </div>
 
-  </section>
-
-
-  
-
-
-  
-    <!-- ===== FOOTER ===== -->
-  <footer id="footer-container" class="footer">
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
     <div class="footer-brand">
       <div class="nav-logo">
         <span class="logo-icon"><img src="images/colored-logo-removebg-preview.png" alt="" class="logofooter"></span>
         <div class="logo-text">
-          <span class="logo-main">LA CAMEROUNAISE </span>
+          <span class="logo-main">LA CAMEROUNAISE</span>
           <span class="logo-sub">BY LANDRY</span>
         </div>
       </div>
@@ -445,7 +681,6 @@
         <a href="#"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h4>Liens rapides</h4>
       <ul>
@@ -457,29 +692,27 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h4>Heures d'ouverture</h4>
       <p><strong>Lundi - Vendredi</strong>10h00 - 22h00</p>
       <p><strong>Samedi - Dimanche</strong>10h00 - 23h00</p>
       <p><strong>Jours fériés</strong>12h00 - 22h00</p>
     </div>
-
     <div class="footer-col">
       <h4>Nous contacter</h4>
-      <p><i class="fas fa-map-marker-alt"></i> Baham,Ouest, Cameroun</p>
+      <p><i class="fas fa-map-marker-alt"></i> Baham, Ouest, Cameroun</p>
       <p><i class="fas fa-phone"></i> +237 6 59 57 43 97</p>
       <p><i class="fas fa-envelope"></i> info@lacamerounaisebylandry.com</p>
     </div>
   </footer>
-
   <div class="footer-bottom">
     <p>© 2026 La Camerounaise by Landry. Tous droits réservés.</p>
     <p>Fait avec amour au Cameroun 🇨🇲</p>
   </div>
+
   <script src="api-config.js"></script>
-<script src="catalogue.js"></script>
-<script src="Panier_global.js"></script>
-<script src="reservation.js"></script>
+  <script src="catalogue.js"></script>
+  <script src="Panier_global.js"></script>
+  <script src="reservation.js"></script>
 </body>
 </html>
