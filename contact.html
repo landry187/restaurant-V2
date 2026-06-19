@@ -13,15 +13,15 @@
 
   <!-- ===== NAVBAR ===== -->
   <header class="navbar">
-    <a href="#" class="nav-logo">
+    <a href="index.html" class="nav-logo">
       <img src="images/colored-logo-removebg-preview.png" alt="" class="logoman">
       <div class="logo-text">
-        <span class="logo-main"></span>
-        <span class="logo-sub"></span>
+        <span class="logo-main">LA CAMEROUNAISE</span>
+        <span class="logo-sub">BY LANDRY</span>
       </div>
     </a>
     <nav class="nav-links">
-      <a href="index.html" >Accueil</a>
+      <a href="index.html">Accueil</a>
       <a href="menu.html">Menu</a>
       <a href="apropos.html">À propos</a>
       <a href="reservation.html">Réservation</a>
@@ -35,98 +35,396 @@
       <span></span><span></span><span></span>
     </button>
   </header>
-
-  <!-- Menu mobile -->
   <nav class="mobile-menu" id="mobileMenu">
-    <a href="index.html" class="active">Accueil</a>
+    <a href="index.html">Accueil</a>
     <a href="menu.html">Menu</a>
     <a href="apropos.html">À propos</a>
     <a href="reservation.html">Réservation</a>
     <a href="commande.html">Commande</a>
-    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="active">Contact</a>
     <a href="reservation.html" class="mobile-cta">
       <i class="far fa-calendar-alt"></i> Réserver une table
     </a>
   </nav>
 
-  <!-- ===== HERO ===== -->
+  <!-- ═══════════════════════════════════
+       HERO
+  ═══════════════════════════════════ -->
   <section class="contact-hero">
+    <div class="hero-blob hb1"></div>
+    <div class="hero-blob hb2"></div>
     <div class="hero-content">
-      <p class="hero-label">CONTACTEZ-NOUS</p>
+      <span class="hero-chip">✦ Contactez-nous</span>
       <h1>Nous sommes à votre <span>écoute</span></h1>
-      <p>Une question, une réservation ou une commande spéciale ?
-        Notre équipe vous répond avec plaisir.</p>
+      <p>Une question, un projet, un événement spécial ?<br>Notre équipe vous répond avec plaisir — sous 24h garanties.</p>
+      <div class="hero-cta-row">
+        <a href="#services" class="btn-h-green"><i class="fas fa-concierge-bell"></i> Nos services</a>
+        <a href="#ecrire"   class="btn-h-outline"><i class="fas fa-paper-plane"></i> Nous écrire</a>
+      </div>
     </div>
   </section>
 
-  <!-- ===== INFOS CONTACT ===== -->
+  <!-- ═══════════════════════════════════
+       INFOS RAPIDES
+  ═══════════════════════════════════ -->
   <section class="contact-info">
     <div class="info-card">
       <div class="info-icon"><i class="fas fa-phone"></i></div>
       <h3>Téléphone</h3>
       <p>+237 6 59 57 43 97</p>
+      <a href="tel:+237659574397" class="info-link"><i class="fas fa-arrow-right"></i> Appeler</a>
     </div>
     <div class="info-card">
       <div class="info-icon"><i class="fas fa-envelope"></i></div>
       <h3>Email</h3>
       <p>info@lacamerounaisebylandry.com</p>
+      <a href="#ecrire" class="info-link"><i class="fas fa-arrow-right"></i> Écrire</a>
     </div>
     <div class="info-card">
       <div class="info-icon"><i class="fas fa-location-dot"></i></div>
       <h3>Adresse</h3>
       <p>Baham, Ouest, Cameroun</p>
+      <a href="#map" class="info-link"><i class="fas fa-arrow-right"></i> Voir la carte</a>
     </div>
-    <div class="info-card">
-      <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+    <div class="info-card info-card--wa">
+      <div class="info-icon info-icon--wa"><i class="fab fa-whatsapp"></i></div>
       <h3>WhatsApp</h3>
       <p>Disponible 7j / 7</p>
+      <a href="https://wa.me/237659574397" target="_blank" class="info-link"><i class="fas fa-arrow-right"></i> Écrire</a>
     </div>
   </section>
 
-  <!-- ===== FORMULAIRE ===== -->
-  <section class="contact-container">
+  <!-- ═══════════════════════════════════
+       NOS SERVICES — VITRINE
+  ═══════════════════════════════════ -->
+  <section class="services-section" id="services">
+    <div class="services-header">
+      <span class="section-chip">Ce que nous offrons</span>
+      <h2>Tous nos services</h2>
+      <p>Au restaurant ou chez vous, pour deux ou cinq cents personnes — nous avons une solution pour chaque besoin.</p>
+    </div>
 
+    <div class="services-grid">
+
+      <!-- Traiteur événementiel -->
+      <div class="service-card service-card--featured">
+        <div class="sc-ribbon">Populaire</div>
+        <div class="sc-icon" style="background:#E8F5E9;color:#2E7D32;">
+          <i class="fas fa-star"></i>
+        </div>
+        <h3>Traiteur Événementiel</h3>
+        <p>Nous prenons en charge la restauration complète de votre événement, sur site ou en livraison, avec le même soin qu'au restaurant.</p>
+        <ul class="sc-list">
+          <li><i class="fas fa-check"></i> Mariages & fiançailles</li>
+          <li><i class="fas fa-check"></i> Baptêmes & communions</li>
+          <li><i class="fas fa-check"></i> Anniversaires (10 à 500 pers.)</li>
+          <li><i class="fas fa-check"></i> Cérémonies de deuil / veillées</li>
+          <li><i class="fas fa-check"></i> Remises de diplômes</li>
+          <li><i class="fas fa-check"></i> Fêtes de fin d'année</li>
+        </ul>
+        <a href="#ecrire" class="sc-cta">Nous contacter <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Séminaires & Entreprises -->
+      <div class="service-card">
+        <div class="sc-icon" style="background:#FDF8EC;color:#DAA520;">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <h3>Repas d'Entreprise & Séminaires</h3>
+        <p>Pauses déjeuner, dîners d'affaires, team buildings et séminaires — nous nous adaptons à votre protocole et votre budget.</p>
+        <ul class="sc-list">
+          <li><i class="fas fa-check"></i> Buffets & cocktails dînatoires</li>
+          <li><i class="fas fa-check"></i> Livraison en bureaux</li>
+          <li><i class="fas fa-check"></i> Formule tout inclus</li>
+          <li><i class="fas fa-check"></i> Facturation professionnelle</li>
+        </ul>
+        <a href="#ecrire" class="sc-cta">Nous contacter <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Livraison à domicile -->
+      <div class="service-card">
+        <div class="sc-icon" style="background:#FFF3E0;color:#F57C00;">
+          <i class="fas fa-motorcycle"></i>
+        </div>
+        <h3>Livraison à Domicile</h3>
+        <p>Nos plats chauds livrés rapidement dans Baham et les environs, directement depuis notre cuisine.</p>
+        <ul class="sc-list">
+          <li><i class="fas fa-check"></i> Commande en ligne 24h/24</li>
+          <li><i class="fas fa-check"></i> Livraison ~35 min</li>
+          <li><i class="fas fa-check"></i> Plats chauds garantis</li>
+          <li><i class="fas fa-check"></i> Suivi de commande</li>
+        </ul>
+        <a href="commande.html" class="sc-cta">Commander <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Réservation de table -->
+      <div class="service-card">
+        <div class="sc-icon" style="background:#E8F5E9;color:#2E7D32;">
+          <i class="far fa-calendar-alt"></i>
+        </div>
+        <h3>Réservation de Table</h3>
+        <p>Réservez votre table en ligne pour un repas tranquille au restaurant — en famille, en couple ou entre amis.</p>
+        <ul class="sc-list">
+          <li><i class="fas fa-check"></i> Réservation en quelques clics</li>
+          <li><i class="fas fa-check"></i> Choix de la table</li>
+          <li><i class="fas fa-check"></i> Confirmation immédiate</li>
+          <li><i class="fas fa-check"></i> Pré-sélection des plats</li>
+        </ul>
+        <a href="reservation.html" class="sc-cta">Réserver <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Plats à emporter -->
+      <div class="service-card">
+        <div class="sc-icon" style="background:#F3E5F5;color:#8E24AA;">
+          <i class="fas fa-bag-shopping"></i>
+        </div>
+        <h3>Plats à Emporter</h3>
+        <p>Commandez et venez retirer vos plats sur place — prêts, emballés et chauds, à l'heure que vous choisissez.</p>
+        <ul class="sc-list">
+          <li><i class="fas fa-check"></i> Commande à l'avance</li>
+          <li><i class="fas fa-check"></i> Emballage soigné & hermétique</li>
+          <li><i class="fas fa-check"></i> Prêt en 20 min</li>
+          <li><i class="fas fa-check"></i> Toute la carte disponible</li>
+        </ul>
+        <a href="commande.html" class="sc-cta">Commander <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Menus sur mesure -->
+      <div class="service-card">
+        <div class="sc-icon" style="background:#FFF0F5;color:#e8336d;">
+          <i class="fas fa-sliders"></i>
+        </div>
+        <h3>Menus sur Mesure</h3>
+        <p>Vous avez des exigences particulières ? Nous créons un menu personnalisé adapté à votre thème, vos goûts ou vos contraintes alimentaires.</p>
+        <ul class="sc-list">
+          <li><i class="fas fa-check"></i> Menu végétarien / sans gluten</li>
+          <li><i class="fas fa-check"></i> Menus thématiques (camerounais, fusion…)</li>
+          <li><i class="fas fa-check"></i> Dégustation avant l'événement</li>
+          <li><i class="fas fa-check"></i> Chef dédié sur demande</li>
+        </ul>
+        <a href="#ecrire" class="sc-cta">Nous contacter <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       BANDE CHIFFRES CLÉS
+  ═══════════════════════════════════ -->
+  <div class="chiffres-band">
+    <div class="chiffre-item">
+      <span class="chiffre-num">200+</span>
+      <span class="chiffre-lbl">Événements traiteur</span>
+    </div>
+    <div class="chiffre-item">
+      <span class="chiffre-num">22+</span>
+      <span class="chiffre-lbl">Années d'expérience</span>
+    </div>
+    <div class="chiffre-item">
+      <span class="chiffre-num">30+</span>
+      <span class="chiffre-lbl">Plats authentiques</span>
+    </div>
+    <div class="chiffre-item">
+      <span class="chiffre-num">100%</span>
+      <span class="chiffre-lbl">Ingrédients frais</span>
+    </div>
+    <div class="chiffre-item">
+      <span class="chiffre-num">7j/7</span>
+      <span class="chiffre-lbl">Disponibilité</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       POURQUOI NOUS CHOISIR
+  ═══════════════════════════════════ -->
+  <section class="why-section">
+    <div class="why-header">
+      <span class="section-chip">Nos engagements</span>
+      <h2>Pourquoi choisir La Camerounaise ?</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-leaf"></i></div>
+        <h4>100 % Frais & Local</h4>
+        <p>Chaque plat est préparé avec des ingrédients frais sélectionnés localement chaque matin.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-clock"></i></div>
+        <h4>Ponctualité garantie</h4>
+        <p>Votre commande livrée ou servie à l'heure prévue, que ce soit pour 5 ou 500 personnes.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <h4>Tout l'Ouest Cameroun</h4>
+        <p>Nous intervenons à Baham, Bafoussam, Dschang, Mbouda et au-delà selon la demande.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-comments"></i></div>
+        <h4>Réponse sous 24h</h4>
+        <p>Un projet, une question ? Notre équipe vous rappelle ou vous répond dans la journée.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       TÉMOIGNAGES
+  ═══════════════════════════════════ -->
+  <section class="temoignages-section">
+    <div class="temo-header">
+      <span class="section-chip">Avis clients</span>
+      <h2>Ils nous ont fait confiance</h2>
+    </div>
+    <div class="temo-grid">
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p>« La Camerounaise a géré le traiteur de notre mariage pour 180 personnes. Les plats étaient chauds, délicieux et le service impeccable. Tous nos invités ont été impressionnés ! »</p>
+        <div class="temo-author">
+          <div class="temo-av"><i class="fas fa-user"></i></div>
+          <div><strong>Sonia & Patrick N.</strong><small>Mariage à Bafoussam, 2025</small></div>
+        </div>
+      </div>
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p>« Pour notre séminaire de 60 personnes, un menu varié, livré à l'heure, présenté magnifiquement. Un vrai professionnalisme du début à la fin. »</p>
+        <div class="temo-author">
+          <div class="temo-av"><i class="fas fa-user"></i></div>
+          <div><strong>Cabinet Conseil Ouest</strong><small>Séminaire, janvier 2026</small></div>
+        </div>
+      </div>
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p>« Baptême avec 250 invités. Ndolé, Eru, Poulet DG en quantité et en qualité. Merci à toute l'équipe — vous avez rendu ce jour inoubliable ! »</p>
+        <div class="temo-author">
+          <div class="temo-av"><i class="fas fa-user"></i></div>
+          <div><strong>Famille Tchoua-Mbassi</strong><small>Baptême à Baham, 2025</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       FAQ
+  ═══════════════════════════════════ -->
+  <section class="faq">
+    <div class="faq-title">
+      <span class="section-chip">FAQ</span>
+      <h2>Questions fréquentes</h2>
+    </div>
+    <div class="faq-container" id="faqContainer">
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span><i class="fas fa-motorcycle"></i> Faites-vous des livraisons ?</span>
+          <i class="fas fa-plus faq-chevron"></i>
+        </button>
+        <div class="faq-body">
+          <p>Oui, nous livrons dans plusieurs villes et quartiers autour de Baham. Frais de livraison selon la distance. Commandez directement en ligne sur notre page Commande.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span><i class="fas fa-star"></i> Quel délai pour un service traiteur ?</span>
+          <i class="fas fa-plus faq-chevron"></i>
+        </button>
+        <div class="faq-body">
+          <p>Nous recommandons de nous contacter au moins 2 semaines avant votre événement. Pour les grands événements (200+ pers.), un mois à l'avance est préférable.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span><i class="fas fa-users"></i> Combien de personnes minimum pour le traiteur ?</span>
+          <i class="fas fa-plus faq-chevron"></i>
+        </button>
+        <div class="faq-body">
+          <p>Nous intervenons à partir de 20 personnes pour le service traiteur. En dessous de 20, notre service de commande et de livraison reste disponible.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span><i class="fas fa-map-marked-alt"></i> Intervenez-vous en dehors de Baham ?</span>
+          <i class="fas fa-plus faq-chevron"></i>
+        </button>
+        <div class="faq-body">
+          <p>Oui, nous couvrons toute la région Ouest (Bafoussam, Dschang, Mbouda, Bangangté) et nous pouvons intervenir ailleurs au Cameroun sur demande spéciale.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span><i class="fas fa-seedling"></i> Proposez-vous des menus végétariens ?</span>
+          <i class="fas fa-plus faq-chevron"></i>
+        </button>
+        <div class="faq-body">
+          <p>Oui, nous proposons des menus végétariens et pouvons adapter nos plats à des contraintes alimentaires spécifiques (sans gluten, sans porc, etc.) sur demande.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" aria-expanded="false">
+          <span><i class="fas fa-coins"></i> Comment se passe le paiement pour un événement ?</span>
+          <i class="fas fa-plus faq-chevron"></i>
+        </button>
+        <div class="faq-body">
+          <p>Pour tout service traiteur, un acompte de 30 % est requis pour confirmer votre date. Le solde est réglé le jour de l'événement. Paiement par Orange Money, MTN MoMo ou virement.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       FORMULAIRE CONTACT GÉNÉRAL
+  ═══════════════════════════════════ -->
+  <section class="contact-container" id="ecrire">
     <div class="contact-left">
       <p class="section-label">ÉCRIVEZ-NOUS</p>
       <h2>Envoyez-nous <span>un message</span></h2>
       <p class="contact-text">
-        Nous répondrons le plus rapidement possible à toutes vos demandes.
+        Une question sur nos services, un projet d'événement, une réclamation ou simplement un bonjour ?
+        Notre équipe vous répond dans les 24h.
       </p>
 
       <form class="contact-form" id="contactForm" novalidate>
 
         <div class="form-group">
-          <input type="text" id="cf-nom" name="from_name"
-            placeholder="Votre nom complet" required>
+          <label for="cf-nom">Nom complet *</label>
+          <input type="text" id="cf-nom" name="from_name" placeholder="Ex : Kamdem Landry" required>
           <span class="field-error" id="err-nom"></span>
         </div>
 
         <div class="form-group">
-          <input type="email" id="cf-email" name="from_email"
-            placeholder="Votre adresse email" required>
+          <label for="cf-email">Adresse email *</label>
+          <input type="email" id="cf-email" name="from_email" placeholder="votre@email.com" required>
           <span class="field-error" id="err-email"></span>
         </div>
 
+        <!-- Chips sujet -->
         <div class="form-group">
-          <input type="text" id="cf-sujet" name="subject"
-            placeholder="Sujet de votre message">
+          <label>Sujet</label>
+          <div class="subject-chips">
+            <button type="button" class="s-chip" data-val="Question générale">Question générale</button>
+            <button type="button" class="s-chip" data-val="Service traiteur">Service traiteur</button>
+            <button type="button" class="s-chip" data-val="Réservation de table">Réservation</button>
+            <button type="button" class="s-chip" data-val="Livraison">Livraison</button>
+            <button type="button" class="s-chip" data-val="Autre">Autre</button>
+          </div>
+          <input type="text" id="cf-sujet" name="subject" placeholder="Précisez votre sujet si besoin">
         </div>
 
         <div class="form-group">
-          <textarea id="cf-message" name="message"
-            placeholder="Votre message…" required></textarea>
+          <label for="cf-message">Message *</label>
+          <textarea id="cf-message" name="message" placeholder="Décrivez votre demande, votre événement ou votre question…" required></textarea>
           <span class="field-error" id="err-message"></span>
         </div>
 
         <div id="form-status" style="display:none;"></div>
 
         <button type="submit" class="btn btn-primary" id="submitBtn">
-          <span id="btn-text">
-            <i class="fas fa-paper-plane"></i> Envoyer le message
-          </span>
-          <span id="btn-loader" style="display:none;">
-            <i class="fas fa-spinner fa-spin"></i> Envoi en cours…
-          </span>
+          <span id="btn-text"><i class="fas fa-paper-plane"></i> Envoyer le message</span>
+          <span id="btn-loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Envoi en cours…</span>
         </button>
 
       </form>
@@ -144,37 +442,19 @@
         </div>
       </div>
     </div>
-
   </section>
 
-  <!-- ===== FAQ ===== -->
-  <section class="faq">
-    <div class="faq-title">
-      <p class="section-label">QUESTIONS</p>
-      <h2>Questions fréquentes</h2>
+  <!-- ═══════════════════════════════════
+       CARTE
+  ═══════════════════════════════════ -->
+  <section class="map-section" id="map">
+    <div class="map-label">
+      <i class="fas fa-map-marker-alt"></i>
+      <span>Baham, Ouest, Cameroun</span>
     </div>
-    <div class="faq-container">
-      <div class="faq-item">
-        <h3>Faites-vous des livraisons ?</h3>
-        <p>Oui, nous livrons dans plusieurs villes et quartiers autour de Baham.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Peut-on réserver une table ?</h3>
-        <p>Oui, les réservations sont possibles tous les jours depuis notre page Réservation.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Acceptez-vous les événements ?</h3>
-        <p>Oui, anniversaires, réunions et repas de groupe sur demande.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CARTE ===== -->
-  <section class="map-section">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63560.460543308014!2d10.393010000000007!3d5.335924799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105f92e389318655%3A0x50066837f4be84a3!2sBaham!5e0!3m2!1sfr!2scm!4v1779106360559!5m2!1sfr!2scm"
-      width="600" height="450" style="border:0;" allowfullscreen loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade" title="Baham Cameroun">
+      allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Baham">
     </iframe>
   </section>
 
@@ -190,9 +470,9 @@
       </div>
       <p>Le restaurant La Camerounaise by Landry vous fait découvrir le meilleur de notre cuisine traditionnelle dans une ambiance chaleureuse.</p>
       <div class="socials">
-        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -226,7 +506,7 @@
 
   <script src="api-config.js"></script>
   <script src="catalogue.js"></script>
-<script src="Panier_global.js"></script>
+  <script src="Panier_global.js"></script>
   <script src="contact.js"></script>
 </body>
 </html>
