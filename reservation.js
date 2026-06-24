@@ -363,7 +363,7 @@ document.getElementById('btnConfirm').addEventListener('click', async () => {
 
   /* Envoi serveur (optionnel) */
   try {
-    await fetch(`${window.API_URL || 'http://localhost:3000'}/reservations`, {
+    await fetch(`${window.API_URL}/reservation`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

@@ -2,28 +2,31 @@ const express = require('express');
 const router  = express.Router();
 const db      = require('../db');
 
-// POST /reservation — Enregistrer une nouvelle réservation
 router.post('/', async (req, res) => {
-  const { nom, telephone, date_res, heure, table_name, plats, total } = req.body;
+  const {
+    client_name, client_phone, date_res, heure_res,
+    table_name, items, total, acompte
+  } = req.body;
 
-  // Vérification : les champs obligatoires sont-ils présents ?
-  if (!nom || !telephone || !date_res || !heure) {
+  if (!client_name || !client_phone || !date_res || !heure_res) {
     return res.status(400).json({ ok: false, message: 'Champs obligatoires manquants.' });
   }
 
   try {
-    const acompte = Math.round(total / 2);
+    const platsJSON = JSON.stringify(items || []);
+    const acompteVal = acompte || Math.round((total || 0) / 2);
 
     const [result] = await db.execute(
       `INSERT INTO reservations
         (nom, telephone, date_res, heure, table_name, plats, total, acompte)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [nom, telephone, date_res, heure, table_name || '', plats || '', total || 0, acompte]
+      [client_name, client_phone, date_res, heure_res,
+       table_name || '', platsJSON, total || 0, acompteVal]
     );
 
     res.json({
       ok: true,
-      message: `✅ Réservation confirmée ! Votre numéro : #${result.insertId}`,
+      message: `✅ Réservation confirmée ! Numéro : #${result.insertId}`,
       id: result.insertId
     });
 
@@ -33,12 +36,9 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /reservation — Lister toutes les réservations (pour le dashboard)
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await db.execute(
-      'SELECT * FROM reservations ORDER BY created_at DESC'
-    );
+    const [rows] = await db.execute('SELECT * FROM reservations ORDER BY created_at DESC');
     res.json({ ok: true, data: rows });
   } catch (err) {
     res.status(500).json({ ok: false, message: err.message });
