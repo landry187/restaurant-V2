@@ -4,24 +4,32 @@ const db      = require('../db');
 
 router.post('/', async (req, res) => {
   const {
-    client_name, client_phone, date_res, heure_res,
-    table_name, items, total, acompte
+    // Format modal menu
+    client_name, client_phone, reservation_date, reservation_time,
+    table_name, payment_method, total_price, advance_amount, items,
+    // Format page réservation
+    nom, telephone, date_res, heure, total, acompte, plats
   } = req.body;
 
-  if (!client_name || !client_phone || !date_res || !heure_res) {
+  // Accepte les deux formats
+  const finalNom     = client_name || nom;
+  const finalTel     = client_phone || telephone;
+  const finalDate    = reservation_date || date_res;
+  const finalHeure   = reservation_time || heure;
+  const finalTable   = table_name || '';
+  const finalTotal   = total_price || total || 0;
+  const finalAcompte = advance_amount || acompte || Math.round(finalTotal * 0.5);
+  const finalPlats   = items ? JSON.stringify(items) : (plats || '[]');
+
+  if (!finalNom || !finalTel || !finalDate || !finalHeure) {
     return res.status(400).json({ ok: false, message: 'Champs obligatoires manquants.' });
   }
 
   try {
-    const platsJSON = JSON.stringify(items || []);
-    const acompteVal = acompte || Math.round((total || 0) / 2);
-
     const [result] = await db.execute(
-      `INSERT INTO reservations
-        (nom, telephone, date_res, heure, table_name, plats, total, acompte)
+      `INSERT INTO reservations (nom, telephone, date_res, heure, table_name, plats, total, acompte)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [client_name, client_phone, date_res, heure_res,
-       table_name || '', platsJSON, total || 0, acompteVal]
+      [finalNom, finalTel, finalDate, finalHeure, finalTable, finalPlats, finalTotal, finalAcompte]
     );
 
     res.json({

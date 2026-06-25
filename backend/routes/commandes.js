@@ -2,21 +2,33 @@ const express = require('express');
 const router  = express.Router();
 const db      = require('../db');
 
-// POST /commandes — Enregistrer une nouvelle commande
 router.post('/', async (req, res) => {
-  const { mode, adresse, items, total, paiement } = req.body;
+  const {
+    // Format modal menu
+    items, total_price, delivery_type, delivery_address,
+    payment_method, client_name, client_phone,
+    // Format page commande
+    mode, adresse, total, paiement
+  } = req.body;
 
-  if (!items || !total) {
+  // Accepte les deux formats
+  const finalItems    = items;
+  const finalTotal    = total_price || total;
+  const finalMode     = delivery_type || mode || 'livraison';
+  const finalAdresse  = delivery_address || adresse || '';
+  const finalPaiement = payment_method || paiement || 'Orange Money';
+
+  if (!finalItems || !finalTotal) {
     return res.status(400).json({ ok: false, message: 'Panier vide ou total manquant.' });
   }
 
   try {
-    const itemsJSON = JSON.stringify(items); // on stocke le panier en JSON
+    const itemsJSON = JSON.stringify(finalItems);
 
     const [result] = await db.execute(
       `INSERT INTO commandes (mode, adresse, items, total, paiement)
        VALUES (?, ?, ?, ?, ?)`,
-      [mode || 'livraison', adresse || '', itemsJSON, total, paiement || 'Orange Money']
+      [finalMode, finalAdresse, itemsJSON, finalTotal, finalPaiement]
     );
 
     res.json({
@@ -31,7 +43,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /commandes — Lister toutes les commandes (pour le dashboard)
 router.get('/', async (req, res) => {
   try {
     const [rows] = await db.execute(

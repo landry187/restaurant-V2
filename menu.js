@@ -514,7 +514,7 @@ async function submitCommande(form, closeModal) {
   const statusEl = form.querySelector('#lcbl-cmd-status');
 
   try {
-    const res  = await fetch(`${window.API_URL}/orders`, {
+    const res = await fetch(`${window.API_URL}/commandes`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload)
@@ -736,7 +736,7 @@ async function submitReservation(form, closeModal) {
   const statusEl = form.querySelector('#lcbl-res-status');
 
   try {
-    const res  = await fetch(`${window.API_URL}/reservations`, {
+    const res = await fetch(`${window.API_URL}/reservation`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload)
