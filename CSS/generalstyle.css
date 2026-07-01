@@ -77,3 +77,13 @@
   transition: all 0.2s;
 }
 .cart-count.visible { opacity: 1; transform: scale(1); }
+.PERSONNE {
+  border-radius: 10%;
+  width: 150px;
+  height: 150px;
+}
+.PERSONNES {
+  border-radius: none;
+  width: 120px;
+  height: 120px;
+}

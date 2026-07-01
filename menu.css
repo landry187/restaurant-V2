@@ -525,9 +525,10 @@ button { cursor: pointer; font-family: var(--font-body); }
 /* Image du plat */
 .dish-img-wrap {
   position: relative;
-  width: 320px;
+  width: 280px;
   flex-shrink: 0;
   overflow: hidden;
+  height: 300px;
 }
 .dish-img-wrap img {
   width: 100%;
